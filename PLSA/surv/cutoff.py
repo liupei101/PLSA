@@ -140,3 +140,7 @@ def hazards_ratio(data, pred_col, duration_col, event_col, score_min=0, score_ma
     print "\tHR :", max_val
     print "\tCutoff :", cut_off
     return cut_off
+
+def youden(data, pred_col, duration_col, event_col):
+    # TODO
+    pass
