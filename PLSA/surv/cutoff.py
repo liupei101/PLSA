@@ -4,20 +4,23 @@ import pandas as pd
 from lifelines import CoxPHFitter
 from data.proccessing import cut_groups
 
-def loss_dis(data, c0, c1, c_min=0, c_max=100):
-    data0 = data[(data['x'] >= c_min) & (data['x'] < c0)][['y']].values
-    data1 = data[(data['x'] >= c0) & (data['x'] < c1)][['y']].values
-    data2 = data[(data['x'] >= c1) & (data['x'] <= c_max)][['y']].values
+def loss_dis(data, data_list, col):
+    data0 = data_list[0][[col]].values 
+    data1 = data_list[1][[col]].values
+    data2 = data_list[2][[col]].values
     # zero-mean
-    u  = np.mean(data[['y']].values, axis=0, keepdims=True)
+    u  = np.mean(data[[col]].values, axis=0, keepdims=True)
     u0 = np.mean(data0, axis=0, keepdims=True)
     u1 = np.mean(data1, axis=0, keepdims=True)
     u2 = np.mean(data2, axis=0, keepdims=True)
     # calculate sw
-    sw = np.dot(np.transpose(data0 - u0), data0 - u0) + np.dot(np.transpose(data1 - u1), data1 - u1) + np.dot(np.transpose(data2 - u2), data2 - u2)
+    sw = np.dot(np.transpose(data0 - u0), data0 - u0) 
+         + np.dot(np.transpose(data1 - u1), data1 - u1) 
+         + np.dot(np.transpose(data2 - u2), data2 - u2)
     #print sw
     # calculate sb
-    sb = data0.shape[0] * np.dot(np.transpose(u0 - u1), u0 - u1) + data2.shape[0] * np.dot(np.transpose(u2 - u1), u2 - u1)
+    sb = data0.shape[0] * np.dot(np.transpose(u0 - u1), u0 - u1) 
+         + data2.shape[0] * np.dot(np.transpose(u2 - u1), u2 - u1)
     sb = sb * data1.shape[0]
     #sb = data0.shape[0] * np.dot(np.transpose(u0 - u), u0 - u) + data1.shape[0] * np.dot(np.transpose(u1 - u), u1 - u) + data2.shape[0] * np.dot(np.transpose(u2 - u), u2 - u)
     #print sb
@@ -55,27 +58,37 @@ def loss_bhr(data_list, duration_col, event_col, base_val=1, silence=True):
     df = data[['div', event_col, duration_col]]
     return coxph_coef(df, duration_col, event_col, silence=silence)
 
-def stats_var(data, score_min=0, score_max=100):
+def stats_var(data, x_col, y_col, score_min=0, score_max=100):
     """
-    使用组内方差最小，组间间距最大的方法来进行数据分组.
+    Cutoff maximize distant between groups, minimize variance in group
 
     Parameters:
-        args: description.
+        data: pd.DataFrame, data set.
+        x_col: Name of column to reference for dividing groups.
+        y_col: Name of column to measure differences.
+        score_min: Min value in x_col.
+        score_max: Max value in x_col.
 
     Returns:
-        args: description.
+        Optimal cutoffs.
 
     Examples:
-        f(a)
+        stats_var(data, 'score', 'y')
     """
     max_val = -1
     cut_off = (0, 0)
     for i in range(score_min + 1, score_max):
         for j in range(i + 1, score_max):
-            loss = loss_dis(data, i, j, c_min=score_min, c_max=score_max)
+            groups = cut_groups(data, x_col, cutoffs=[score_min, i, j, score_max+1])
+            loss = loss_dis(data, groups, y_col)
             if loss[0][0] > max_val:
                 cut_off = (i, j)
                 max_val = loss
+    # print result
+    print "____________Statistical Methods____________"
+    print "Results of Maximize loss:"
+    print "\tLoss :", max_val
+    print "\tCutoff :", cut_off
     return cut_off
 
 def hazards_ratio(data, pred_col, duration_col, event_col, score_min=0, score_max=100, balance=True):
@@ -83,17 +96,19 @@ def hazards_ratio(data, pred_col, duration_col, event_col, score_min=0, score_ma
     Cutoff maximize HR or BHR.
 
     Parameters:
-        data: full survival data.
-        col: Name of column to reference for dividing groups.
-        score_min: min value of score.
-        score_max: max value of score.
+        data: DataFrame, full survival data.
+        pred_col: Name of column to reference for dividing groups.
+        duration_col: Name of column indicating time.
+        event_col: Name of column indicating event.
+        score_min: min value in pred_col.
+        score_max: max value in pred_col.
         balance: True if using BHR as metrics, otherwise HR.
 
     Returns:
-        args: description.
+        Optimal cutoffs.
 
     Examples:
-        f(a)
+        hazards_ratio(data, 'score', 'T', 'E', balance=True)
     """
     # initialize
     max_val = -1
