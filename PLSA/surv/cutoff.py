@@ -141,6 +141,42 @@ def hazards_ratio(data, pred_col, duration_col, event_col, score_min=0, score_ma
     print "\tCutoff :", cut_off
     return cut_off
 
-def youden(data, pred_col, duration_col, event_col):
-    # TODO
-    pass
+def youden(data, pred_col, duration_col, event_col, pt=None):
+    """
+    Cutoff maximize Youden Index.
+
+    Parameters:
+        data: DataFrame, full survival data.
+        pred_col: Name of column to reference for dividing groups.
+        duration_col: Name of column indicating time.
+        event_col: Name of column indicating event.
+        pt: Predicted time.
+
+    Returns:
+        value indicating cutoff for pred_col of data.
+
+    Examples:
+        youden(data, 'X', 'T', 'E')
+    """
+    X = data[pred_col].values
+    T = data[duration_col].values
+    E = data[event_col].values
+    if pt is None:
+        pt = T.max()
+    r = pr.R(use_pandas=True)
+    r.assign("t", T)
+    r.assign("e", E)
+    r.assign("mkr", np.reshape(X, E.shape))
+    r.assign("pt", pt)
+    r.assign("mtd", "KM")
+    r.assign("nobs", X.shape[0])
+    r("library(survivalROC)")
+    r("src <- survivalROC(Stime = t, status = e, marker = mkr, predict.time = pt, span = 0.25*nobs^(-0.20))")
+    r("Youden <- src$TP-src$FP")
+    r("cutoff <- src$cut.values[which(Youden == max(Youden), arr.ind = T)]")
+    r("abline(0,1)")
+    # print results
+    print("__________Max Youden Index__________")
+    print("\tYouden =", r.Youden)
+    print("\tCutoff =", r.cutoff)
+    return r.cutoff

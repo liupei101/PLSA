@@ -27,6 +27,5 @@ Tools in the package is listed below:
 
 # TODO list
 
-- Complete integration.
 - Enable package setup.
 - Test package.
