@@ -2,7 +2,7 @@ from sklearn import metrics
 import numpy as np
 import pandas as pd
 from lifelines import CoxPHFitter
-from data.proccessing import cut_groups
+from PLSA.data import processing
 
 def loss_dis(data, data_list, col):
     data0 = data_list[0][[col]].values 
@@ -14,12 +14,12 @@ def loss_dis(data, data_list, col):
     u1 = np.mean(data1, axis=0, keepdims=True)
     u2 = np.mean(data2, axis=0, keepdims=True)
     # calculate sw
-    sw = np.dot(np.transpose(data0 - u0), data0 - u0) 
-         + np.dot(np.transpose(data1 - u1), data1 - u1) 
+    sw = np.dot(np.transpose(data0 - u0), data0 - u0) \
+         + np.dot(np.transpose(data1 - u1), data1 - u1) \
          + np.dot(np.transpose(data2 - u2), data2 - u2)
     #print sw
     # calculate sb
-    sb = data0.shape[0] * np.dot(np.transpose(u0 - u1), u0 - u1) 
+    sb = data0.shape[0] * np.dot(np.transpose(u0 - u1), u0 - u1) \
          + data2.shape[0] * np.dot(np.transpose(u2 - u1), u2 - u1)
     sb = sb * data1.shape[0]
     #sb = data0.shape[0] * np.dot(np.transpose(u0 - u), u0 - u) + data1.shape[0] * np.dot(np.transpose(u1 - u), u1 - u) + data2.shape[0] * np.dot(np.transpose(u2 - u), u2 - u)
@@ -79,7 +79,7 @@ def stats_var(data, x_col, y_col, score_min=0, score_max=100):
     cut_off = (0, 0)
     for i in range(score_min + 1, score_max):
         for j in range(i + 1, score_max):
-            groups = cut_groups(data, x_col, cutoffs=[score_min, i, j, score_max+1])
+            groups = processing.cut_groups(data, x_col, cutoffs=[score_min, i, j, score_max+1])
             loss = loss_dis(data, groups, y_col)
             if loss[0][0] > max_val:
                 cut_off = (i, j)
@@ -122,7 +122,7 @@ def hazards_ratio(data, pred_col, duration_col, event_col, score_min=0, score_ma
         if i % 10 == 0:
             print "Proccessing:", str(i) + '%'
         for j in range(i + 1, score_max):
-            groups = cut_groups(data, pred_col, cutoffs=[score_min, i, j, score_max+1])
+            groups = processing.cut_groups(data, pred_col, cutoffs=[score_min, i, j, score_max+1])
             flag = False
             for g in groups:
                 if len(g) == 0:

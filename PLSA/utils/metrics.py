@@ -5,8 +5,8 @@ import pandas as pd
 from sklearn import metrics
 from sklearn.utils import column_or_1d
 from sklearn.metrics.classification import _check_binary_probabilistic_predictions
-from utils.test import Hosmer_Lemeshow_Test
-from utils.cutoff import youden
+from PLSA.utils import test
+from PLSA.utils import cutoff
 
 def calibration_table(y_true, y_prob, normalize=False, n_bins=10):
     """
@@ -62,7 +62,7 @@ def calibration(y_true, pred_proba, n_bins=10, in_sample=False):
         calibration(y_test, y_pred, n_bins=5)
     """
     prob_bin_true, prob_bin_pred, bin_tot = calibration_table(y_true, pred_proba, n_bins=n_bins)
-    Hosmer_Lemeshow_Test(prob_bin_true, prob_bin_pred, bin_tot, n_bins=n_bins, in_sample=in_sample)
+    test.Hosmer_Lemeshow_Test(prob_bin_true, prob_bin_pred, bin_tot, n_bins=n_bins, in_sample=in_sample)
     return pd.DataFrame({"Total": bin_tot, "Obs": prob_bin_true}, "Pred": prob_bin_pred)
 
 def discrimination(y_true, y_pred_proba, threshold=None, name="Model X"):
@@ -82,7 +82,7 @@ def discrimination(y_true, y_pred_proba, threshold=None, name="Model X"):
     """
     # default threshold
     if threshold == None:
-        threshold, _ = youden(y_true, y_pred_proba)
+        threshold, _ = cutoff.youden(y_true, y_pred_proba)
     y_pred = (y_pred_proba >= threshold).astype(np.int32)
     tn, fp, fn, tp = metrics.confusion_matrix(y_true, y_pred).ravel()
     print "-------------------------------"
@@ -120,7 +120,7 @@ def discrimination_ver(y_true, y_pred_proba, threshold=None, name="Model X"):
     """
     # default threshold
     if threshold == None:
-        threshold, _ = youden(y_true, y_pred_proba)
+        threshold, _ = cutoff.youden(y_true, y_pred_proba)
     y_pred = (y_pred_proba >= threshold).astype(np.int32)
     tn, fp, fn, tp = metrics.confusion_matrix(y_true, y_pred).ravel()
     print "-------------------------------"

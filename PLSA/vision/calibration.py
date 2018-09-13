@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
-from utils.metrics import calibration_table
-from utils.test import Hosmer_Lemeshow_Test
+from PLSA.utils import metrics
+from PLSA.utils import test
 
 def plot_DCalibration(y_true, pred_proba, n_bins=10, 
                       xlabel="Predicted value", ylabel="Observed average", title="Hosmer-Lemeshow Test", save_fig_as=""):
@@ -18,8 +18,8 @@ def plot_DCalibration(y_true, pred_proba, n_bins=10,
     """
     fig, ax = plt.subplots(figsize=(8, 6))
     lw = 2
-    prob_bin_true, prob_bin_pred, bin_tot = calibration_table(y_true, pred_proba, n_bins=n_bins)
-    v, p = Hosmer_Lemeshow_Test(prob_bin_true, prob_bin_pred, bin_tot, n_bins=n_bins)
+    prob_bin_true, prob_bin_pred, bin_tot = metrics.calibration_table(y_true, pred_proba, n_bins=n_bins)
+    v, p = test.Hosmer_Lemeshow_Test(prob_bin_true, prob_bin_pred, bin_tot, n_bins=n_bins)
     plt.plot(prob_bin_pred / bin_tot, prob_bin_true / bin_tot, 
 	         lw=lw,
 	         label='$\chi^2$=%.2f, $p$=%.3f' % (v, p))

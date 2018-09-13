@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from lifelines import KaplanMeierFitter
 from sklearn import metrics
-from surv.utils import surv_roc
+from PLSA.surv import utils
 
 def plt_twoROC(train_roc, test_roc, xlabel="1 - Specificity", ylabel="Sensitivity", title="Model Performance", save_fig_as=""):
     """
@@ -106,8 +106,8 @@ def plot_SROC(data_train, data_test, pred_col, duration_col, event_col, pt, **kw
     Examples:
         plot_SROC(data_train, data_test, "X", "T", "E", 5)
     """
-    train_roc = surv_roc(data_train[pred_col].values, data_train[duration_col], data_train[event_col], pt)
-    test_roc = surv_roc(data_test[pred_col].values, data_test[duration_col], data_test[event_col], pt)
+    train_roc = utils.surv_roc(data_train[pred_col].values, data_train[duration_col], data_train[event_col], pt)
+    test_roc = utils.surv_roc(data_test[pred_col].values, data_test[duration_col], data_test[event_col], pt)
     if "title" not in kws.keys():
         kws['title'] = "Survival ROC at Time %d" % int(pt)
     plt_twoROC(train_roc, test_roc, **kws)
