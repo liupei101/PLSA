@@ -141,7 +141,7 @@ def hazards_ratio(data, pred_col, duration_col, event_col, score_min=0, score_ma
     print "\tCutoff :", cut_off
     return cut_off
 
-def youden(data, pred_col, duration_col, event_col, pt=None):
+def youden_onecut(data, pred_col, duration_col, event_col, pt=None):
     """
     Cutoff maximize Youden Index.
 
@@ -156,7 +156,7 @@ def youden(data, pred_col, duration_col, event_col, pt=None):
         value indicating cutoff for pred_col of data.
 
     Examples:
-        youden(data, 'X', 'T', 'E')
+        youden_onecut(data, 'X', 'T', 'E')
     """
     X = data[pred_col].values
     T = data[duration_col].values
@@ -180,3 +180,28 @@ def youden(data, pred_col, duration_col, event_col, pt=None):
     print("\tYouden =", r.Youden)
     print("\tCutoff =", r.cutoff)
     return r.cutoff
+
+def youden_twocut(data, pred_col, duration_col, event_col, pt=None):
+    """
+    Two values of cutoff maximize Youden Index.
+
+    Parameters:
+        data: DataFrame, full survival data.
+        pred_col: Name of column to reference for dividing groups.
+        duration_col: Name of column indicating time.
+        event_col: Name of column indicating event.
+        pt: Predicted time.
+
+    Returns:
+        (cutoff-1, cutoff-2) value indicating cutoff for pred_col of data.
+
+    Examples:
+        youden_twocut(data, 'X', 'T', 'E')
+    """
+    # Cut-off1
+    cutoff = youden_onecut(data, pred_col, duration_col, event_col, pt=pt)
+    Hp = data[pred_col] >= cutoff
+    # cf1 cut for X1, cf2 cut for X2
+    cutoff1 = youden_onecut(data[Hp], pred_col, duration_col, event_col, pt=pt)
+    cutoff2 = youden_onecut(data[~Hp], pred_col, duration_col, event_col, pt=pt)
+    return cutoff2, cutoff1
