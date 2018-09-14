@@ -48,5 +48,5 @@ def plt_riskGroups(data_groups, event_col, duration_col, labels=[], plot_join=Fa
     plt.legend(loc="best", title="Risk Groups")
     add_at_risk_counts(*kmfit_groups, ax=ax)
     plt.show()
-    if save_fig_as != ""
+    if save_fig_as != "":
         fig.savefig(save_fig_as, format='png', dpi=600)

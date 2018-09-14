@@ -1,6 +1,7 @@
 from sklearn import metrics
 import numpy as np
 import pandas as pd
+import pyper as pr
 from lifelines import CoxPHFitter
 from PLSA.data import processing
 
@@ -175,10 +176,6 @@ def youden_onecut(data, pred_col, duration_col, event_col, pt=None):
     r("Youden <- src$TP-src$FP")
     r("cutoff <- src$cut.values[which(Youden == max(Youden), arr.ind = T)]")
     r("abline(0,1)")
-    # print results
-    print("__________Max Youden Index__________")
-    print("\tYouden =", r.Youden)
-    print("\tCutoff =", r.cutoff)
     return r.cutoff
 
 def youden_twocut(data, pred_col, duration_col, event_col, pt=None):

@@ -22,6 +22,7 @@ setup(name='PLSA',
     install_requires=[
         'scikit-learn>=0.19.0',
         'lifelines>=0.9.2',
+        'pyper',
     ],
     include_package_data=True,
 )

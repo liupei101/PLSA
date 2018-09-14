@@ -81,14 +81,18 @@ def plot_DROC(y_true, y_pred, x_true=None, x_pred=None, **kws):
     data_roc = dict()
     data_roc['FP'], data_roc['TP'], _ = metrics.roc_curve(y_true, y_pred, pos_label=1)
     data_roc['AUC'] = metrics.auc(fpr, tpr)
+    print "__________________AUC____________________"
+    print "AUC on train set :", data_roc['AUC']
     if not (x_true is None or x_pred is None):
         data_roc_ext = dict()
         data_roc_ext['FP'], data_roc_ext['TP'], _ = metrics.roc_curve(x_true, x_pred, pos_label=1)
         data_roc_ext['AUC'] = metrics.auc(fpr, tpr)
+        print "AUC on test  set :", data_roc_ext['AUC']
         plt_twoROC(data_roc, data_roc_ext, **kws)
+        return
     plt_ROC(data_roc, **kws)
 
-def plot_SROC(data_train, data_test, pred_col, duration_col, event_col, pt, **kws):
+def plot_SROC(data_train, data_test, pred_col, duration_col, event_col, pt=None, **kws):
     """
     Plot Time-Dependent survival ROC curve for giving data.
 
@@ -104,10 +108,13 @@ def plot_SROC(data_train, data_test, pred_col, duration_col, event_col, pt, **kw
     Returns:
 
     Examples:
-        plot_SROC(data_train, data_test, "X", "T", "E", 5)
+        plot_SROC(data_train, data_test, "X", "T", "E", pt=5)
     """
-    train_roc = utils.surv_roc(data_train[pred_col].values, data_train[duration_col], data_train[event_col], pt)
-    test_roc = utils.surv_roc(data_test[pred_col].values, data_test[duration_col], data_test[event_col], pt)
+    train_roc = utils.surv_roc(data_train, pred_col, duration_col, event_col, pt=pt)
+    test_roc = utils.surv_roc(data_test, pred_col, duration_col, event_col, pt=pt)
     if "title" not in kws.keys():
         kws['title'] = "Survival ROC at Time %d" % int(pt)
+    print "__________________AUC____________________"
+    print "AUC on train set :", train_roc['AUC']
+    print "AUC on test  set :", test_roc['AUC']
     plt_twoROC(train_roc, test_roc, **kws)
