@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 with open('README.txt') as file:
     long_description = file.read()
@@ -18,9 +18,10 @@ setup(name='PLSA',
         "Programming Language :: Python",
         "Topic :: Scientific/Engineering",
     ],
-    packages=['PLSA'],
+    packages = find_packages(),
     install_requires=[
         'scikit-learn>=0.19.0',
         'lifelines>=0.9.2',
     ],
+    include_package_data=True,
 )
