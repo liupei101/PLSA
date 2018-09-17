@@ -12,6 +12,8 @@ Tools in the package is listed below:
 
 - data
     - processing: process data.
+- qcal
+    - func: general function for quick calling.
 - surv
     - cutoff: get optimal cutoffs according different criterion in survival analyze.
     - utils: general function in survival data.
@@ -27,5 +29,4 @@ Tools in the package is listed below:
 
 # TODO list
 
-- Enable package setup.
 - Test package.
