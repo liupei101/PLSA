@@ -85,78 +85,23 @@ def surv_data_at_risk(data, duration_col, points=None):
             Deaths.append(res[j-1][2])
     return pd.DataFrame({"Time": T, "Obs": Obs, "Deaths": Deaths})
 
-def prepare_data(x, label):
+def survival_by_hr(T0, S0, pred):
     """
-    Prepare data for survival analyze(Deep Surival).
+    Get survival function of patients according to giving hazard ratio.
 
     Parameters:
-        x: np.array, two-dimension array indicating variables.
-        label: Python dict contain 'e', 't'.
+        T0: np.array, time.
+        S0: np.array, based estimated survival function of patients.
+        pred: pandas.Series, hazard ratio of patients. 
 
     Returns:
-        Sorted (x, label) tuple.
+        T0, ST indicating survival function of patients.
 
     Examples:
-        prepare_data(data[x_cols].values, {'e': data['e'].values, 't': data['t'].values})
+        survival_by_hr(T0, S0, data['hazard_ratio'])
     """
-    if isinstance(label, dict):
-       e, t = label['e'], label['t']
+    hazard_ratio = pred.values.reshape((pred.shape[0], 1))
+    # Estimate S0(t) using data(base_X, base_label)
+    ST = S0**(hazard_ratio)
 
-    # Sort Training Data for Accurate Likelihood
-    # sort array using pandas.DataFrame(According to DESC 't' and ASC 'e')  
-    df1 = pd.DataFrame({'t': t, 'e': e})
-    df1.sort_values(['t', 'e'], ascending=[False, True], inplace=True)
-    sort_idx = list(df1.index)
-    x = x[sort_idx]
-    e = e[sort_idx]
-    t = t[sort_idx]
-
-    return x, {'e': e, 't': t}
-
-def parse_data(x, label):
-    """
-    Parse raw-data for survival analyze(Deep Surival).
-
-    Parameters:
-        x: np.array, two-dimension array indicating variables.
-        label: Python dict contain 'e', 't'.
-
-    Returns:
-        Sorted (x, e, t) tuple, index of people who is failure or at risk, and type of ties.
-
-    Examples:
-        parse_data(data[x_cols].values, {'e': data['e'].values, 't': data['t'].values})
-    """
-    # sort data by t
-    x, label = prepare_data(x, label)
-    e, t = label['e'], label['t']
-
-    failures = {}
-    atrisk = {}
-    n, cnt = 0, 0
-
-    for i in range(len(e)):
-        if e[i]:
-            if t[i] not in failures:
-                failures[t[i]] = [i]
-                n += 1
-            else:
-                # ties occured
-                cnt += 1
-                failures[t[i]].append(i)
-
-            if t[i] not in atrisk:
-                atrisk[t[i]] = []
-                for j in range(0, i+1):
-                    atrisk[t[i]].append(j)
-            else:
-                atrisk[t[i]].append(i)
-    # when ties occured frequently
-    if cnt >= n / 2:
-        ties = 'efron'
-    elif cnt > 0:
-        ties = 'breslow'
-    else:
-        ties = 'noties'
-
-    return x, e, t, failures, atrisk, ties
+    return T0, ST

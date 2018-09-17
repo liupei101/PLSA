@@ -118,3 +118,20 @@ def plot_SROC(data_train, data_test, pred_col, duration_col, event_col, pt=None,
     print "AUC on train set :", train_roc['AUC']
     print "AUC on test  set :", test_roc['AUC']
     plt_twoROC(train_roc, test_roc, **kws)
+
+def plot_TAUC(data_train, data_test, pred_col, duration_col, event_col, pt=None,
+              xlabel="Time", ylabel="AUC", 
+              title="Model Performance", save_fig_as=""):
+    """
+    Short description about your function.
+
+    Parameters:
+        args: description.
+
+    Returns:
+        args: description.
+
+    Examples:
+        f(a)
+    """
+    # TODO

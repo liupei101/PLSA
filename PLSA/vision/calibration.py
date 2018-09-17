@@ -32,3 +32,21 @@ def plot_DCalibration(y_true, pred_proba, n_bins=10,
     plt.show()
     if save_fig_as != "":
         fig.savefig(save_fig_as, format='png', dpi=600)
+
+def plot_SCalibration(data_train, data_test, pred_col, duration_col, event_col, pt=None,
+                      xlabel="Predicted Survival Probability", 
+                      ylabel="Observed Survival Probability", 
+                      title="Model Performance", save_fig_as=""):
+    """
+    Short description about your function.
+
+    Parameters:
+        args: description.
+
+    Returns:
+        args: description.
+
+    Examples:
+        f(a)
+    """
+    # TODO

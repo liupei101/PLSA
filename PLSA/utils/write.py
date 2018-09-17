@@ -3,7 +3,7 @@ from sklearn2pmml import PMMLPipeline
 from xgboost.sklearn import XGBClassifier
 import json
 
-def xgboost_to_pmml(data_X, date_y, par_file, save_model_as):
+def xgboost_to_pmml(data_X, data_y, par_file, save_model_as):
     """
     Save Xgboost Model to PMMl file.
 
@@ -26,6 +26,6 @@ def xgboost_to_pmml(data_X, date_y, par_file, save_model_as):
         ("classifier", xgb_now)
     ])
     # Fit Model
-    pipeline.fit(data_X, date_y)
+    pipeline.fit(data_X, data_y)
     # Save Model
     sklearn2pmml(pipeline, save_model_as, with_repr=True)
