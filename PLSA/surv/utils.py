@@ -105,3 +105,34 @@ def survival_by_hr(T0, S0, pred):
     ST = S0**(hazard_ratio)
 
     return T0, ST
+
+def survival_status(data, duration_col, event_col, end_time, inplace=False):
+    """
+    Get status of event at a specified time. 
+    0: status = 0, Time = end_time (T >= end_time) 
+       status = 0, Time = T  (T < end_time)
+    1: status = 1, Time = T  (T <= end_time)
+       status = 0, Time = end_time (T > end_time)
+
+    Parameters:
+        data: DataFrame, full survival data.
+        duration_col: Name of column indicating time.
+        event_col: Name of column indicating event.
+        end_time: End time of study.
+        inplace: Do replace original data.
+
+    Returns:
+        None or tuple(time(pandas.Series), status(pandas.Series))
+
+    Examples:
+        survival_status(data, 'T', 'E', 10, inplace=False)
+    """
+    if inplace:
+        data.loc[(data[event_col] == 1) & (data[duration_col] > end_time), event_col] = 0
+        data.loc[data[duration_col] > end_time, duration_col] = end_time
+    else:
+        T = data[duration_col].copy()
+        E = data[event_col].copy()
+        T[data[duration_col] > end_time] = end_time
+        E[(data[event_col] == 1) & (data[duration_col] > end_time)] = 0
+        return T, E

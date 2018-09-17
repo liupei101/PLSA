@@ -4,7 +4,7 @@ from lifelines import KaplanMeierFitter
 from sklearn import metrics
 from PLSA.surv import utils
 
-def plt_twoROC(train_roc, test_roc, xlabel="1 - Specificity", ylabel="Sensitivity", title="Model Performance", save_fig_as=""):
+def plot_twoROC(train_roc, test_roc, xlabel="1 - Specificity", ylabel="Sensitivity", title="Model Performance", save_fig_as=""):
     """
     Plot two ROC curve in one figure.
 
@@ -14,7 +14,7 @@ def plt_twoROC(train_roc, test_roc, xlabel="1 - Specificity", ylabel="Sensitivit
         save_fig_as: Name of file for saving in local.
 
     Examples:
-        plt_twoROC(train_roc, test_roc)
+        plot_twoROC(train_roc, test_roc)
     """
     fig, ax = plt.subplots(figsize=(8, 6))
     lw = 2
@@ -38,7 +38,7 @@ def plt_twoROC(train_roc, test_roc, xlabel="1 - Specificity", ylabel="Sensitivit
         fig.savefig(save_fig_as, format='png', dpi=600)
 
 
-def plt_ROC(data_roc, xlabel="1 - Specificity", ylabel="Sensitivity", title="Model Performance", save_fig_as=""):
+def plot_ROC(data_roc, xlabel="1 - Specificity", ylabel="Sensitivity", title="Model Performance", save_fig_as=""):
     """
     Plot one ROC curve in one figure.
 
@@ -47,7 +47,7 @@ def plt_ROC(data_roc, xlabel="1 - Specificity", ylabel="Sensitivity", title="Mod
         save_fig_as: Name of file for saving in local.
 
     Examples:
-        plt_ROC(data_roc)
+        plot_ROC(data_roc)
     """
     fig, ax = plt.subplots(figsize=(8, 6))
     # plot ROC of data
@@ -88,9 +88,9 @@ def plot_DROC(y_true, y_pred, x_true=None, x_pred=None, **kws):
         data_roc_ext['FP'], data_roc_ext['TP'], _ = metrics.roc_curve(x_true, x_pred, pos_label=1)
         data_roc_ext['AUC'] = metrics.auc(fpr, tpr)
         print "AUC on test  set :", data_roc_ext['AUC']
-        plt_twoROC(data_roc, data_roc_ext, **kws)
+        plot_twoROC(data_roc, data_roc_ext, **kws)
         return
-    plt_ROC(data_roc, **kws)
+    plot_ROC(data_roc, **kws)
 
 def plot_SROC(data_train, data_test, pred_col, duration_col, event_col, pt=None, **kws):
     """
@@ -117,7 +117,7 @@ def plot_SROC(data_train, data_test, pred_col, duration_col, event_col, pt=None,
     print "__________________AUC____________________"
     print "AUC on train set :", train_roc['AUC']
     print "AUC on test  set :", test_roc['AUC']
-    plt_twoROC(train_roc, test_roc, **kws)
+    plot_twoROC(train_roc, test_roc, **kws)
 
 def plot_TAUC(data_train, data_test, pred_col, duration_col, event_col, pt=None,
               xlabel="Time", ylabel="AUC", 
@@ -135,3 +135,4 @@ def plot_TAUC(data_train, data_test, pred_col, duration_col, event_col, pt=None,
         f(a)
     """
     # TODO
+    pass

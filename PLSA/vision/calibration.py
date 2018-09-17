@@ -2,8 +2,9 @@ import matplotlib.pyplot as plt
 from PLSA.utils import metrics
 from PLSA.utils import test
 
-def plot_DCalibration(y_true, pred_proba, n_bins=10, 
-                      xlabel="Predicted value", ylabel="Observed average", title="Hosmer-Lemeshow Test", save_fig_as=""):
+def plot_DCalibration(y_true, pred_proba, n_bins=10, summary=True,
+                      xlabel="Predicted value", ylabel="Observed average", 
+                      title="Hosmer-Lemeshow Test", save_fig_as=""):
     """
     Plot calibration curve.
 
@@ -20,6 +21,17 @@ def plot_DCalibration(y_true, pred_proba, n_bins=10,
     lw = 2
     prob_bin_true, prob_bin_pred, bin_tot = metrics.calibration_table(y_true, pred_proba, n_bins=n_bins)
     v, p = test.Hosmer_Lemeshow_Test(prob_bin_true, prob_bin_pred, bin_tot, n_bins=n_bins)
+    # sumary
+    if sumary:
+        print "__________Summary of Calibration__________":
+        print "Hosmer Lemeshow Test:"
+        print "\tchi2  =", v
+        print "\tp     =", p
+        print "Calibration Table:"
+        print "\tTotal\tObs\tPred"
+        for i in range(bin_tot.shape[0]):
+            print "\t%d\t%d\t%.2f" % (bin_tot[i], prob_bin_true[i], prob_bin_pred[i])
+    # plot
     plt.plot(prob_bin_pred / bin_tot, prob_bin_true / bin_tot, 
 	         lw=lw,
 	         label='$\chi^2$=%.2f, $p$=%.3f' % (v, p))
@@ -32,21 +44,3 @@ def plot_DCalibration(y_true, pred_proba, n_bins=10,
     plt.show()
     if save_fig_as != "":
         fig.savefig(save_fig_as, format='png', dpi=600)
-
-def plot_SCalibration(data_train, data_test, pred_col, duration_col, event_col, pt=None,
-                      xlabel="Predicted Survival Probability", 
-                      ylabel="Observed Survival Probability", 
-                      title="Model Performance", save_fig_as=""):
-    """
-    Short description about your function.
-
-    Parameters:
-        args: description.
-
-    Returns:
-        args: description.
-
-    Examples:
-        f(a)
-    """
-    # TODO
