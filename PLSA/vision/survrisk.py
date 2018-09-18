@@ -55,15 +55,31 @@ def plot_timeAUC(x, y_train, y_test,
                  xlabel="Time", ylabel="AUC", 
                  title="Model Performance", save_fig_as=""):
     """
-    Short description about your function.
+    Plot line chart about time and AUC.
 
     Parameters:
-        args: description.
+        x: Time.
+        y_train: AUC of train.
+        y_test: AUC of test.
+        **kws: Setting of figures.
 
     Returns:
-        args: description.
 
     Examples:
-        f(a)
+        plot_timeAUC([1, 3, 5, 10], train_list, test_list)
     """
-    pass
+    # Plot
+    fig, ax = plt.subplots(figsize=(8, 6))
+    lw = 2
+    Cx = ['darkorange', 'cornflowerblue']
+    Lb = ['Training', 'Validation']
+    plt.plot(x, y_train, color=Cx[0], lw=lw, label=Lb[0])
+    plt.plot(x, y_test, color=Cx[1], lw=lw, label=Lb[1])
+    plt.ylim(0, 1.01)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.title(title)
+    plt.legend(loc="best", title="Time-AUC")
+    plt.show()
+    if save_fig_as != "":
+        fig.savefig(save_fig_as, format='png', dpi=600)
