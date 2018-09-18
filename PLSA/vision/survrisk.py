@@ -82,3 +82,35 @@ def plot_timeAUC(x, y_train, y_test, labels=['Train', 'Validation'],
     plt.show()
     if save_fig_as != "":
         fig.savefig(save_fig_as, format='png', dpi=600)
+
+def plot_rsRisk(data, x_col, y1_col, y2_col, labels=["Line-1", "Line2"],
+                xlabel="Risk Score", ylabel="Rate of Risk", 
+                title="Curve of risk score and rate of risk", save_fig_as=""):
+    """
+    Plot continues function between risk score and rate of risk.
+
+    Parameters:
+        data: pandas.DataFame, full survival data.
+        x_col: Name of column indicating risk score.
+        y1_col: Name of column indicating rate of risk at t1.
+        y2_col: Name of column indicating rate of risk at t2.
+        **kws: Setting of plot.
+
+    Returns:
+
+    Examples:
+        plot_rsRisk(data, 'RS', 'pred_idfs_y5', 'pred_idfs_y10', labels=['5 Year.', '10 Year.'])
+    """
+    fig, ax = plt.subplots(figsize=(8, 6))
+    Cx = ['darkorange', 'cornflowerblue']
+    sns.regplot(x=x_col, y=y1_col, data=data, order=2, ax=ax, ci=95, scatter_kws={"alpha": 0}, line_kws={"label": labels[0], "lw": 2, "color": Cx[0]})
+    sns.regplot(x=x_col, y=y2_col, data=data, order=2, ax=ax, ci=95, scatter_kws={"alpha": 0}, line_kws={"label": labels[1], "lw": 2, "color": Cx[1]})
+    plt.xlim(0, 50)
+    plt.ylim(0, 1.0)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.title(title)
+    plt.legend(loc="best", title="Time")
+    plt.show()
+    if save_fig_as != "":
+        fig.savefig(save_fig_as, format='png', dpi=600)
