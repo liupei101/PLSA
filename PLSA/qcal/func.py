@@ -1,7 +1,7 @@
 from PLSA.surv.cutoff import youden_twocut
-from PLSA.surv.utils import survival_status
+from PLSA.surv.utils import survival_status, surv_roc
 from PLSA.data.processing import cut_groups
-from PLSA.vision.survrisk import plot_riskGroups
+from PLSA.vision.survrisk import plot_riskGroups, plot_timeAUC
 from PLSA.vision.calibration import plot_DCalibration
 from lifelines.statistics import logrank_test
 
@@ -81,3 +81,30 @@ def surv_calibration(data, duration_col, event_col, pred_proba,
     T_col, E_col = survival_status(data, duration_col, event_col, pt)
     plot_DCalibration(E_col.values, 1-pred_proba, n_bins=n_bins, summary=True,
                       xlabel=xlabel, ylabel=ylabel, title=title, save_fig_as=save_fig_as)
+
+def surv_time_auc(data_train, data_test, pred_col, duration_col, event_col, pt=[], **kws):
+    """
+    Plot curve of auc at some predicted time.
+
+    Parameters:
+        data_train: pd.DataFame, full survival data for train.
+        data_test: pd.DataFame, full survival data for test.
+        pred_col: Name of column indicating target value.
+        duration_col: Name of column indicating time.
+        event_col: Name of column indicating event.
+        pt: Predicted time indicating list of watching. 
+
+    Returns:
+
+    Examples:
+        surv_time_auc(train_data, test_data, 'X', 'T', 'E', pt=[1, 3, 5, 10])
+    """
+    train_list, test_list = [], []
+    for t in pt:
+        train_list.append(surv_roc(data_train, pred_col, duration_col, event_col, pt=t)['AUC'])
+        test_list.append(surv_roc(data_test, pred_col, duration_col, event_col, pt=t)['AUC'])
+    print "__________Summary of Surv-AUC__________"
+    print "Time\ttAUC-train\tAUC-test"
+    for i in range(len(pt)):
+        print "%.2f\t%.2f\t%.2f" % (float(pt[i]), train_list[i], test_list[i])
+    plot_timeAUC(pt, train_list, test_list, **kws)
