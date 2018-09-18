@@ -29,4 +29,8 @@ Tools in the package is listed below:
 
 # TODO list
 
-- Test package.
+None
+
+# News
+
+- version 0.2 is released.

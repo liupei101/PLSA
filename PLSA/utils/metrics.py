@@ -63,7 +63,7 @@ def calibration(y_true, pred_proba, n_bins=10, in_sample=False):
     """
     prob_bin_true, prob_bin_pred, bin_tot = calibration_table(y_true, pred_proba, n_bins=n_bins)
     test.Hosmer_Lemeshow_Test(prob_bin_true, prob_bin_pred, bin_tot, n_bins=n_bins, in_sample=in_sample)
-    return pd.DataFrame({"Total": bin_tot, "Obs": prob_bin_true}, "Pred": prob_bin_pred)
+    return pd.DataFrame({"Total": bin_tot, "Obs": prob_bin_true, "Pred": prob_bin_pred})
 
 def discrimination(y_true, y_pred_proba, threshold=None, name="Model X"):
     """

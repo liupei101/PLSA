@@ -51,7 +51,7 @@ def plot_riskGroups(data_groups, event_col, duration_col, labels=[], plot_join=F
     if save_fig_as != "":
         fig.savefig(save_fig_as, format='png', dpi=600)
 
-def plot_timeAUC(x, y_train, y_test,
+def plot_timeAUC(x, y_train, y_test, labels=['Train', 'Validation'],
                  xlabel="Time", ylabel="AUC", 
                  title="Model Performance", save_fig_as=""):
     """
@@ -72,9 +72,8 @@ def plot_timeAUC(x, y_train, y_test,
     fig, ax = plt.subplots(figsize=(8, 6))
     lw = 2
     Cx = ['darkorange', 'cornflowerblue']
-    Lb = ['Training', 'Validation']
-    plt.plot(x, y_train, color=Cx[0], lw=lw, label=Lb[0])
-    plt.plot(x, y_test, color=Cx[1], lw=lw, label=Lb[1])
+    plt.plot(x, y_train, color=Cx[0], lw=lw, label=labels[0], ls='-', marker='o', mec=Cx[0], mfc='w')
+    plt.plot(x, y_test, color=Cx[1], lw=lw, label=labels[1], ls='--', marker='o', mec=Cx[1], mfc='w')
     plt.ylim(0, 1.01)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)

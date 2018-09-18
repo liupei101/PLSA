@@ -4,7 +4,7 @@ with open('README.txt') as file:
     long_description = file.read()
 
 setup(name='PLSA',
-    version='0.1',
+    version='0.2',
     description='A Python Library of Statistical Analyze for using in my private workflow.',
     keywords = "survival analysis machine learning workflow",
     url='https://github.com/liupei101/PLSA',

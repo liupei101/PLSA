@@ -82,7 +82,8 @@ def surv_calibration(data, duration_col, event_col, pred_proba,
     plot_DCalibration(E_col.values, 1-pred_proba, n_bins=n_bins, summary=True,
                       xlabel=xlabel, ylabel=ylabel, title=title, save_fig_as=save_fig_as)
 
-def surv_time_auc(data_train, data_test, pred_col, duration_col, event_col, pt=[], **kws):
+def surv_time_auc(data_train, data_test, pred_col, duration_col, event_col, 
+                  pt=[], labels=['Train', 'Validation'], **kws):
     """
     Plot curve of auc at some predicted time.
 
@@ -104,7 +105,7 @@ def surv_time_auc(data_train, data_test, pred_col, duration_col, event_col, pt=[
         train_list.append(surv_roc(data_train, pred_col, duration_col, event_col, pt=t)['AUC'])
         test_list.append(surv_roc(data_test, pred_col, duration_col, event_col, pt=t)['AUC'])
     print "__________Summary of Surv-AUC__________"
-    print "Time\ttAUC-train\tAUC-test"
+    print "Time\tAUC", labels[0], "\tAUC", labels[1]
     for i in range(len(pt)):
-        print "%.2f\t%.2f\t%.2f" % (float(pt[i]), train_list[i], test_list[i])
-    plot_timeAUC(pt, train_list, test_list, **kws)
+        print "%.2f\t%.2f \t%.2f" % (float(pt[i]), train_list[i], test_list[i])
+    plot_timeAUC(pt, train_list, test_list, labels=labels, **kws)

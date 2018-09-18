@@ -23,9 +23,6 @@ def Hosmer_Lemeshow_Test(bins_true, bins_pred, bins_tot, n_bins=10, in_sample=Fa
     v_chi2 = sum((bins_true - bins_pred)**2 / bins_pred / (1.0 - bins_pred / bins_tot))
     degree_of_freedom = n_bins - 2 if in_sample else n_bins
     p = stats.chi2.sf(v_chi2, degree_of_freedom)
-    print "__________Hosmer-Lemeshow-Test__________"
-    print "\tChi2 =", v_chi2
-    print "\tP = ", p
     return v_chi2, p
 
 def Delong_Test(y_true, pred_a, pred_b):

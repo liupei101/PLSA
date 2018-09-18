@@ -4,7 +4,9 @@ from lifelines import KaplanMeierFitter
 from sklearn import metrics
 from PLSA.surv import utils
 
-def plot_twoROC(train_roc, test_roc, xlabel="1 - Specificity", ylabel="Sensitivity", title="Model Performance", save_fig_as=""):
+def plot_twoROC(train_roc, test_roc, labels=['Train', 'Validation'],
+                xlabel="1 - Specificity", ylabel="Sensitivity", 
+                title="Model Performance", save_fig_as=""):
     """
     Plot two ROC curve in one figure.
 
@@ -19,13 +21,12 @@ def plot_twoROC(train_roc, test_roc, xlabel="1 - Specificity", ylabel="Sensitivi
     fig, ax = plt.subplots(figsize=(8, 6))
     lw = 2
     Cx = ['darkorange', 'cornflowerblue']
-    Lb = ['Training', 'Validation']
     # ROC of training
     plt.plot(train_roc['FP'], train_roc['TP'], color = Cx[0],
-             lw = lw, label = Lb[0] + ' (AUC=%0.2f)' % (train_roc['AUC']))
+             lw = lw, label = labels[0] + ' (AUC=%0.2f)' % (train_roc['AUC']))
     # ROC of Validation
     plt.plot(test_roc['FP'], test_roc['TP'], color = Cx[1],
-             lw = lw, label = Lb[1] + ' (AUC=%0.2f)' % (test_roc['AUC']))
+             lw = lw, label = labels[1] + ' (AUC=%0.2f)' % (test_roc['AUC']))
 
     plt.plot([0, 1], [0, 1], color='navy', lw=lw-1, linestyle='--')
     plt.xlim([0.0, 1.0])
@@ -38,7 +39,8 @@ def plot_twoROC(train_roc, test_roc, xlabel="1 - Specificity", ylabel="Sensitivi
         fig.savefig(save_fig_as, format='png', dpi=600)
 
 
-def plot_ROC(data_roc, xlabel="1 - Specificity", ylabel="Sensitivity", title="Model Performance", save_fig_as=""):
+def plot_ROC(data_roc, xlabel="1 - Specificity", ylabel="Sensitivity", 
+             title="Model Performance", save_fig_as=""):
     """
     Plot one ROC curve in one figure.
 
@@ -92,7 +94,9 @@ def plot_DROC(y_true, y_pred, x_true=None, x_pred=None, **kws):
         return
     plot_ROC(data_roc, **kws)
 
-def plot_SROC(data_train, data_test, pred_col, duration_col, event_col, pt=None, **kws):
+def plot_SROC(data_train, data_test, pred_col, duration_col, event_col, 
+              pt=None, labels=['Train', 'Validation'],
+              **kws):
     """
     Plot Time-Dependent survival ROC curve for giving data.
 
@@ -115,6 +119,6 @@ def plot_SROC(data_train, data_test, pred_col, duration_col, event_col, pt=None,
     if "title" not in kws.keys():
         kws['title'] = "Survival ROC at Time %d" % int(pt)
     print "__________________AUC____________________"
-    print "AUC on train set :", train_roc['AUC']
-    print "AUC on test  set :", test_roc['AUC']
-    plot_twoROC(train_roc, test_roc, **kws)
+    print "AUC on", labels[0], "set :", train_roc['AUC']
+    print "AUC on", labels[1], "set :", test_roc['AUC']
+    plot_twoROC(train_roc, test_roc, labels=labels, **kws)

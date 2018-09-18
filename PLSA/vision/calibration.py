@@ -21,9 +21,9 @@ def plot_DCalibration(y_true, pred_proba, n_bins=10, summary=True,
     lw = 2
     prob_bin_true, prob_bin_pred, bin_tot = metrics.calibration_table(y_true, pred_proba, n_bins=n_bins)
     v, p = test.Hosmer_Lemeshow_Test(prob_bin_true, prob_bin_pred, bin_tot, n_bins=n_bins)
-    # sumary
-    if sumary:
-        print "__________Summary of Calibration__________":
+    # summary
+    if summary:
+        print "__________Summary of Calibration__________"
         print "Hosmer Lemeshow Test:"
         print "\tchi2  =", v
         print "\tp     =", p
@@ -33,7 +33,7 @@ def plot_DCalibration(y_true, pred_proba, n_bins=10, summary=True,
             print "\t%d\t%d\t%.2f" % (bin_tot[i], prob_bin_true[i], prob_bin_pred[i])
     # plot
     plt.plot(prob_bin_pred / bin_tot, prob_bin_true / bin_tot, 
-	         lw=lw,
+	         lw=lw, ls='-', marker='o',
 	         label='$\chi^2$=%.2f, $p$=%.3f' % (v, p))
     plt.plot([0, 1], [0, 1], color='navy', lw=lw-1, linestyle='--')
     plt.xlim([0.0, 1.0])
