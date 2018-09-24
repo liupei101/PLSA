@@ -26,12 +26,12 @@ def plot_cphCoef(df, coef_col='coef', se_col='se(coef)', c_col='p', name_col=Non
         name_col = 'name__'
         df[name_col] = df.index
     df['idx__'] = range(N)
-    df['P-value'] = 1 - df[c_col]
+    df['1 - P-value'] = 1 - df[c_col]
     # Calculate p for CI
     df['CI__'] = abs(norm.ppf((1-ci)/2)) * df[se_col]
     # Plot figure
     fig, ax = plt.subplots(figsize=(10, 6))
-    df.plot.scatter(x='idx__', y=coef_col, c='P-value', 
+    df.plot.scatter(x='idx__', y=coef_col, c='1 - P-value', 
                     marker='s', s=120, cmap=plt.cm.get_cmap('YlOrRd'), ax=ax)
     ax.axhline(y=0, linestyle='--', color='black', linewidth=1)
     df.plot(x='idx__', y=coef_col, kind='bar', yerr='CI__', color="None", legend=False, ax=ax)
@@ -43,4 +43,4 @@ def plot_cphCoef(df, coef_col='coef', se_col='se(coef)', c_col='p', name_col=Non
     if save_fig_as != "":
         fig.savefig(save_fig_as, format='png', dpi=600)
     # Drop columns
-    df.drop(['name__', 'idx__', 'P-value', 'CI__'], axis=1, inplace=True, errors='ignore')
+    df.drop(['name__', 'idx__', '1 - P-value', 'CI__'], axis=1, inplace=True, errors='ignore')
