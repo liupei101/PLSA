@@ -82,13 +82,13 @@ def plot_DROC(y_true, y_pred, x_true=None, x_pred=None, **kws):
     """
     data_roc = dict()
     data_roc['FP'], data_roc['TP'], _ = metrics.roc_curve(y_true, y_pred, pos_label=1)
-    data_roc['AUC'] = metrics.auc(fpr, tpr)
+    data_roc['AUC'] = metrics.auc(data_roc['FP'], data_roc['TP'])
     print "__________________AUC____________________"
     print "AUC on train set :", data_roc['AUC']
     if not (x_true is None or x_pred is None):
         data_roc_ext = dict()
         data_roc_ext['FP'], data_roc_ext['TP'], _ = metrics.roc_curve(x_true, x_pred, pos_label=1)
-        data_roc_ext['AUC'] = metrics.auc(fpr, tpr)
+        data_roc_ext['AUC'] = metrics.auc(data_roc_ext['FP'], data_roc_ext['TP'])
         print "AUC on test  set :", data_roc_ext['AUC']
         plot_twoROC(data_roc, data_roc_ext, **kws)
         return
