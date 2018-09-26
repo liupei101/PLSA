@@ -1,3 +1,9 @@
+#coding=utf-8
+"""Module for visualizing ROC curve
+
+The function of this Module is served for visualizing ROC curve.
+
+"""
 import numpy as np
 import matplotlib.pyplot as plt
 from lifelines import KaplanMeierFitter

@@ -1,3 +1,9 @@
+#coding=utf-8
+"""Module for statistical test
+
+The function of this Module is served for statistical test.
+
+"""
 from scipy import stats
 import numpy as np
 import math

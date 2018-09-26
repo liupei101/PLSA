@@ -1,3 +1,9 @@
+#coding=utf-8
+"""Module for utilitize function of survival analyze.
+
+The function of this Module is served as utility of survival analyze.
+
+"""
 import numpy as np
 import pandas as pd
 import pyper as pr

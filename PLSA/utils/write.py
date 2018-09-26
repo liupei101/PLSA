@@ -1,3 +1,9 @@
+#coding=utf-8
+"""Module for outputting result
+
+The function of this Module is served for outputting result.
+
+"""
 from sklearn2pmml import sklearn2pmml
 from sklearn2pmml import PMMLPipeline
 from xgboost.sklearn import XGBClassifier

@@ -1,3 +1,9 @@
+#coding=utf-8
+"""Module for visualizing common curve
+
+The function of this Module is served for visualizing common curve.
+
+"""
 import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.stats import norm

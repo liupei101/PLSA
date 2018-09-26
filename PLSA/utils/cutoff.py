@@ -1,3 +1,10 @@
+#coding=utf-8
+"""Module for determinding cutoffs in common
+
+The function of this Module is served for determinding cutoffs by different methods
+in common.
+
+"""
 import numpy as np
 import math
 import pandas as pd

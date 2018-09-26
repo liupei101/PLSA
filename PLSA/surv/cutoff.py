@@ -1,3 +1,10 @@
+#coding=utf-8
+"""Module for determinding cutoffs in survival analyze
+
+The function of this Module is served for determinding cutoffs by different methods
+in survival analyze.
+
+"""
 from sklearn import metrics
 import numpy as np
 import pandas as pd

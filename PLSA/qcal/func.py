@@ -1,3 +1,10 @@
+#coding=utf-8
+"""Module for quick calling
+
+The function of this Module is served for quick calling functions, and functions
+of other modules will be called by it.
+
+"""
 from PLSA.surv.cutoff import youden_twocut
 from PLSA.surv.utils import survival_status, surv_roc
 from PLSA.data.processing import cut_groups

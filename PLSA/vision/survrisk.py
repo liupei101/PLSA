@@ -1,3 +1,9 @@
+#coding=utf-8
+"""Module for visualizing a kind of curves in survival analyze
+
+The function of this Module is served for visualizing a kind of curves in survival analyze.
+
+"""
 import seaborn as sns
 import pandas as pd
 import matplotlib.pyplot as plt

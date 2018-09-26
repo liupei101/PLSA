@@ -1,3 +1,9 @@
+#coding=utf-8
+"""Module for evaluating model by many kinds of metrics 
+
+The function of this Module is served for evaluating model by many kinds of metrics.
+
+"""
 from scipy import stats
 import numpy as np
 import math
@@ -98,6 +104,7 @@ def discrimination(y_true, y_pred_proba, threshold=None, name="Model X"):
     -------
     dict
         Dict with kinds of metrics.
+
             {
                 "points": threshold,
                 "Sen": Re,
@@ -151,6 +158,7 @@ def discrimination_ver(y_true, y_pred_proba, threshold=None, name="Model X"):
     -------
     dict
         Dict with kinds of metrics.
+
             {
                 "points": threshold,
                 "Sen": Sen,

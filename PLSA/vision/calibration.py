@@ -1,3 +1,9 @@
+#coding=utf-8
+"""Module for visualizing curve of calibration test
+
+The function of this Module is served for visualizing curve of calibration test.
+
+"""
 import matplotlib.pyplot as plt
 from PLSA.utils import metrics
 from PLSA.utils import test

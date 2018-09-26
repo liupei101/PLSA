@@ -1,4 +1,9 @@
 #coding=utf-8
+"""Module for processing data
+
+The function of this Module is served for processing data.
+
+"""
 import pandas as pd
 import numpy as np
 
