@@ -1,0 +1,522 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="python" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="python" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>PLSA.surv package &mdash; PLSA 0.0.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="PLSA.utils package" href="PLSA.utils.html" />
+    <link rel="prev" title="PLSA.qcal package" href="PLSA.qcal.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> PLSA
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="PLSA.html">PLSA package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PLSA.data.html">PLSA.data package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PLSA.qcal.html">PLSA.qcal package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">PLSA.surv package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-PLSA.surv.cutoff">PLSA.surv.cutoff module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-PLSA.surv.utils">PLSA.surv.utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-PLSA.surv">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="PLSA.utils.html">PLSA.utils package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PLSA.vision.html">PLSA.vision package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PLSA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="PLSA.html">PLSA package</a> &raquo;</li>
+        
+      <li>PLSA.surv package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/PLSA.surv.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="plsa-surv-package">
+<h1>PLSA.surv package<a class="headerlink" href="#plsa-surv-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-PLSA.surv.cutoff">
+<span id="plsa-surv-cutoff-module"></span><h2>PLSA.surv.cutoff module<a class="headerlink" href="#module-PLSA.surv.cutoff" title="Permalink to this headline">¶</a></h2>
+<p>Module for determinding cutoffs in survival analyze</p>
+<p>The function of this Module is served for determinding cutoffs by different methods
+in survival analyze.</p>
+<dl class="function">
+<dt id="PLSA.surv.cutoff.coxph_coef">
+<code class="descclassname">PLSA.surv.cutoff.</code><code class="descname">coxph_coef</code><span class="sig-paren">(</span><em>data</em>, <em>duration_col</em>, <em>event_col</em>, <em>silence=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PLSA/surv/cutoff.html#coxph_coef"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PLSA.surv.cutoff.coxph_coef" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="PLSA.surv.cutoff.hazards_ratio">
+<code class="descclassname">PLSA.surv.cutoff.</code><code class="descname">hazards_ratio</code><span class="sig-paren">(</span><em>data</em>, <em>pred_col</em>, <em>duration_col</em>, <em>event_col</em>, <em>score_min=0</em>, <em>score_max=100</em>, <em>balance=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PLSA/surv/cutoff.html#hazards_ratio"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PLSA.surv.cutoff.hazards_ratio" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cutoff maximize HR or BHR.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> (<em>DataFrame</em>) -- full survival data.</li>
+<li><strong>pred_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- Name of column to reference for dividing groups.</li>
+<li><strong>duration_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- Name of column indicating time.</li>
+<li><strong>event_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- Name of column indicating event.</li>
+<li><strong>score_min</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>, optional) -- min value in pred_col.</li>
+<li><strong>score_max</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>, optional) -- max value in pred_col.</li>
+<li><strong>balance</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) -- True if using BHR as metrics, otherwise HR.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Optimal cutoffs according to ratio of hazards methods.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)">float</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hazards_ratio</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">,</span> <span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="PLSA.surv.cutoff.loss_bhr">
+<code class="descclassname">PLSA.surv.cutoff.</code><code class="descname">loss_bhr</code><span class="sig-paren">(</span><em>data_list</em>, <em>duration_col</em>, <em>event_col</em>, <em>base_val=1</em>, <em>silence=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PLSA/surv/cutoff.html#loss_bhr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PLSA.surv.cutoff.loss_bhr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="PLSA.surv.cutoff.loss_dis">
+<code class="descclassname">PLSA.surv.cutoff.</code><code class="descname">loss_dis</code><span class="sig-paren">(</span><em>data</em>, <em>data_list</em>, <em>col</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PLSA/surv/cutoff.html#loss_dis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PLSA.surv.cutoff.loss_dis" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="PLSA.surv.cutoff.loss_hr">
+<code class="descclassname">PLSA.surv.cutoff.</code><code class="descname">loss_hr</code><span class="sig-paren">(</span><em>data_list</em>, <em>duration_col</em>, <em>event_col</em>, <em>base_val=0</em>, <em>silence=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PLSA/surv/cutoff.html#loss_hr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PLSA.surv.cutoff.loss_hr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="PLSA.surv.cutoff.stats_var">
+<code class="descclassname">PLSA.surv.cutoff.</code><code class="descname">stats_var</code><span class="sig-paren">(</span><em>data</em>, <em>x_col</em>, <em>y_col</em>, <em>score_min=0</em>, <em>score_max=100</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PLSA/surv/cutoff.html#stats_var"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PLSA.surv.cutoff.stats_var" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cutoff maximize distant between groups, minimize variance in group</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> (<em>pd.DataFrame</em>) -- Data set.</li>
+<li><strong>x_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- Name of column to reference for dividing groups.</li>
+<li><strong>y_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- Name of column to measure differences.</li>
+<li><strong>score_min</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>, optional) -- Min value in x_col.</li>
+<li><strong>score_max</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>, optional) -- Max value in x_col.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Optimal cutoffs according to statistical methods.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)">float</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">stats_var</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="PLSA.surv.cutoff.youden_onecut">
+<code class="descclassname">PLSA.surv.cutoff.</code><code class="descname">youden_onecut</code><span class="sig-paren">(</span><em>data</em>, <em>pred_col</em>, <em>duration_col</em>, <em>event_col</em>, <em>pt=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PLSA/surv/cutoff.html#youden_onecut"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PLSA.surv.cutoff.youden_onecut" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cutoff maximize Youden Index.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> (<em>pandas.DataFrame</em>) -- full survival data.</li>
+<li><strong>pred_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- Name of column to reference for dividing groups.</li>
+<li><strong>duration_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- Name of column indicating time.</li>
+<li><strong>event_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- Name of column indicating event.</li>
+<li><strong>pt</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><em>default None</em>) -- Predicted time.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Value indicating cutoff for pred_col of data.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)">float</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">youden_onecut</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="PLSA.surv.cutoff.youden_twocut">
+<code class="descclassname">PLSA.surv.cutoff.</code><code class="descname">youden_twocut</code><span class="sig-paren">(</span><em>data</em>, <em>pred_col</em>, <em>duration_col</em>, <em>event_col</em>, <em>pt=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PLSA/surv/cutoff.html#youden_twocut"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PLSA.surv.cutoff.youden_twocut" title="Permalink to this definition">¶</a></dt>
+<dd><p>Two values of cutoff maximize Youden Index.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> (<em>pandas.DataFrame</em>) -- Full survival data.</li>
+<li><strong>pred_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- Name of column to reference for dividing groups.</li>
+<li><strong>duration_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- Name of column indicating time.</li>
+<li><strong>event_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- Name of column indicating event.</li>
+<li><strong>pt</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) -- Predicted time.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(cutoff-1, cutoff-2) value indicating cutoff for pred_col of data.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">youden_twocut</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="module-PLSA.surv.utils">
+<span id="plsa-surv-utils-module"></span><h2>PLSA.surv.utils module<a class="headerlink" href="#module-PLSA.surv.utils" title="Permalink to this headline">¶</a></h2>
+<p>Module for utilitize function of survival analyze.</p>
+<p>The function of this Module is served as utility of survival analyze.</p>
+<dl class="function">
+<dt id="PLSA.surv.utils.surv_data_at_risk">
+<code class="descclassname">PLSA.surv.utils.</code><code class="descname">surv_data_at_risk</code><span class="sig-paren">(</span><em>data</em>, <em>duration_col</em>, <em>points=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PLSA/surv/utils.html#surv_data_at_risk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PLSA.surv.utils.surv_data_at_risk" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get number of people at risk at some timing.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> (<em>pandas.DataFrame</em>) -- Full survival data.</li>
+<li><strong>duration_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- Name of column indicating time.</li>
+<li><strong>points</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>)</em>) -- Points of Time selected to watch.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Number of people at risk.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><cite>pandas.DataFrame</cite></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">surv_data_at_risk</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="n">points</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="PLSA.surv.utils.surv_roc">
+<code class="descclassname">PLSA.surv.utils.</code><code class="descname">surv_roc</code><span class="sig-paren">(</span><em>data</em>, <em>pred_col</em>, <em>duration_col</em>, <em>event_col</em>, <em>pt=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PLSA/surv/utils.html#surv_roc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PLSA.surv.utils.surv_roc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get survival ROC at predicted time.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> (<em>pandas.DataFrame</em>) -- Full survival data.</li>
+<li><strong>pred_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- Name of column to reference for dividing groups.</li>
+<li><strong>duration_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- Name of column indicating time.</li>
+<li><strong>event_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- Name of column indicating event.</li>
+<li><strong>pt</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) -- Predicted time.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Object of dict include &quot;FP&quot;, &quot;TP&quot; and &quot;AUC&quot; in ROC.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><cite>dict</cite></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">surv_roc</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="PLSA.surv.utils.survival_by_hr">
+<code class="descclassname">PLSA.surv.utils.</code><code class="descname">survival_by_hr</code><span class="sig-paren">(</span><em>T0</em>, <em>S0</em>, <em>pred</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PLSA/surv/utils.html#survival_by_hr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PLSA.surv.utils.survival_by_hr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get survival function of patients according to giving hazard ratio.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>T0</strong> (<em>np.array</em>) -- time.</li>
+<li><strong>S0</strong> (<em>np.array</em>) -- based estimated survival function of patients.</li>
+<li><strong>pred</strong> (<em>pandas.Series</em>) -- hazard ratio of patients.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">T0, ST indicating survival function of patients.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><cite>tuple</cite></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">survival_by_hr</span><span class="p">(</span><span class="n">T0</span><span class="p">,</span> <span class="n">S0</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;hazard_ratio&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="PLSA.surv.utils.survival_status">
+<code class="descclassname">PLSA.surv.utils.</code><code class="descname">survival_status</code><span class="sig-paren">(</span><em>data</em>, <em>duration_col</em>, <em>event_col</em>, <em>end_time</em>, <em>inplace=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PLSA/surv/utils.html#survival_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PLSA.surv.utils.survival_status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get status of event at a specified time.</p>
+<dl class="docutils">
+<dt>0: status = 0, Time = end_time (T &gt;= end_time)</dt>
+<dd>status = 0, Time = T  (T &lt; end_time)</dd>
+<dt>1: status = 1, Time = T  (T &lt;= end_time)</dt>
+<dd>status = 0, Time = end_time (T &gt; end_time)</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> (<em>pandas.DataFrame</em>) -- Full survival data.</li>
+<li><strong>duration_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- Name of column indicating time.</li>
+<li><strong>event_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- Name of column indicating event.</li>
+<li><strong>end_time</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) -- End time of study.</li>
+<li><strong>inplace</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>default False</em>) -- Do replace original data.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><p>data indicates status of survival.</p>
+<p>None or tuple(time(pandas.Series), status(pandas.Series))</p>
+</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)">None</a> or <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">survival_status</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="module-PLSA.surv">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-PLSA.surv" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="PLSA.utils.html" class="btn btn-neutral float-right" title="PLSA.utils package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="PLSA.qcal.html" class="btn btn-neutral" title="PLSA.qcal package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Pei Liu.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.2',
+            LANGUAGE:'python',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

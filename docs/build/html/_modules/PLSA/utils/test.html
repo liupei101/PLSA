@@ -1,0 +1,330 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="python" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="python" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>PLSA.utils.test &mdash; PLSA 0.0.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> PLSA
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../PLSA.html">PLSA package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../PLSA.data.html">PLSA.data package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../PLSA.qcal.html">PLSA.qcal package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../PLSA.surv.html">PLSA.surv package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../PLSA.utils.html">PLSA.utils package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../PLSA.vision.html">PLSA.vision package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PLSA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>PLSA.utils.test</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for PLSA.utils.test</h1><div class="highlight"><pre>
+<span></span><span class="c1">#coding=utf-8</span>
+<span class="sd">&quot;&quot;&quot;Module for statistical test</span>
+
+<span class="sd">The function of this Module is served for statistical test.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">stats</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<div class="viewcode-block" id="Hosmer_Lemeshow_Test"><a class="viewcode-back" href="../../../PLSA.utils.html#PLSA.utils.test.Hosmer_Lemeshow_Test">[docs]</a><span class="k">def</span> <span class="nf">Hosmer_Lemeshow_Test</span><span class="p">(</span><span class="n">bins_true</span><span class="p">,</span> <span class="n">bins_pred</span><span class="p">,</span> <span class="n">bins_tot</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">in_sample</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Hosmer-Lemeshow Test for testing calibration.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bins_true : numpy.array</span>
+<span class="sd">        True Number of people in each group.</span>
+<span class="sd">    bins_pred : numpy.array</span>
+<span class="sd">        Pred Number of people in each group.</span>
+<span class="sd">    bins_tot : numpy.array</span>
+<span class="sd">        Totol Number of people in each group.</span>
+<span class="sd">    n_bins : int</span>
+<span class="sd">        Number of groups.</span>
+<span class="sd">    in_sample : bool, default False</span>
+<span class="sd">        Is Calibration-Test in sample.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple</span>
+<span class="sd">        chi2 value and P value. </span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; Hosmer_Lemeshow_Test(bins_true, bins_pred, bins_tot, n_bins=5)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">v_chi2</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">((</span><span class="n">bins_true</span> <span class="o">-</span> <span class="n">bins_pred</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">bins_pred</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">bins_pred</span> <span class="o">/</span> <span class="n">bins_tot</span><span class="p">))</span>
+    <span class="n">degree_of_freedom</span> <span class="o">=</span> <span class="n">n_bins</span> <span class="o">-</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">in_sample</span> <span class="k">else</span> <span class="n">n_bins</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">chi2</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="n">v_chi2</span><span class="p">,</span> <span class="n">degree_of_freedom</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">v_chi2</span><span class="p">,</span> <span class="n">p</span></div>
+
+<div class="viewcode-block" id="Delong_Test"><a class="viewcode-back" href="../../../PLSA.utils.html#PLSA.utils.test.Delong_Test">[docs]</a><span class="k">def</span> <span class="nf">Delong_Test</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">pred_a</span><span class="p">,</span> <span class="n">pred_b</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Delong-Test for comparing two predictive model.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    y_true : numpy.array or pandas.Series.</span>
+<span class="sd">        True label.</span>
+<span class="sd">    pred_a : numpy.array or pandas.Series.</span>
+<span class="sd">        Prediction of model A.</span>
+<span class="sd">    pred_b : numpy.array or pandas.Series.</span>
+<span class="sd">        Prediction of model B.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple</span>
+<span class="sd">        chi2 value and P-value.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; # pred_proba1 = xgb1.predict_proba(test_X)</span>
+<span class="sd">    &gt;&gt;&gt; # pred_proba2 = xgb2.predict_proba(test_X)</span>
+<span class="sd">    &gt;&gt;&gt; Delong_test(test_y, pred_proba1[:, 1], pred_proba2[:, 1])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">a_x</span><span class="p">,</span> <span class="n">v_ax</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="n">a_y</span><span class="p">,</span> <span class="n">v_ay</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="n">b_x</span><span class="p">,</span> <span class="n">v_bx</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="n">b_y</span><span class="p">,</span> <span class="n">v_by</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">y_true</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">label</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">a_y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pred_a</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+            <span class="n">b_y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pred_b</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">a_x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pred_a</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+            <span class="n">b_x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pred_b</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+        <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">n1</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">a_x</span><span class="p">)</span>
+    <span class="n">n2</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">a_y</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">a_x</span><span class="p">:</span>
+        <span class="n">cnt</span> <span class="o">=</span> <span class="o">.</span><span class="mi">0</span>
+        <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">a_y</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">x</span><span class="p">:</span>
+                <span class="n">cnt</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">elif</span> <span class="n">y</span> <span class="o">==</span> <span class="n">x</span><span class="p">:</span>
+                <span class="n">cnt</span> <span class="o">+=</span> <span class="mf">0.5</span>
+        <span class="n">v_ax</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cnt</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">a_y</span><span class="p">:</span>
+        <span class="n">cnt</span> <span class="o">=</span> <span class="o">.</span><span class="mi">0</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">a_x</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">x</span><span class="p">:</span>
+                <span class="n">cnt</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">elif</span> <span class="n">y</span> <span class="o">==</span> <span class="n">x</span><span class="p">:</span>
+                <span class="n">cnt</span> <span class="o">+=</span> <span class="mf">0.5</span>
+        <span class="n">v_ay</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cnt</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">b_x</span><span class="p">:</span>
+        <span class="n">cnt</span> <span class="o">=</span> <span class="o">.</span><span class="mi">0</span>
+        <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">b_y</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">x</span><span class="p">:</span>
+                <span class="n">cnt</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">elif</span> <span class="n">y</span> <span class="o">==</span> <span class="n">x</span><span class="p">:</span>
+                <span class="n">cnt</span> <span class="o">+=</span> <span class="mf">0.5</span>
+        <span class="n">v_bx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cnt</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">b_y</span><span class="p">:</span>
+        <span class="n">cnt</span> <span class="o">=</span> <span class="o">.</span><span class="mi">0</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">b_x</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">x</span><span class="p">:</span>
+                <span class="n">cnt</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">elif</span> <span class="n">y</span> <span class="o">==</span> <span class="n">x</span><span class="p">:</span>
+                <span class="n">cnt</span> <span class="o">+=</span> <span class="mf">0.5</span>
+        <span class="n">v_by</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cnt</span><span class="p">)</span>
+    <span class="n">theta_a</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">v_ax</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n1</span> <span class="o">*</span> <span class="n">n2</span><span class="p">)</span>
+    <span class="n">theta_b</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">v_bx</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n1</span> <span class="o">*</span> <span class="n">n2</span><span class="p">)</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">theta_a</span><span class="p">,</span> <span class="n">theta_b</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">v_ax</span><span class="p">,</span> <span class="n">v_bx</span><span class="p">])</span><span class="o">.</span><span class="n">T</span> <span class="o">/</span> <span class="n">n2</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">v_ay</span><span class="p">,</span> <span class="n">v_by</span><span class="p">])</span><span class="o">.</span><span class="n">T</span> <span class="o">/</span> <span class="n">n1</span>
+    <span class="n">Sv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">((</span><span class="n">V</span> <span class="o">-</span> <span class="n">theta</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="p">(</span><span class="n">V</span> <span class="o">-</span> <span class="n">theta</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">n1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">Sz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">((</span><span class="n">Z</span> <span class="o">-</span> <span class="n">theta</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="p">(</span><span class="n">Z</span> <span class="o">-</span> <span class="n">theta</span><span class="p">))</span><span class="o">/</span> <span class="p">(</span><span class="n">n2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">]])</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">theta</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="p">(</span><span class="n">Sv</span> <span class="o">/</span> <span class="n">n1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">Sz</span> <span class="o">/</span> <span class="n">n2</span><span class="p">)),</span> <span class="n">L</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
+    <span class="n">pval</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">u</span><span class="p">,</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">pval</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Pei Liu.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.0.2',
+            LANGUAGE:'python',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

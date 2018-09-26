@@ -1,0 +1,521 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="python" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="python" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>PLSA.vision package &mdash; PLSA 0.0.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="PLSA.utils package" href="PLSA.utils.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> PLSA
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="PLSA.html">PLSA package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PLSA.data.html">PLSA.data package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PLSA.qcal.html">PLSA.qcal package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PLSA.surv.html">PLSA.surv package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PLSA.utils.html">PLSA.utils package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">PLSA.vision package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-PLSA.vision.calibration">PLSA.vision.calibration module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-PLSA.vision.lib">PLSA.vision.lib module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-PLSA.vision.roc">PLSA.vision.roc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-PLSA.vision.survrisk">PLSA.vision.survrisk module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-PLSA.vision">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PLSA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="PLSA.html">PLSA package</a> &raquo;</li>
+        
+      <li>PLSA.vision package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/PLSA.vision.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="plsa-vision-package">
+<h1>PLSA.vision package<a class="headerlink" href="#plsa-vision-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-PLSA.vision.calibration">
+<span id="plsa-vision-calibration-module"></span><h2>PLSA.vision.calibration module<a class="headerlink" href="#module-PLSA.vision.calibration" title="Permalink to this headline">¶</a></h2>
+<p>Module for visualizing curve of calibration test</p>
+<p>The function of this Module is served for visualizing curve of calibration test.</p>
+<dl class="function">
+<dt id="PLSA.vision.calibration.plot_DCalibration">
+<code class="descclassname">PLSA.vision.calibration.</code><code class="descname">plot_DCalibration</code><span class="sig-paren">(</span><em>y_true</em>, <em>pred_proba</em>, <em>n_bins=10</em>, <em>summary=True</em>, <em>xlabel='Predicted value'</em>, <em>ylabel='Observed average'</em>, <em>title='Hosmer-Lemeshow Test'</em>, <em>save_fig_as=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PLSA/vision/calibration.html#plot_DCalibration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PLSA.vision.calibration.plot_DCalibration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot calibration curve.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>y_true</strong> (<em>numpy.array</em>) -- True label.</li>
+<li><strong>y_prob</strong> (<em>numpy.array</em>) -- Predicted label.</li>
+<li><strong>n_bins</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) -- Number of groups.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><p>Summary table of result.</p>
+<p>Plot figure of calibration curve.</p>
+</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)">None</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plot_DCalibration</span><span class="p">(</span><span class="n">test_y</span><span class="p">,</span> <span class="n">test_pred</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="module-PLSA.vision.lib">
+<span id="plsa-vision-lib-module"></span><h2>PLSA.vision.lib module<a class="headerlink" href="#module-PLSA.vision.lib" title="Permalink to this headline">¶</a></h2>
+<p>Module for visualizing common curve</p>
+<p>The function of this Module is served for visualizing common curve.</p>
+<dl class="function">
+<dt id="PLSA.vision.lib.plot_cphCoef">
+<code class="descclassname">PLSA.vision.lib.</code><code class="descname">plot_cphCoef</code><span class="sig-paren">(</span><em>df</em>, <em>coef_col='coef'</em>, <em>se_col='se(coef)'</em>, <em>c_col='p'</em>, <em>name_col=None</em>, <em>ci=0.95</em>, <em>xlabel='Name of variable'</em>, <em>ylabel='Coefficient'</em>, <em>title=&quot;Variable's coefficient of CPH model&quot;</em>, <em>save_fig_as=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PLSA/vision/lib.html#plot_cphCoef"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PLSA.vision.lib.plot_cphCoef" title="Permalink to this definition">¶</a></dt>
+<dd><p>Visualize variables' coefficient in lifelines.CPH model</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>df</strong> (<em>pandas.DataFrame</em>) -- Object equals to cph.summary.</li>
+<li><strong>coef_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- Name of column indicating coefficient.</li>
+<li><strong>se_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- Name of column indicating standard error.</li>
+<li><strong>c_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- Name of column indicating color.</li>
+<li><strong>name_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- Name of x-axis's column.</li>
+<li><strong>ci</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) -- Confidence interval, default 0.95.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Plot figure of coefficient.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)">None</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plot_cphCoef</span><span class="p">(</span><span class="n">cph</span><span class="o">.</span><span class="n">summary</span><span class="p">,</span> <span class="s1">&#39;coef&#39;</span><span class="p">,</span> <span class="s1">&#39;se(coef)&#39;</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="module-PLSA.vision.roc">
+<span id="plsa-vision-roc-module"></span><h2>PLSA.vision.roc module<a class="headerlink" href="#module-PLSA.vision.roc" title="Permalink to this headline">¶</a></h2>
+<p>Module for visualizing ROC curve</p>
+<p>The function of this Module is served for visualizing ROC curve.</p>
+<dl class="function">
+<dt id="PLSA.vision.roc.plot_DROC">
+<code class="descclassname">PLSA.vision.roc.</code><code class="descname">plot_DROC</code><span class="sig-paren">(</span><em>y_true</em>, <em>y_pred</em>, <em>x_true=None</em>, <em>x_pred=None</em>, <em>**kws</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PLSA/vision/roc.html#plot_DROC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PLSA.vision.roc.plot_DROC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot ROC curve for giving data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>y_true</strong> -- True label in train data.</li>
+<li><strong>y_pred</strong> -- Predict label in train data.</li>
+<li><strong>x_true</strong> -- True label in test data.</li>
+<li><strong>x_pred</strong> -- Predict label in test data.</li>
+<li><strong>**kws</strong> -- Arguments for plotting.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Plot figure of AUC</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)">None</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plot_DROC</span><span class="p">(</span><span class="n">train_y</span><span class="p">,</span> <span class="n">train_pred</span><span class="p">,</span> <span class="n">test_y</span><span class="p">,</span> <span class="n">test_pred</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="PLSA.vision.roc.plot_ROC">
+<code class="descclassname">PLSA.vision.roc.</code><code class="descname">plot_ROC</code><span class="sig-paren">(</span><em>data_roc</em>, <em>xlabel='1 - Specificity'</em>, <em>ylabel='Sensitivity'</em>, <em>title='Model Performance'</em>, <em>save_fig_as=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PLSA/vision/roc.html#plot_ROC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PLSA.vision.roc.plot_ROC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot one ROC curve in one figure.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>data_roc</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) -- Python dict contains values about 'FP', 'TP', 'AUC'.</li>
+<li><strong>save_fig_as</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- Name of file for saving in local.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plot_ROC</span><span class="p">(</span><span class="n">data_roc</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="PLSA.vision.roc.plot_SROC">
+<code class="descclassname">PLSA.vision.roc.</code><code class="descname">plot_SROC</code><span class="sig-paren">(</span><em>data_train, data_test, pred_col, duration_col, event_col, pt=None, labels=['Train', 'Validation'], **kws</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PLSA/vision/roc.html#plot_SROC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PLSA.vision.roc.plot_SROC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot Time-Dependent survival ROC curve for giving data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data_train</strong> (<em>pandas.DataFrame</em>) -- Train DataFrame included columns of Event, Duration, Pred.</li>
+<li><strong>data_train</strong> -- Test DataFrame included columns of Event, Duration, Pred.</li>
+<li><strong>pred_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- Name of column indicating predicted value.</li>
+<li><strong>duration_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- Name of column indicating time.</li>
+<li><strong>event_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- Name of column indicating event.</li>
+<li><strong>pt</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) -- Predicte time.</li>
+<li><strong>**kws</strong> -- Arguments for plotting.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Plot figure of AUC</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)">None</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plot_SROC</span><span class="p">(</span><span class="n">data_train</span><span class="p">,</span> <span class="n">data_test</span><span class="p">,</span> <span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="PLSA.vision.roc.plot_twoROC">
+<code class="descclassname">PLSA.vision.roc.</code><code class="descname">plot_twoROC</code><span class="sig-paren">(</span><em>train_roc, test_roc, labels=['Train', 'Validation'], xlabel='1 - Specificity', ylabel='Sensitivity', title='Model Performance', save_fig_as=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PLSA/vision/roc.html#plot_twoROC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PLSA.vision.roc.plot_twoROC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot two ROC curve in one figure.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>train_roc</strong> (<cite>dict</cite>) -- Python dict contains values about 'FP', 'TP', 'AUC'.</li>
+<li><strong>test_roc</strong> (<cite>dict</cite>) -- Python dict contains values about 'FP', 'TP', 'AUC'.</li>
+<li><strong>save_fig_as</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- Name of file for saving in local.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plot_twoROC</span><span class="p">(</span><span class="n">train_roc</span><span class="p">,</span> <span class="n">test_roc</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="module-PLSA.vision.survrisk">
+<span id="plsa-vision-survrisk-module"></span><h2>PLSA.vision.survrisk module<a class="headerlink" href="#module-PLSA.vision.survrisk" title="Permalink to this headline">¶</a></h2>
+<p>Module for visualizing a kind of curves in survival analyze</p>
+<p>The function of this Module is served for visualizing a kind of curves in survival analyze.</p>
+<dl class="function">
+<dt id="PLSA.vision.survrisk.plot_riskGroups">
+<code class="descclassname">PLSA.vision.survrisk.</code><code class="descname">plot_riskGroups</code><span class="sig-paren">(</span><em>data_groups</em>, <em>event_col</em>, <em>duration_col</em>, <em>labels=[]</em>, <em>plot_join=False</em>, <em>xlabel='Survival time (Month)'</em>, <em>ylabel='Survival Rate'</em>, <em>title='Survival function of Risk groups'</em>, <em>save_fig_as=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PLSA/vision/survrisk.html#plot_riskGroups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PLSA.vision.survrisk.plot_riskGroups" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot survival curve for different risk groups.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data_groups</strong> (list(<cite>pandas.DataFame</cite>)) -- list of DataFame[['E', 'T']], risk groups from lowest to highest.</li>
+<li><strong>event_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- column in DataFame indicating events.</li>
+<li><strong>duration_col</strong> (<em>atr</em>) -- column in DataFame indicating durations.</li>
+<li><strong>labels</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>)</em><em>, </em><em>default</em><em> [</em><em>]</em>) -- One text label for one group.</li>
+<li><strong>plot_join</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>default False</em>) -- Is plotting for two adjacent risk group, default False.</li>
+<li><strong>save_fig_as</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- Name of file for saving in local.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Plot figure of each risk-groups.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)">None</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plot_riskGroups</span><span class="p">(</span><span class="n">df_list</span><span class="p">,</span> <span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Low&quot;</span><span class="p">,</span> <span class="s2">&quot;Mid&quot;</span><span class="p">,</span> <span class="s2">&quot;High&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="PLSA.vision.survrisk.plot_rsRisk">
+<code class="descclassname">PLSA.vision.survrisk.</code><code class="descname">plot_rsRisk</code><span class="sig-paren">(</span><em>data, x_col, y1_col, y2_col, labels=['Line-1', 'Line2'], xlabel='Risk Score', ylabel='Rate of Risk', title='Curve of risk score and rate of risk', save_fig_as=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PLSA/vision/survrisk.html#plot_rsRisk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PLSA.vision.survrisk.plot_rsRisk" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot continues function between risk score and rate of risk.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> (<em>pandas.DataFame</em>) -- Full survival data.</li>
+<li><strong>x_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- Name of column indicating risk score.</li>
+<li><strong>y1_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- Name of column indicating rate of risk at t1.</li>
+<li><strong>y2_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- Name of column indicating rate of risk at t2.</li>
+<li><strong>**kws</strong> -- Setting of plot.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Plot figure of RS-rate.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)">None</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plot_rsRisk</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;RS&#39;</span><span class="p">,</span> <span class="s1">&#39;pred_idfs_y5&#39;</span><span class="p">,</span> <span class="s1">&#39;pred_idfs_y10&#39;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;5 Year.&#39;</span><span class="p">,</span> <span class="s1">&#39;10 Year.&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="PLSA.vision.survrisk.plot_timeAUC">
+<code class="descclassname">PLSA.vision.survrisk.</code><code class="descname">plot_timeAUC</code><span class="sig-paren">(</span><em>x, y_train, y_test, labels=['Train', 'Validation'], xlabel='Time', ylabel='AUC', title='Model Performance', save_fig_as=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PLSA/vision/survrisk.html#plot_timeAUC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PLSA.vision.survrisk.plot_timeAUC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot line chart about time and AUC.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) -- Time.</li>
+<li><strong>y_train</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) -- AUC of train.</li>
+<li><strong>y_test</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) -- AUC of test.</li>
+<li><strong>**kws</strong> -- Setting of plot.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Plot figure of auc with time.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)">None</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plot_timeAUC</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="n">train_list</span><span class="p">,</span> <span class="n">test_list</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="module-PLSA.vision">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-PLSA.vision" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="PLSA.utils.html" class="btn btn-neutral" title="PLSA.utils package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Pei Liu.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.2',
+            LANGUAGE:'python',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

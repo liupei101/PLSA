@@ -1,0 +1,401 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="python" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="python" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>PLSA.utils.metrics &mdash; PLSA 0.0.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> PLSA
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../PLSA.html">PLSA package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../PLSA.data.html">PLSA.data package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../PLSA.qcal.html">PLSA.qcal package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../PLSA.surv.html">PLSA.surv package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../PLSA.utils.html">PLSA.utils package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../PLSA.vision.html">PLSA.vision package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PLSA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>PLSA.utils.metrics</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for PLSA.utils.metrics</h1><div class="highlight"><pre>
+<span></span><span class="c1">#coding=utf-8</span>
+<span class="sd">&quot;&quot;&quot;Module for evaluating model by many kinds of metrics </span>
+
+<span class="sd">The function of this Module is served for evaluating model by many kinds of metrics.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">stats</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="k">import</span> <span class="n">metrics</span>
+<span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="k">import</span> <span class="n">column_or_1d</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics.classification</span> <span class="k">import</span> <span class="n">_check_binary_probabilistic_predictions</span>
+<span class="kn">from</span> <span class="nn">PLSA.utils</span> <span class="k">import</span> <span class="n">test</span>
+<span class="kn">from</span> <span class="nn">PLSA.utils</span> <span class="k">import</span> <span class="n">cutoff</span>
+
+<div class="viewcode-block" id="calibration_table"><a class="viewcode-back" href="../../../PLSA.utils.html#PLSA.utils.metrics.calibration_table">[docs]</a><span class="k">def</span> <span class="nf">calibration_table</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_prob</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calibration table of predictive model.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    y_true : `np.array` or `pandas.Series`</span>
+<span class="sd">        True label.</span>
+<span class="sd">    y_prob : `np.array` or `pandas.Series`</span>
+<span class="sd">        Predicted label.</span>
+<span class="sd">    n_bins : int</span>
+<span class="sd">        Number of groups.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple(`numpy.array`)</span>
+<span class="sd">        true, sum and total number of each group.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; calibration_table(y_test, y_pred, n_bins=5)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">y_true</span> <span class="o">=</span> <span class="n">column_or_1d</span><span class="p">(</span><span class="n">y_true</span><span class="p">)</span>
+    <span class="n">y_prob</span> <span class="o">=</span> <span class="n">column_or_1d</span><span class="p">(</span><span class="n">y_prob</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>  <span class="c1"># Normalize predicted values into interval [0, 1]</span>
+        <span class="n">y_prob</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_prob</span> <span class="o">-</span> <span class="n">y_prob</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">/</span> <span class="p">(</span><span class="n">y_prob</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">y_prob</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+    <span class="k">elif</span> <span class="n">y_prob</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">y_prob</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;y_prob has values outside [0, 1] and normalize is &quot;</span>
+                         <span class="s2">&quot;set to False.&quot;</span><span class="p">)</span>
+
+    <span class="n">y_true</span> <span class="o">=</span> <span class="n">_check_binary_probabilistic_predictions</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_prob</span><span class="p">)</span>
+
+    <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span> <span class="o">+</span> <span class="mf">1e-8</span><span class="p">,</span> <span class="n">n_bins</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>        
+    <span class="n">binids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">digitize</span><span class="p">(</span><span class="n">y_prob</span><span class="p">,</span> <span class="n">bins</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="n">bin_sums</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">binids</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">y_prob</span><span class="p">,</span> <span class="n">minlength</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">bins</span><span class="p">))</span>
+    <span class="n">bin_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">binids</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span> <span class="n">minlength</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">bins</span><span class="p">))</span>
+    <span class="n">bin_total</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">binids</span><span class="p">,</span> <span class="n">minlength</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">bins</span><span class="p">))</span>
+
+    <span class="n">nonzero</span> <span class="o">=</span> <span class="n">bin_total</span> <span class="o">!=</span> <span class="mi">0</span>
+    <span class="c1"># prob_true = (bin_true[nonzero] / bin_total[nonzero])</span>
+    <span class="c1"># prob_pred = (bin_sums[nonzero] / bin_total[nonzero])</span>
+
+    <span class="k">return</span> <span class="n">bin_true</span><span class="p">[</span><span class="n">nonzero</span><span class="p">],</span> <span class="n">bin_sums</span><span class="p">[</span><span class="n">nonzero</span><span class="p">],</span> <span class="n">bin_total</span><span class="p">[</span><span class="n">nonzero</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="calibration"><a class="viewcode-back" href="../../../PLSA.utils.html#PLSA.utils.metrics.calibration">[docs]</a><span class="k">def</span> <span class="nf">calibration</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">pred_proba</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">in_sample</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calibration and test of predictive model.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    y_true : `np.array` or `pandas.Series`</span>
+<span class="sd">        True label.</span>
+<span class="sd">    pred_proba : `np.array` or `pandas.Series`</span>
+<span class="sd">        Predicted label.</span>
+<span class="sd">    n_bins : int</span>
+<span class="sd">        Number of groups.</span>
+<span class="sd">    in_sample : bool, default `False`</span>
+<span class="sd">        Is Calibration-Test in sample.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pandas.DataFrame</span>
+<span class="sd">        Table of calibration.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; calibration(y_test, y_pred, n_bins=5)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">prob_bin_true</span><span class="p">,</span> <span class="n">prob_bin_pred</span><span class="p">,</span> <span class="n">bin_tot</span> <span class="o">=</span> <span class="n">calibration_table</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">pred_proba</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="n">n_bins</span><span class="p">)</span>
+    <span class="n">test</span><span class="o">.</span><span class="n">Hosmer_Lemeshow_Test</span><span class="p">(</span><span class="n">prob_bin_true</span><span class="p">,</span> <span class="n">prob_bin_pred</span><span class="p">,</span> <span class="n">bin_tot</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="n">n_bins</span><span class="p">,</span> <span class="n">in_sample</span><span class="o">=</span><span class="n">in_sample</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;Total&quot;</span><span class="p">:</span> <span class="n">bin_tot</span><span class="p">,</span> <span class="s2">&quot;Obs&quot;</span><span class="p">:</span> <span class="n">prob_bin_true</span><span class="p">,</span> <span class="s2">&quot;Pred&quot;</span><span class="p">:</span> <span class="n">prob_bin_pred</span><span class="p">})</span></div>
+
+<div class="viewcode-block" id="discrimination"><a class="viewcode-back" href="../../../PLSA.utils.html#PLSA.utils.metrics.discrimination">[docs]</a><span class="k">def</span> <span class="nf">discrimination</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred_proba</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Model X&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Discrimination of classification model.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    y_true : `np.array` or `pandas.Series`</span>
+<span class="sd">        True label.</span>
+<span class="sd">    pred_proba : `np.array` or `pandas.Series`</span>
+<span class="sd">        Predicted label.</span>
+<span class="sd">    threshold : float</span>
+<span class="sd">        Cutoff value.</span>
+<span class="sd">    name : str</span>
+<span class="sd">        Title for printing.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Dict with kinds of metrics.</span>
+
+<span class="sd">            {</span>
+<span class="sd">                &quot;points&quot;: threshold,</span>
+<span class="sd">                &quot;Sen&quot;: Re,</span>
+<span class="sd">                &quot;Spe&quot;: Spe,</span>
+<span class="sd">                &quot;Acc&quot;: Accuracy,</span>
+<span class="sd">                &quot;F1&quot;: F1</span>
+<span class="sd">            }</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; discrimination(y_true, y_pred_proba, threshold=0.21)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># default threshold</span>
+    <span class="k">if</span> <span class="n">threshold</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">threshold</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cutoff</span><span class="o">.</span><span class="n">youden</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred_proba</span><span class="p">)</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_pred_proba</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+    <span class="n">tn</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="n">tp</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+    <span class="nb">print</span> <span class="s2">&quot;-------------------------------&quot;</span>
+    <span class="nb">print</span> <span class="s2">&quot;Metrics on </span><span class="si">%s</span><span class="s2">:&quot;</span> <span class="o">%</span> <span class="n">name</span>
+    <span class="nb">print</span> <span class="s2">&quot;Confusion Matrix&quot;</span>
+    <span class="nb">print</span> <span class="s2">&quot;tp: </span><span class="si">%d</span><span class="s2">    fp: </span><span class="si">%d</span><span class="se">\n</span><span class="s2">fn: </span><span class="si">%d</span><span class="s2">    tn: </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">tp</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="n">tn</span><span class="p">)</span>
+    <span class="n">Re</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">recall_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="n">Spe</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">tn</span> <span class="o">/</span> <span class="p">(</span><span class="n">fp</span> <span class="o">+</span> <span class="n">tn</span><span class="p">)</span>
+    <span class="n">F1</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">f1_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="n">Accuracy</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="s2">&quot;points</span><span class="se">\t</span><span class="s2">Sen</span><span class="se">\t</span><span class="s2">Spe</span><span class="se">\t</span><span class="s2">Acc</span><span class="se">\t</span><span class="s2">F1&quot;</span>
+    <span class="nb">print</span> <span class="s2">&quot;</span><span class="si">%f</span><span class="se">\t</span><span class="si">%f</span><span class="se">\t</span><span class="si">%f</span><span class="se">\t</span><span class="si">%f</span><span class="se">\t</span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">threshold</span><span class="p">,</span> <span class="n">Re</span><span class="p">,</span> <span class="n">Spe</span><span class="p">,</span> <span class="n">Accuracy</span><span class="p">,</span> <span class="n">F1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;points&quot;</span><span class="p">:</span> <span class="n">threshold</span><span class="p">,</span>
+        <span class="s2">&quot;Sen&quot;</span><span class="p">:</span> <span class="n">Re</span><span class="p">,</span>
+        <span class="s2">&quot;Spe&quot;</span><span class="p">:</span> <span class="n">Spe</span><span class="p">,</span>
+        <span class="s2">&quot;Acc&quot;</span><span class="p">:</span> <span class="n">Accuracy</span><span class="p">,</span>
+        <span class="s2">&quot;F1&quot;</span><span class="p">:</span> <span class="n">F1</span>
+    <span class="p">}</span></div>
+
+<div class="viewcode-block" id="discrimination_ver"><a class="viewcode-back" href="../../../PLSA.utils.html#PLSA.utils.metrics.discrimination_ver">[docs]</a><span class="k">def</span> <span class="nf">discrimination_ver</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred_proba</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Model X&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Discrimination of classification model in version 2.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    y_true : `np.array` or `pandas.Series`</span>
+<span class="sd">        True label.</span>
+<span class="sd">    pred_proba : `np.array` or `pandas.Series`</span>
+<span class="sd">        Predicted label.</span>
+<span class="sd">    threshold : float</span>
+<span class="sd">        Cutoff value.</span>
+<span class="sd">    name : str</span>
+<span class="sd">        Title for printing.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Dict with kinds of metrics.</span>
+
+<span class="sd">            {</span>
+<span class="sd">                &quot;points&quot;: threshold,</span>
+<span class="sd">                &quot;Sen&quot;: Sen,</span>
+<span class="sd">                &quot;Spe&quot;: Spe,</span>
+<span class="sd">                &quot;PPV&quot;: ppv,</span>
+<span class="sd">                &quot;NPV&quot;: npv</span>
+<span class="sd">            }</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; discrimination_ver(y_true, y_pred_proba, threshold=0.21)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># default threshold</span>
+    <span class="k">if</span> <span class="n">threshold</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">threshold</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cutoff</span><span class="o">.</span><span class="n">youden</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred_proba</span><span class="p">)</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_pred_proba</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+    <span class="n">tn</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="n">tp</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+    <span class="nb">print</span> <span class="s2">&quot;-------------------------------&quot;</span>
+    <span class="nb">print</span> <span class="s2">&quot;Metrics on </span><span class="si">%s</span><span class="s2">:&quot;</span> <span class="o">%</span> <span class="n">name</span>
+    <span class="nb">print</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="se">\n</span><span class="si">%d</span><span class="se">\n</span><span class="si">%d</span><span class="se">\n</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">tp</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">tn</span><span class="p">)</span>
+    <span class="n">Sen</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">tp</span> <span class="o">/</span> <span class="p">(</span><span class="n">tp</span> <span class="o">+</span> <span class="n">fn</span><span class="p">)</span>
+    <span class="n">Spe</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">tn</span> <span class="o">/</span> <span class="p">(</span><span class="n">fp</span> <span class="o">+</span> <span class="n">tn</span><span class="p">)</span>
+    <span class="n">ppv</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">tp</span> <span class="o">/</span> <span class="p">(</span><span class="n">tp</span> <span class="o">+</span> <span class="n">fp</span><span class="p">)</span>
+    <span class="n">npv</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">tn</span> <span class="o">/</span> <span class="p">(</span><span class="n">tn</span> <span class="o">+</span> <span class="n">fn</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="s2">&quot;</span><span class="si">%.2f</span><span class="se">\n</span><span class="si">%.2f</span><span class="se">\n</span><span class="si">%.2f</span><span class="se">\n</span><span class="si">%.2f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="mf">100.0</span><span class="o">*</span><span class="n">Sen</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">Spe</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">ppv</span><span class="p">,</span> <span class="mf">100.0</span><span class="o">*</span><span class="n">npv</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;points&quot;</span><span class="p">:</span> <span class="n">threshold</span><span class="p">,</span>
+        <span class="s2">&quot;Sen&quot;</span><span class="p">:</span> <span class="n">Sen</span><span class="p">,</span>
+        <span class="s2">&quot;Spe&quot;</span><span class="p">:</span> <span class="n">Spe</span><span class="p">,</span>
+        <span class="s2">&quot;PPV&quot;</span><span class="p">:</span> <span class="n">ppv</span><span class="p">,</span>
+        <span class="s2">&quot;NPV&quot;</span><span class="p">:</span> <span class="n">npv</span>
+    <span class="p">}</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Pei Liu.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.0.2',
+            LANGUAGE:'python',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

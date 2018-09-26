@@ -1,0 +1,383 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="python" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="python" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>PLSA.surv.utils &mdash; PLSA 0.0.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> PLSA
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../PLSA.html">PLSA package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../PLSA.data.html">PLSA.data package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../PLSA.qcal.html">PLSA.qcal package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../PLSA.surv.html">PLSA.surv package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../PLSA.utils.html">PLSA.utils package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../PLSA.vision.html">PLSA.vision package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PLSA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>PLSA.surv.utils</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for PLSA.surv.utils</h1><div class="highlight"><pre>
+<span></span><span class="c1">#coding=utf-8</span>
+<span class="sd">&quot;&quot;&quot;Module for utilitize function of survival analyze.</span>
+
+<span class="sd">The function of this Module is served as utility of survival analyze.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">pyper</span> <span class="k">as</span> <span class="nn">pr</span>
+
+<div class="viewcode-block" id="surv_roc"><a class="viewcode-back" href="../../../PLSA.surv.html#PLSA.surv.utils.surv_roc">[docs]</a><span class="k">def</span> <span class="nf">surv_roc</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pred_col</span><span class="p">,</span> <span class="n">duration_col</span><span class="p">,</span> <span class="n">event_col</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get survival ROC at predicted time.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : pandas.DataFrame</span>
+<span class="sd">        Full survival data.</span>
+<span class="sd">    pred_col : str</span>
+<span class="sd">        Name of column to reference for dividing groups.</span>
+<span class="sd">    duration_col : str</span>
+<span class="sd">        Name of column indicating time.</span>
+<span class="sd">    event_col : str</span>
+<span class="sd">        Name of column indicating event.</span>
+<span class="sd">    pt : int</span>
+<span class="sd">        Predicted time.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    `dict`</span>
+<span class="sd">        Object of dict include &quot;FP&quot;, &quot;TP&quot; and &quot;AUC&quot; in ROC.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; surv_roc(data, &#39;X&#39;, &#39;T&#39;, &#39;E&#39;, pt=5)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">pred_col</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">duration_col</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">event_col</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="k">if</span> <span class="n">pt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">pt</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">R</span><span class="p">(</span><span class="n">use_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="n">E</span><span class="p">)</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="s2">&quot;mkr&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">E</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="s2">&quot;pt&quot;</span><span class="p">,</span> <span class="n">pt</span><span class="p">)</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="s2">&quot;mtd&quot;</span><span class="p">,</span> <span class="s2">&quot;KM&quot;</span><span class="p">)</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="s2">&quot;nobs&quot;</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="c1"># different predict.time may plot 1, 5, or 10 year ROC</span>
+    <span class="n">r</span><span class="p">(</span><span class="s2">&quot;src&lt;-survivalROC::survivalROC(Stime = t, status = e, marker = mkr, predict.time = pt, span = 0.25*nobs^(-0.20))&quot;</span><span class="p">)</span>
+    <span class="c1"># r.src[&#39;AUC&#39;] r.src[&#39;FP&#39;], r.src[&#39;TP&#39;]</span>
+    <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">src</span></div>
+
+<div class="viewcode-block" id="surv_data_at_risk"><a class="viewcode-back" href="../../../PLSA.surv.html#PLSA.surv.utils.surv_data_at_risk">[docs]</a><span class="k">def</span> <span class="nf">surv_data_at_risk</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">duration_col</span><span class="p">,</span> <span class="n">points</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get number of people at risk at some timing.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : pandas.DataFrame</span>
+<span class="sd">        Full survival data.</span>
+<span class="sd">    duration_col : str</span>
+<span class="sd">        Name of column indicating time.</span>
+<span class="sd">    points : list(int)</span>
+<span class="sd">        Points of Time selected to watch.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    `pandas.DataFrame` </span>
+<span class="sd">        Number of people at risk.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; surv_data_at_risk(data, &quot;T&quot;, points=[0, 10, 20, 30, 40, 50])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Td</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">duration_col</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+    <span class="n">TList</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">Td</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="n">TList</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+    <span class="n">N</span><span class="p">,</span> <span class="n">deaths</span><span class="p">,</span> <span class="n">S</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+    <span class="c1"># Initial</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">TList</span><span class="p">:</span>
+        <span class="n">data_at_time</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;T&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">idx</span><span class="p">]</span>
+        <span class="n">deaths</span> <span class="o">+=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">data_at_time</span><span class="p">[</span><span class="s1">&#39;E&#39;</span><span class="p">])</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="nb">int</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span> <span class="n">N</span><span class="p">,</span> <span class="n">deaths</span><span class="p">))</span>
+        <span class="n">S</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_at_time</span><span class="p">)</span>
+        <span class="n">N</span> <span class="o">-=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_at_time</span><span class="p">)</span>
+    <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">TList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1e5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">deaths</span><span class="p">))</span>
+    <span class="k">assert</span> <span class="n">S</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="c1"># Summary result</span>
+    <span class="k">if</span> <span class="n">points</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">Tm</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">TList</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">Tm</span> <span class="o">=</span> <span class="n">points</span>
+    <span class="n">T</span><span class="p">,</span> <span class="n">Obs</span><span class="p">,</span> <span class="n">Deaths</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">Tm</span><span class="p">:</span>
+        <span class="k">while</span> <span class="n">res</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">t</span><span class="p">:</span>
+            <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">res</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">t</span><span class="p">:</span>
+            <span class="n">T</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+            <span class="n">Obs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">Deaths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">T</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+            <span class="n">Obs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">Deaths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;Time&quot;</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="s2">&quot;Obs&quot;</span><span class="p">:</span> <span class="n">Obs</span><span class="p">,</span> <span class="s2">&quot;Deaths&quot;</span><span class="p">:</span> <span class="n">Deaths</span><span class="p">})</span></div>
+
+<div class="viewcode-block" id="survival_by_hr"><a class="viewcode-back" href="../../../PLSA.surv.html#PLSA.surv.utils.survival_by_hr">[docs]</a><span class="k">def</span> <span class="nf">survival_by_hr</span><span class="p">(</span><span class="n">T0</span><span class="p">,</span> <span class="n">S0</span><span class="p">,</span> <span class="n">pred</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get survival function of patients according to giving hazard ratio.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    T0 : np.array</span>
+<span class="sd">        time.</span>
+<span class="sd">    S0 : np.array</span>
+<span class="sd">        based estimated survival function of patients.</span>
+<span class="sd">    pred : pandas.Series</span>
+<span class="sd">        hazard ratio of patients. </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    `tuple`</span>
+<span class="sd">        T0, ST indicating survival function of patients.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; survival_by_hr(T0, S0, data[&#39;hazard_ratio&#39;])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">hazard_ratio</span> <span class="o">=</span> <span class="n">pred</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">pred</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="c1"># Estimate S0(t) using data(base_X, base_label)</span>
+    <span class="n">ST</span> <span class="o">=</span> <span class="n">S0</span><span class="o">**</span><span class="p">(</span><span class="n">hazard_ratio</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">T0</span><span class="p">,</span> <span class="n">ST</span></div>
+
+<div class="viewcode-block" id="survival_status"><a class="viewcode-back" href="../../../PLSA.surv.html#PLSA.surv.utils.survival_status">[docs]</a><span class="k">def</span> <span class="nf">survival_status</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">duration_col</span><span class="p">,</span> <span class="n">event_col</span><span class="p">,</span> <span class="n">end_time</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get status of event at a specified time. </span>
+
+<span class="sd">    0: status = 0, Time = end_time (T &gt;= end_time) </span>
+<span class="sd">       status = 0, Time = T  (T &lt; end_time)</span>
+<span class="sd">    1: status = 1, Time = T  (T &lt;= end_time)</span>
+<span class="sd">       status = 0, Time = end_time (T &gt; end_time)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : pandas.DataFrame</span>
+<span class="sd">        Full survival data.</span>
+<span class="sd">    duration_col : str</span>
+<span class="sd">        Name of column indicating time.</span>
+<span class="sd">    event_col : str</span>
+<span class="sd">        Name of column indicating event.</span>
+<span class="sd">    end_time : int</span>
+<span class="sd">        End time of study.</span>
+<span class="sd">    inplace : bool, default False</span>
+<span class="sd">        Do replace original data.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None or tuple</span>
+<span class="sd">        data indicates status of survival.</span>
+<span class="sd">        </span>
+<span class="sd">        None or tuple(time(pandas.Series), status(pandas.Series))</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; survival_status(data, &#39;T&#39;, &#39;E&#39;, 10, inplace=False)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">inplace</span><span class="p">:</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">data</span><span class="p">[</span><span class="n">event_col</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">duration_col</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">end_time</span><span class="p">),</span> <span class="n">event_col</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="n">duration_col</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">end_time</span><span class="p">,</span> <span class="n">duration_col</span><span class="p">]</span> <span class="o">=</span> <span class="n">end_time</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">T</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">duration_col</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">E</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">event_col</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">T</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="n">duration_col</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">end_time</span><span class="p">]</span> <span class="o">=</span> <span class="n">end_time</span>
+        <span class="n">E</span><span class="p">[(</span><span class="n">data</span><span class="p">[</span><span class="n">event_col</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">duration_col</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">end_time</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="n">T</span><span class="p">,</span> <span class="n">E</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Pei Liu.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.0.2',
+            LANGUAGE:'python',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,355 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="python" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="python" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>PLSA.qcal.func &mdash; PLSA 0.0.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> PLSA
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../PLSA.html">PLSA package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../PLSA.data.html">PLSA.data package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../PLSA.qcal.html">PLSA.qcal package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../PLSA.surv.html">PLSA.surv package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../PLSA.utils.html">PLSA.utils package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../PLSA.vision.html">PLSA.vision package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PLSA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>PLSA.qcal.func</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for PLSA.qcal.func</h1><div class="highlight"><pre>
+<span></span><span class="c1">#coding=utf-8</span>
+<span class="sd">&quot;&quot;&quot;Module for quick calling</span>
+
+<span class="sd">The function of this Module is served for quick calling functions, and functions</span>
+<span class="sd">of other modules will be called by it.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">PLSA.surv.cutoff</span> <span class="k">import</span> <span class="n">youden_twocut</span>
+<span class="kn">from</span> <span class="nn">PLSA.surv.utils</span> <span class="k">import</span> <span class="n">survival_status</span><span class="p">,</span> <span class="n">surv_roc</span>
+<span class="kn">from</span> <span class="nn">PLSA.data.processing</span> <span class="k">import</span> <span class="n">cut_groups</span>
+<span class="kn">from</span> <span class="nn">PLSA.vision.survrisk</span> <span class="k">import</span> <span class="n">plot_riskGroups</span><span class="p">,</span> <span class="n">plot_timeAUC</span>
+<span class="kn">from</span> <span class="nn">PLSA.vision.calibration</span> <span class="k">import</span> <span class="n">plot_DCalibration</span>
+<span class="kn">from</span> <span class="nn">lifelines.statistics</span> <span class="k">import</span> <span class="n">logrank_test</span>
+
+<div class="viewcode-block" id="div_three_groups"><a class="viewcode-back" href="../../../PLSA.qcal.html#PLSA.qcal.func.div_three_groups">[docs]</a><span class="k">def</span> <span class="nf">div_three_groups</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pred_col</span><span class="p">,</span> <span class="n">duration_col</span><span class="p">,</span> <span class="n">event_col</span><span class="p">,</span> 
+                     <span class="n">pt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="s1">&#39;youden&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Divide data into three groups using methods and summarize result.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : pandas.DataFame</span>
+<span class="sd">        Full survival data.</span>
+<span class="sd">    pred_col : str </span>
+<span class="sd">        Name of column to reference for dividing groups.</span>
+<span class="sd">    duration_col : str</span>
+<span class="sd">        Name of column indicating time.</span>
+<span class="sd">    event_col : str</span>
+<span class="sd">        Name of column indicating event.</span>
+<span class="sd">    pt : int</span>
+<span class="sd">        Predicted time.</span>
+<span class="sd">    methods : str</span>
+<span class="sd">        Methods for selecting cutoffs, default &quot;youden&quot;.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">        Print summary of result and plot KM-curve of each groups.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; div_three_groups(data, &quot;X&quot;, &quot;T&quot;, &quot;E&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">methods</span> <span class="o">==</span> <span class="s2">&quot;youden&quot;</span><span class="p">:</span>
+        <span class="n">ct1</span><span class="p">,</span> <span class="n">ct2</span> <span class="o">=</span> <span class="n">youden_twocut</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pred_col</span><span class="p">,</span> <span class="n">duration_col</span><span class="p">,</span> <span class="n">event_col</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="n">pt</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1">#TODO</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Methods not implemented&#39;</span><span class="p">)</span>
+    <span class="n">data_groups</span> <span class="o">=</span> <span class="n">cut_groups</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pred_col</span><span class="p">,</span> <span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="n">pred_col</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">ct1</span><span class="p">,</span> <span class="n">ct2</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">pred_col</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()])</span>
+    
+    <span class="n">Lgp</span> <span class="o">=</span> <span class="n">data_groups</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">Mgp</span> <span class="o">=</span> <span class="n">data_groups</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">Hgp</span> <span class="o">=</span> <span class="n">data_groups</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+    <span class="n">Th</span> <span class="o">=</span> <span class="n">Hgp</span><span class="p">[</span><span class="n">duration_col</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">Eh</span> <span class="o">=</span> <span class="n">Hgp</span><span class="p">[</span><span class="n">event_col</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">Tm</span> <span class="o">=</span> <span class="n">Mgp</span><span class="p">[</span><span class="n">duration_col</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">Em</span> <span class="o">=</span> <span class="n">Mgp</span><span class="p">[</span><span class="n">event_col</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">Tl</span> <span class="o">=</span> <span class="n">Lgp</span><span class="p">[</span><span class="n">duration_col</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">El</span> <span class="o">=</span> <span class="n">Lgp</span><span class="p">[</span><span class="n">event_col</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+    <span class="nb">print</span> <span class="s2">&quot;_________________Result of division__________________&quot;</span>
+    <span class="nb">print</span> <span class="s2">&quot;Cut-off: Low vs Middle  =&quot;</span><span class="p">,</span> <span class="n">ct1</span>
+    <span class="nb">print</span> <span class="s2">&quot;         Middle vs High =&quot;</span><span class="p">,</span> <span class="n">ct2</span>
+    <span class="nb">print</span> <span class="s1">&#39;Number of low risk group :&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">Lgp</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="s1">&#39;          middle risk group :&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">Mgp</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="s1">&#39;          high risk group :&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">Hgp</span><span class="p">)</span>
+    <span class="n">plot_riskGroups</span><span class="p">(</span><span class="n">data_groups</span><span class="p">,</span> <span class="n">event_col</span><span class="p">,</span> <span class="n">duration_col</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">)</span>
+    <span class="c1"># logrank test</span>
+    <span class="n">summary12_</span> <span class="o">=</span> <span class="n">logrank_test</span><span class="p">(</span><span class="n">Th</span><span class="p">,</span> <span class="n">Tm</span><span class="p">,</span> <span class="n">Eh</span><span class="p">,</span> <span class="n">Em</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+    <span class="n">summary11_</span> <span class="o">=</span> <span class="n">logrank_test</span><span class="p">(</span><span class="n">Tl</span><span class="p">,</span> <span class="n">Tm</span><span class="p">,</span> <span class="n">El</span><span class="p">,</span> <span class="n">Em</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="s2">&quot;# High-Risk vs Middle-Risk :&quot;</span>
+    <span class="nb">print</span> <span class="n">summary12_</span>
+    <span class="nb">print</span> <span class="s2">&quot;# Middle-Risk vs Low_Risk :&quot;</span>
+    <span class="nb">print</span> <span class="n">summary11_</span></div>
+
+<div class="viewcode-block" id="surv_calibration"><a class="viewcode-back" href="../../../PLSA.qcal.html#PLSA.qcal.func.surv_calibration">[docs]</a><span class="k">def</span> <span class="nf">surv_calibration</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">duration_col</span><span class="p">,</span> <span class="n">event_col</span><span class="p">,</span> <span class="n">pred_proba</span><span class="p">,</span> 
+                     <span class="n">pt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                     <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Predicted Risk Probability&quot;</span><span class="p">,</span> 
+                     <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Observed Risk Probability&quot;</span><span class="p">,</span> 
+                     <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Model Performance&quot;</span><span class="p">,</span> <span class="n">save_fig_as</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Evaluate calibration of predicted survival probability at time pt.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: pandas.DataFame</span>
+<span class="sd">        Full survival data.</span>
+<span class="sd">    duration_col : str</span>
+<span class="sd">        Name of column indicating time.</span>
+<span class="sd">    event_col : str</span>
+<span class="sd">        Name of column indicating event.</span>
+<span class="sd">    pred_proba: np.array</span>
+<span class="sd">        Predicted survival probability at time pt.</span>
+<span class="sd">    pt : int</span>
+<span class="sd">        Predicted time.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">        Print summary of result and plot curve of calibration.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; surv_calibration(data, &quot;T&quot;, &quot;E&quot;, surv_function[10], pt=10)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">pt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">pt</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">duration_col</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="n">T_col</span><span class="p">,</span> <span class="n">E_col</span> <span class="o">=</span> <span class="n">survival_status</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">duration_col</span><span class="p">,</span> <span class="n">event_col</span><span class="p">,</span> <span class="n">pt</span><span class="p">)</span>
+    <span class="n">plot_DCalibration</span><span class="p">(</span><span class="n">E_col</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="mi">1</span><span class="o">-</span><span class="n">pred_proba</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="n">n_bins</span><span class="p">,</span> <span class="n">summary</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                      <span class="n">xlabel</span><span class="o">=</span><span class="n">xlabel</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="n">ylabel</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">save_fig_as</span><span class="o">=</span><span class="n">save_fig_as</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="surv_time_auc"><a class="viewcode-back" href="../../../PLSA.qcal.html#PLSA.qcal.func.surv_time_auc">[docs]</a><span class="k">def</span> <span class="nf">surv_time_auc</span><span class="p">(</span><span class="n">data_train</span><span class="p">,</span> <span class="n">data_test</span><span class="p">,</span> <span class="n">pred_col</span><span class="p">,</span> <span class="n">duration_col</span><span class="p">,</span> <span class="n">event_col</span><span class="p">,</span> 
+                  <span class="n">pt</span><span class="o">=</span><span class="p">[],</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Train&#39;</span><span class="p">,</span> <span class="s1">&#39;Validation&#39;</span><span class="p">],</span> <span class="o">**</span><span class="n">kws</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Plot curve of auc at some predicted time.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_train : pandas.DataFame</span>
+<span class="sd">        Full survival data for train.</span>
+<span class="sd">    data_test : pandas.DataFame</span>
+<span class="sd">        Full survival data for test.</span>
+<span class="sd">    pred_col : str</span>
+<span class="sd">        Name of column indicating target value.</span>
+<span class="sd">    duration_col : str</span>
+<span class="sd">        Name of column indicating time.</span>
+<span class="sd">    event_col : str</span>
+<span class="sd">        Name of column indicating event.</span>
+<span class="sd">    pt : list(int)</span>
+<span class="sd">        Predicted time indicating list of watching. </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">        Print summary of result and plot curve of auc with time.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; surv_time_auc(train_data, test_data, &#39;X&#39;, &#39;T&#39;, &#39;E&#39;, pt=[1, 3, 5, 10])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">train_list</span><span class="p">,</span> <span class="n">test_list</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">pt</span><span class="p">:</span>
+        <span class="n">train_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">surv_roc</span><span class="p">(</span><span class="n">data_train</span><span class="p">,</span> <span class="n">pred_col</span><span class="p">,</span> <span class="n">duration_col</span><span class="p">,</span> <span class="n">event_col</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="n">t</span><span class="p">)[</span><span class="s1">&#39;AUC&#39;</span><span class="p">])</span>
+        <span class="n">test_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">surv_roc</span><span class="p">(</span><span class="n">data_test</span><span class="p">,</span> <span class="n">pred_col</span><span class="p">,</span> <span class="n">duration_col</span><span class="p">,</span> <span class="n">event_col</span><span class="p">,</span> <span class="n">pt</span><span class="o">=</span><span class="n">t</span><span class="p">)[</span><span class="s1">&#39;AUC&#39;</span><span class="p">])</span>
+    <span class="nb">print</span> <span class="s2">&quot;__________Summary of Surv-AUC__________&quot;</span>
+    <span class="nb">print</span> <span class="s2">&quot;Time</span><span class="se">\t</span><span class="s2">AUC&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">AUC&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pt</span><span class="p">)):</span>
+        <span class="nb">print</span> <span class="s2">&quot;</span><span class="si">%.2f</span><span class="se">\t</span><span class="si">%.2f</span><span class="s2"> </span><span class="se">\t</span><span class="si">%.2f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">pt</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">train_list</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">test_list</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">plot_timeAUC</span><span class="p">(</span><span class="n">pt</span><span class="p">,</span> <span class="n">train_list</span><span class="p">,</span> <span class="n">test_list</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Pei Liu.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.0.2',
+            LANGUAGE:'python',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

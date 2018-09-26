@@ -1,0 +1,553 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="python" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="python" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>PLSA.utils package &mdash; PLSA 0.0.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="PLSA.vision package" href="PLSA.vision.html" />
+    <link rel="prev" title="PLSA.surv package" href="PLSA.surv.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> PLSA
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="PLSA.html">PLSA package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PLSA.data.html">PLSA.data package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PLSA.qcal.html">PLSA.qcal package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PLSA.surv.html">PLSA.surv package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">PLSA.utils package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-PLSA.utils.cutoff">PLSA.utils.cutoff module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-PLSA.utils.metrics">PLSA.utils.metrics module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-PLSA.utils.test">PLSA.utils.test module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-PLSA.utils.write">PLSA.utils.write module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-PLSA.utils">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="PLSA.vision.html">PLSA.vision package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PLSA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="PLSA.html">PLSA package</a> &raquo;</li>
+        
+      <li>PLSA.utils package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/PLSA.utils.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="plsa-utils-package">
+<h1>PLSA.utils package<a class="headerlink" href="#plsa-utils-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-PLSA.utils.cutoff">
+<span id="plsa-utils-cutoff-module"></span><h2>PLSA.utils.cutoff module<a class="headerlink" href="#module-PLSA.utils.cutoff" title="Permalink to this headline">¶</a></h2>
+<p>Module for determinding cutoffs in common</p>
+<p>The function of this Module is served for determinding cutoffs by different methods
+in common.</p>
+<dl class="function">
+<dt id="PLSA.utils.cutoff.accuracy">
+<code class="descclassname">PLSA.utils.cutoff.</code><code class="descname">accuracy</code><span class="sig-paren">(</span><em>y_true</em>, <em>y_prob</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PLSA/utils/cutoff.html#accuracy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PLSA.utils.cutoff.accuracy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cutoff maximize accuracy.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>y_true</strong> (<cite>np.array</cite> or <cite>pandas.Series</cite>) -- True value.</li>
+<li><strong>y_prob</strong> (<cite>np.array</cite> or <cite>pandas.Series</cite>) -- Predicted value.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Optimal cutoff and max metrics.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a>(<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)">float</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)">float</a>)</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">accuracy</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_prob</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="PLSA.utils.cutoff.youden">
+<code class="descclassname">PLSA.utils.cutoff.</code><code class="descname">youden</code><span class="sig-paren">(</span><em>target</em>, <em>predicted</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PLSA/utils/cutoff.html#youden"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PLSA.utils.cutoff.youden" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cutoff maximize Youden Index.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>target</strong> (<cite>np.array</cite> or <cite>pandas.Series</cite>) -- True value.</li>
+<li><strong>predicted</strong> (<cite>np.array</cite> or <cite>pandas.Series</cite>) -- Predicted value.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">optimal cutoff and max metrics.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a>(<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)">float</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)">float</a>)</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">youden</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_prob</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="module-PLSA.utils.metrics">
+<span id="plsa-utils-metrics-module"></span><h2>PLSA.utils.metrics module<a class="headerlink" href="#module-PLSA.utils.metrics" title="Permalink to this headline">¶</a></h2>
+<p>Module for evaluating model by many kinds of metrics</p>
+<p>The function of this Module is served for evaluating model by many kinds of metrics.</p>
+<dl class="function">
+<dt id="PLSA.utils.metrics.calibration">
+<code class="descclassname">PLSA.utils.metrics.</code><code class="descname">calibration</code><span class="sig-paren">(</span><em>y_true</em>, <em>pred_proba</em>, <em>n_bins=10</em>, <em>in_sample=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PLSA/utils/metrics.html#calibration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PLSA.utils.metrics.calibration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calibration and test of predictive model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>y_true</strong> (<cite>np.array</cite> or <cite>pandas.Series</cite>) -- True label.</li>
+<li><strong>pred_proba</strong> (<cite>np.array</cite> or <cite>pandas.Series</cite>) -- Predicted label.</li>
+<li><strong>n_bins</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) -- Number of groups.</li>
+<li><strong>in_sample</strong> (bool, default <cite>False</cite>) -- Is Calibration-Test in sample.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Table of calibration.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pandas.DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">calibration</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="PLSA.utils.metrics.calibration_table">
+<code class="descclassname">PLSA.utils.metrics.</code><code class="descname">calibration_table</code><span class="sig-paren">(</span><em>y_true</em>, <em>y_prob</em>, <em>normalize=False</em>, <em>n_bins=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PLSA/utils/metrics.html#calibration_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PLSA.utils.metrics.calibration_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calibration table of predictive model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>y_true</strong> (<cite>np.array</cite> or <cite>pandas.Series</cite>) -- True label.</li>
+<li><strong>y_prob</strong> (<cite>np.array</cite> or <cite>pandas.Series</cite>) -- Predicted label.</li>
+<li><strong>n_bins</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) -- Number of groups.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">true, sum and total number of each group.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple(<cite>numpy.array</cite>)</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">calibration_table</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="PLSA.utils.metrics.discrimination">
+<code class="descclassname">PLSA.utils.metrics.</code><code class="descname">discrimination</code><span class="sig-paren">(</span><em>y_true</em>, <em>y_pred_proba</em>, <em>threshold=None</em>, <em>name='Model X'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PLSA/utils/metrics.html#discrimination"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PLSA.utils.metrics.discrimination" title="Permalink to this definition">¶</a></dt>
+<dd><p>Discrimination of classification model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>y_true</strong> (<cite>np.array</cite> or <cite>pandas.Series</cite>) -- True label.</li>
+<li><strong>pred_proba</strong> (<cite>np.array</cite> or <cite>pandas.Series</cite>) -- Predicted label.</li>
+<li><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) -- Cutoff value.</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- Title for printing.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><p>Dict with kinds of metrics.</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>{</dt>
+<dd><p class="first last">&quot;points&quot;: threshold,
+&quot;Sen&quot;: Re,
+&quot;Spe&quot;: Spe,
+&quot;Acc&quot;: Accuracy,
+&quot;F1&quot;: F1</p>
+</dd>
+</dl>
+<p>}</p>
+</div></blockquote>
+</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">discrimination</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred_proba</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.21</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="PLSA.utils.metrics.discrimination_ver">
+<code class="descclassname">PLSA.utils.metrics.</code><code class="descname">discrimination_ver</code><span class="sig-paren">(</span><em>y_true</em>, <em>y_pred_proba</em>, <em>threshold=None</em>, <em>name='Model X'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PLSA/utils/metrics.html#discrimination_ver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PLSA.utils.metrics.discrimination_ver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Discrimination of classification model in version 2.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>y_true</strong> (<cite>np.array</cite> or <cite>pandas.Series</cite>) -- True label.</li>
+<li><strong>pred_proba</strong> (<cite>np.array</cite> or <cite>pandas.Series</cite>) -- Predicted label.</li>
+<li><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) -- Cutoff value.</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- Title for printing.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><p>Dict with kinds of metrics.</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>{</dt>
+<dd><p class="first last">&quot;points&quot;: threshold,
+&quot;Sen&quot;: Sen,
+&quot;Spe&quot;: Spe,
+&quot;PPV&quot;: ppv,
+&quot;NPV&quot;: npv</p>
+</dd>
+</dl>
+<p>}</p>
+</div></blockquote>
+</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">discrimination_ver</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred_proba</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.21</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="module-PLSA.utils.test">
+<span id="plsa-utils-test-module"></span><h2>PLSA.utils.test module<a class="headerlink" href="#module-PLSA.utils.test" title="Permalink to this headline">¶</a></h2>
+<p>Module for statistical test</p>
+<p>The function of this Module is served for statistical test.</p>
+<dl class="function">
+<dt id="PLSA.utils.test.Delong_Test">
+<code class="descclassname">PLSA.utils.test.</code><code class="descname">Delong_Test</code><span class="sig-paren">(</span><em>y_true</em>, <em>pred_a</em>, <em>pred_b</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PLSA/utils/test.html#Delong_Test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PLSA.utils.test.Delong_Test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delong-Test for comparing two predictive model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>y_true</strong> (<em>numpy.array</em><em> or </em><em>pandas.Series.</em>) -- True label.</li>
+<li><strong>pred_a</strong> (<em>numpy.array</em><em> or </em><em>pandas.Series.</em>) -- Prediction of model A.</li>
+<li><strong>pred_b</strong> (<em>numpy.array</em><em> or </em><em>pandas.Series.</em>) -- Prediction of model B.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">chi2 value and P-value.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># pred_proba1 = xgb1.predict_proba(test_X)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pred_proba2 = xgb2.predict_proba(test_X)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Delong_test</span><span class="p">(</span><span class="n">test_y</span><span class="p">,</span> <span class="n">pred_proba1</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">pred_proba2</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="PLSA.utils.test.Hosmer_Lemeshow_Test">
+<code class="descclassname">PLSA.utils.test.</code><code class="descname">Hosmer_Lemeshow_Test</code><span class="sig-paren">(</span><em>bins_true</em>, <em>bins_pred</em>, <em>bins_tot</em>, <em>n_bins=10</em>, <em>in_sample=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PLSA/utils/test.html#Hosmer_Lemeshow_Test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PLSA.utils.test.Hosmer_Lemeshow_Test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hosmer-Lemeshow Test for testing calibration.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>bins_true</strong> (<em>numpy.array</em>) -- True Number of people in each group.</li>
+<li><strong>bins_pred</strong> (<em>numpy.array</em>) -- Pred Number of people in each group.</li>
+<li><strong>bins_tot</strong> (<em>numpy.array</em>) -- Totol Number of people in each group.</li>
+<li><strong>n_bins</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) -- Number of groups.</li>
+<li><strong>in_sample</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>default False</em>) -- Is Calibration-Test in sample.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">chi2 value and P value.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Hosmer_Lemeshow_Test</span><span class="p">(</span><span class="n">bins_true</span><span class="p">,</span> <span class="n">bins_pred</span><span class="p">,</span> <span class="n">bins_tot</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="module-PLSA.utils.write">
+<span id="plsa-utils-write-module"></span><h2>PLSA.utils.write module<a class="headerlink" href="#module-PLSA.utils.write" title="Permalink to this headline">¶</a></h2>
+<p>Module for outputting result</p>
+<p>The function of this Module is served for outputting result.</p>
+<dl class="function">
+<dt id="PLSA.utils.write.xgboost_to_pmml">
+<code class="descclassname">PLSA.utils.write.</code><code class="descname">xgboost_to_pmml</code><span class="sig-paren">(</span><em>data_X</em>, <em>data_y</em>, <em>par_file</em>, <em>save_model_as</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PLSA/utils/write.html#xgboost_to_pmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PLSA.utils.write.xgboost_to_pmml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save Xgboost Model to PMMl file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data_X</strong> (<em>pandas.DataFrame</em>) -- Variables of train data.</li>
+<li><strong>date_y</strong> (<em>pandas.DataFrame</em>) -- Lables of train data.</li>
+<li><strong>par_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- File path of model's parameters.</li>
+<li><strong>save_model_as</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) -- File path of PMML.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Generate PMML file locally as <cite>save_model_as</cite> given.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)">None</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">xgboost_to_pmml</span><span class="p">(</span><span class="n">data_x</span><span class="p">,</span> <span class="n">data_y</span><span class="p">,</span> <span class="s2">&quot;par.json&quot;</span><span class="p">,</span> <span class="s2">&quot;model.pmml&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="module-PLSA.utils">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-PLSA.utils" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="PLSA.vision.html" class="btn btn-neutral float-right" title="PLSA.vision package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="PLSA.surv.html" class="btn btn-neutral" title="PLSA.surv package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Pei Liu.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.2',
+            LANGUAGE:'python',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
