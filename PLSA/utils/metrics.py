@@ -9,18 +9,25 @@ from PLSA.utils import test
 from PLSA.utils import cutoff
 
 def calibration_table(y_true, y_prob, normalize=False, n_bins=10):
-    """
-    Calibration table of predictive model.
+    """Calibration table of predictive model.
 
-    Parameters:
-        y_true, y_prob: True and predicted label.
-        n_bins: Number of groups.
+    Parameters
+    ----------
+    y_true : `np.array` or `pandas.Series`
+        True label.
+    y_prob : `np.array` or `pandas.Series`
+        Predicted label.
+    n_bins : int
+        Number of groups.
 
-    Returns:
-        np.array, true, sum and total number of each group.
+    Returns
+    -------
+    tuple(`numpy.array`)
+        true, sum and total number of each group.
 
-    Examples:
-        calibration_table(y_test, y_pred, n_bins=5)
+    Examples
+    --------
+    >>> calibration_table(y_test, y_pred, n_bins=5)
     """
     y_true = column_or_1d(y_true)
     y_prob = column_or_1d(y_prob)
@@ -47,38 +54,61 @@ def calibration_table(y_true, y_prob, normalize=False, n_bins=10):
     return bin_true[nonzero], bin_sums[nonzero], bin_total[nonzero]
 
 def calibration(y_true, pred_proba, n_bins=10, in_sample=False):
-    """
-    Calibration and test of predictive model.
+    """Calibration and test of predictive model.
 
-    Parameters:
-        y_true, pred_proba: True and predicted label.
-        n_bins: Number of groups.
-        in_sample: Is Calibration-Test in sample.
+    Parameters
+    ----------
+    y_true : `np.array` or `pandas.Series`
+        True label.
+    pred_proba : `np.array` or `pandas.Series`
+        Predicted label.
+    n_bins : int
+        Number of groups.
+    in_sample : bool, default `False`
+        Is Calibration-Test in sample.
 
-    Returns:
-        DataFrame, table of calibration.
+    Returns
+    -------
+    pandas.DataFrame
+        Table of calibration.
 
-    Examples:
-        calibration(y_test, y_pred, n_bins=5)
+    Examples
+    --------
+    >>> calibration(y_test, y_pred, n_bins=5)
     """
     prob_bin_true, prob_bin_pred, bin_tot = calibration_table(y_true, pred_proba, n_bins=n_bins)
     test.Hosmer_Lemeshow_Test(prob_bin_true, prob_bin_pred, bin_tot, n_bins=n_bins, in_sample=in_sample)
     return pd.DataFrame({"Total": bin_tot, "Obs": prob_bin_true, "Pred": prob_bin_pred})
 
 def discrimination(y_true, y_pred_proba, threshold=None, name="Model X"):
-    """
-    Discrimination of classification model.
+    """Discrimination of classification model.
 
-    Parameters:
-        y_true, pred_proba: True and predicted label.
-        threshold: cutoff value.
-        name: for printing.
+    Parameters
+    ----------
+    y_true : `np.array` or `pandas.Series`
+        True label.
+    pred_proba : `np.array` or `pandas.Series`
+        Predicted label.
+    threshold : float
+        Cutoff value.
+    name : str
+        Title for printing.
 
-    Returns:
-        dict with kinds of metrics.
+    Returns
+    -------
+    dict
+        Dict with kinds of metrics.
+            {
+                "points": threshold,
+                "Sen": Re,
+                "Spe": Spe,
+                "Acc": Accuracy,
+                "F1": F1
+            }
 
-    Examples:
-        discrimination(y_true, y_pred_proba, threshold=0.21)
+    Examples
+    --------
+    >>> discrimination(y_true, y_pred_proba, threshold=0.21)
     """
     # default threshold
     if threshold == None:
@@ -104,19 +134,34 @@ def discrimination(y_true, y_pred_proba, threshold=None, name="Model X"):
     }
 
 def discrimination_ver(y_true, y_pred_proba, threshold=None, name="Model X"):
-    """
-    Discrimination of classification model in version 2.
+    """Discrimination of classification model in version 2.
 
-    Parameters:
-        y_true, pred_proba: True and predicted label.
-        threshold: cutoff value.
-        name: for printing.
+    Parameters
+    ----------
+    y_true : `np.array` or `pandas.Series`
+        True label.
+    pred_proba : `np.array` or `pandas.Series`
+        Predicted label.
+    threshold : float
+        Cutoff value.
+    name : str
+        Title for printing.
 
-    Returns:
-        dict with kinds of metrics.
+    Returns
+    -------
+    dict
+        Dict with kinds of metrics.
+            {
+                "points": threshold,
+                "Sen": Sen,
+                "Spe": Spe,
+                "PPV": ppv,
+                "NPV": npv
+            }
 
-    Examples:
-        discrimination(y_true, y_pred_proba, threshold=0.21)
+    Examples
+    --------
+    >>> discrimination_ver(y_true, y_pred_proba, threshold=0.21)
     """
     # default threshold
     if threshold == None:

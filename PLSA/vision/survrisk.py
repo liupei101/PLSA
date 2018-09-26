@@ -6,19 +6,31 @@ from lifelines.plotting import add_at_risk_counts
 
 def plot_riskGroups(data_groups, event_col, duration_col, labels=[], plot_join=False, 
                     xlabel="Survival time (Month)", ylabel="Survival Rate", title="Survival function of Risk groups", save_fig_as=""):
-    """
-    Plot survival curve for different risk groups.
+    """Plot survival curve for different risk groups.
 
-    Parameters:
-        data_groups: Python list of DataFame[['E', 'T']], risk groups from lowest to highest.
-        event_col: column in DataFame indicating events.
-        duration_col: column in DataFame indicating durations.
-        labels: One text label for one group.
-        plot_join: Is plotting for two adjacent risk group, default False.
-        save_fig_as: Name of file for saving in local.
+    Parameters
+    ----------
+    data_groups : list(`pandas.DataFame`) 
+        list of DataFame[['E', 'T']], risk groups from lowest to highest.
+    event_col : str
+        column in DataFame indicating events.
+    duration_col : atr
+        column in DataFame indicating durations.
+    labels : list(str), default []
+        One text label for one group.
+    plot_join : bool, default False
+        Is plotting for two adjacent risk group, default False.
+    save_fig_as : str
+        Name of file for saving in local.
 
-    Examples:
-        plot_riskGroups(df_list, "E", "T", labels=["Low", "Mid", "High"])
+    Returns
+    -------
+    None
+        Plot figure of each risk-groups.
+
+    Examples
+    --------
+    >>> plot_riskGroups(df_list, "E", "T", labels=["Low", "Mid", "High"])
     """
     # init labels
     N_groups = len(data_groups)
@@ -55,19 +67,27 @@ def plot_riskGroups(data_groups, event_col, duration_col, labels=[], plot_join=F
 def plot_timeAUC(x, y_train, y_test, labels=['Train', 'Validation'],
                  xlabel="Time", ylabel="AUC", 
                  title="Model Performance", save_fig_as=""):
-    """
-    Plot line chart about time and AUC.
+    """Plot line chart about time and AUC.
 
-    Parameters:
-        x: Time.
-        y_train: AUC of train.
-        y_test: AUC of test.
-        **kws: Setting of figures.
+    Parameters
+    ----------
+    x : list
+        Time.
+    y_train : list
+        AUC of train.
+    y_test : list
+        AUC of test.
+    **kws 
+        Setting of plot.
 
-    Returns:
+    Returns
+    -------
+    None
+        Plot figure of auc with time.
 
-    Examples:
-        plot_timeAUC([1, 3, 5, 10], train_list, test_list)
+    Examples
+    --------
+    >>> plot_timeAUC([1, 3, 5, 10], train_list, test_list)
     """
     # Plot
     fig, ax = plt.subplots(figsize=(8, 6))
@@ -87,20 +107,29 @@ def plot_timeAUC(x, y_train, y_test, labels=['Train', 'Validation'],
 def plot_rsRisk(data, x_col, y1_col, y2_col, labels=["Line-1", "Line2"],
                 xlabel="Risk Score", ylabel="Rate of Risk", 
                 title="Curve of risk score and rate of risk", save_fig_as=""):
-    """
-    Plot continues function between risk score and rate of risk.
+    """Plot continues function between risk score and rate of risk.
 
-    Parameters:
-        data: pandas.DataFame, full survival data.
-        x_col: Name of column indicating risk score.
-        y1_col: Name of column indicating rate of risk at t1.
-        y2_col: Name of column indicating rate of risk at t2.
-        **kws: Setting of plot.
+    Parameters
+    ----------
+    data : pandas.DataFame
+        Full survival data.
+    x_col : str
+        Name of column indicating risk score.
+    y1_col : str
+        Name of column indicating rate of risk at t1.
+    y2_col : str
+        Name of column indicating rate of risk at t2.
+    **kws
+        Setting of plot.
 
-    Returns:
+    Returns
+    -------
+    None
+        Plot figure of RS-rate.
 
-    Examples:
-        plot_rsRisk(data, 'RS', 'pred_idfs_y5', 'pred_idfs_y10', labels=['5 Year.', '10 Year.'])
+    Examples
+    --------
+    >>> plot_rsRisk(data, 'RS', 'pred_idfs_y5', 'pred_idfs_y10', labels=['5 Year.', '10 Year.'])
     """
     fig, ax = plt.subplots(figsize=(8, 6))
     Cx = ['darkorange', 'cornflowerblue']

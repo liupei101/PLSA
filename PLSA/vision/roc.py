@@ -7,16 +7,20 @@ from PLSA.surv import utils
 def plot_twoROC(train_roc, test_roc, labels=['Train', 'Validation'],
                 xlabel="1 - Specificity", ylabel="Sensitivity", 
                 title="Model Performance", save_fig_as=""):
-    """
-    Plot two ROC curve in one figure.
+    """Plot two ROC curve in one figure.
 
-    Parameters:
-        train_roc: Python dict contains values about 'FP', 'TP', 'AUC'.
-        test_roc: Python dict contains values about 'FP', 'TP', 'AUC'.
-        save_fig_as: Name of file for saving in local.
+    Parameters
+    ----------
+    train_roc : `dict`
+        Python dict contains values about 'FP', 'TP', 'AUC'.
+    test_roc : `dict`
+        Python dict contains values about 'FP', 'TP', 'AUC'.
+    save_fig_as: str
+        Name of file for saving in local.
 
-    Examples:
-        plot_twoROC(train_roc, test_roc)
+    Examples
+    --------
+    >>> plot_twoROC(train_roc, test_roc)
     """
     fig, ax = plt.subplots(figsize=(8, 6))
     lw = 2
@@ -41,15 +45,18 @@ def plot_twoROC(train_roc, test_roc, labels=['Train', 'Validation'],
 
 def plot_ROC(data_roc, xlabel="1 - Specificity", ylabel="Sensitivity", 
              title="Model Performance", save_fig_as=""):
-    """
-    Plot one ROC curve in one figure.
+    """Plot one ROC curve in one figure.
 
-    Parameters:
-        data_roc: Python dict contains values about 'FP', 'TP', 'AUC'.
-        save_fig_as: Name of file for saving in local.
+    Parameters
+    ----------
+    data_roc : dict
+        Python dict contains values about 'FP', 'TP', 'AUC'.
+    save_fig_as: str
+        Name of file for saving in local.
 
-    Examples:
-        plot_ROC(data_roc)
+    Examples
+    --------
+    >>> plot_ROC(data_roc)
     """
     fig, ax = plt.subplots(figsize=(8, 6))
     # plot ROC of data
@@ -67,18 +74,29 @@ def plot_ROC(data_roc, xlabel="1 - Specificity", ylabel="Sensitivity",
         fig.savefig(save_fig_as, format='png', dpi=600)
 
 def plot_DROC(y_true, y_pred, x_true=None, x_pred=None, **kws):
-    """
-    Plot ROC curve for giving data.
+    """Plot ROC curve for giving data.
 
-    Parameters:
-        y_true, y_pred: True and predict label in train data.
-        x_true, x_pred: True and predict label in test data.
-        kws: Arguments for plotting.
+    Parameters
+    ----------
+        y_true
+            True label in train data.
+        y_pred
+            Predict label in train data.
+        x_true
+            True label in test data.
+        x_pred
+            Predict label in test data.
+        **kws
+            Arguments for plotting.
 
-    Returns:
+    Returns
+    -------
+    None
+        Plot figure of AUC
 
-    Examples:
-        plot_DROC(train_y, train_pred, test_y, test_pred)
+    Examples
+    --------
+    >>> plot_DROC(train_y, train_pred, test_y, test_pred)
     """
     data_roc = dict()
     data_roc['FP'], data_roc['TP'], _ = metrics.roc_curve(y_true, y_pred, pos_label=1)
@@ -97,22 +115,33 @@ def plot_DROC(y_true, y_pred, x_true=None, x_pred=None, **kws):
 def plot_SROC(data_train, data_test, pred_col, duration_col, event_col, 
               pt=None, labels=['Train', 'Validation'],
               **kws):
-    """
-    Plot Time-Dependent survival ROC curve for giving data.
+    """Plot Time-Dependent survival ROC curve for giving data.
 
-    Parameters:
-        data_train: tTrain DataFrame included columns of Event, Duration, Pred.
-        data_train: Test DataFrame included columns of Event, Duration, Pred.
-        pred_col: Name of column indicating predicted value.
-        duration_col: Name of column indicating time.
-        event_col: Name of column indicating event.
-        pt: Predicte time.
-        kws: Arguments for plotting.
+    Parameters
+    ----------
+    data_train : pandas.DataFrame
+        Train DataFrame included columns of Event, Duration, Pred.
+    data_train : pandas.DataFrame
+        Test DataFrame included columns of Event, Duration, Pred.
+    pred_col : str
+        Name of column indicating predicted value.
+    duration_col : str
+        Name of column indicating time.
+    event_col : str
+        Name of column indicating event.
+    pt : int
+        Predicte time.
+    **kws 
+        Arguments for plotting.
 
-    Returns:
+    Returns
+    -------
+    None
+        Plot figure of AUC
 
-    Examples:
-        plot_SROC(data_train, data_test, "X", "T", "E", pt=5)
+    Examples
+    --------
+    >>> plot_SROC(data_train, data_test, "X", "T", "E", pt=5)
     """
     train_roc = utils.surv_roc(data_train, pred_col, duration_col, event_col, pt=pt)
     test_roc = utils.surv_roc(data_test, pred_col, duration_col, event_col, pt=pt)

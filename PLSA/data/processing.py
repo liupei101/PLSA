@@ -3,19 +3,26 @@ import pandas as pd
 import numpy as np
 
 def cut_groups(data, col, cutoffs):
-    """
-    Cut data into subsets according to cutoffs
+    """Cut data into subsets according to cutoffs
 
-    Parameters:
-        data: pandas.DataFrame, data to split.
-        col: columns in data to compare with cutoffs.
-        cutoffs: cutoffs, like as [min-value, 30, 60, max-value].
+    Parameters
+    ----------
+    data : pandas.DataFrame
+        Data to split.
+    col : str
+        Name of column in data to compare with.
+    cutoffs : list(int)
+        List of cutoffs, like as [min-value, 30, 60, max-value].
 
-    Returns:
-        list of sub-data as DataFrame.
+    Returns
+    -------
+    list(pandas.DataFrame)
+        List of sub-data as DataFrame.
 
-    Examples:
-        cut_groups(data, "X", [0, 0.4, 0.6, 1.0])
+    Examples
+    --------
+    >>> cut_groups(data, "X", [0, 0.4, 0.6, 1.0])
+    [pandas.DataFrame, pandas.DataFrame, pandas.DataFrame]
     """
     res = []
     N = len(cutoffs)
@@ -28,18 +35,25 @@ def cut_groups(data, col, cutoffs):
     return res
 
 def prepare_surv(x, label):
-    """
-    Prepare data for survival analyze(Deep Surival).
+    """Prepare data for survival analyze(Deep Surival).
 
-    Parameters:
-        x: np.array, two-dimension array indicating variables.
-        label: Python dict contain 'e', 't'.
+    Parameters
+    ----------
+    x : numpy.array 
+        Two-dimension array indicating variables.
+    label : dict 
+        Contain 'e', 't'.
 
-    Returns:
-        Sorted (x, label) tuple.
+        examples as {'e': np.array, 't': np.array}.
 
-    Examples:
-        prepare_surv(data[x_cols].values, {'e': data['e'].values, 't': data['t'].values})
+    Returns
+    -------
+    tuple
+        Sorted (x, label) tuple of survival data.
+
+    Examples
+    --------
+    >>> prepare_surv(data[x_cols].values, {'e': data['e'].values, 't': data['t'].values})
     """
     if isinstance(label, dict):
        e, t = label['e'], label['t']
@@ -56,18 +70,25 @@ def prepare_surv(x, label):
     return x, {'e': e, 't': t}
 
 def parse_surv(x, label):
-    """
-    Parse raw-data for survival analyze(Deep Surival).
+    """Parse raw-data for survival analyze(Deep Surival).
 
-    Parameters:
-        x: np.array, two-dimension array indicating variables.
-        label: Python dict contain 'e', 't'.
+    Parameters
+    ----------
+    x : np.array
+        two-dimension array indicating variables.
+    label : dict
+        Contain 'e', 't'.
 
-    Returns:
+        examples as {'e': np.array, 't': np.array}.
+
+    Returns
+    -------
+    tuple
         Sorted (x, e, t) tuple, index of people who is failure or at risk, and type of ties.
 
-    Examples:
-        parse_surv(data[x_cols].values, {'e': data['e'].values, 't': data['t'].values})
+    Examples
+    --------
+    >>> parse_surv(data[x_cols].values, {'e': data['e'].values, 't': data['t'].values})
     """
     # sort data by t
     x, label = prepare_surv(x, label)

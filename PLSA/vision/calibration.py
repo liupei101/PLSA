@@ -5,17 +5,27 @@ from PLSA.utils import test
 def plot_DCalibration(y_true, pred_proba, n_bins=10, summary=True,
                       xlabel="Predicted value", ylabel="Observed average", 
                       title="Hosmer-Lemeshow Test", save_fig_as=""):
-    """
-    Plot calibration curve.
+    """Plot calibration curve.
 
-    Parameters:
-        y_true, y_prob: True and predicted label.
-        n_bins: Number of groups.
+    Parameters
+    ----------
+    y_true : numpy.array
+        True label.
+    y_prob : numpy.array
+        Predicted label.
+    n_bins : int
+        Number of groups.
 
-    Returns:
+    Returns
+    -------
+    None
+        Summary table of result.
 
-    Examples:
-        plot_DCalibration(test_y, test_pred, n_bins=5)
+        Plot figure of calibration curve.
+
+    Examples
+    --------
+    >>> plot_DCalibration(test_y, test_pred, n_bins=5)
     """
     fig, ax = plt.subplots(figsize=(8, 6))
     lw = 2

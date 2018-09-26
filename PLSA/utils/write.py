@@ -4,18 +4,27 @@ from xgboost.sklearn import XGBClassifier
 import json
 
 def xgboost_to_pmml(data_X, data_y, par_file, save_model_as):
-    """
-    Save Xgboost Model to PMMl file.
+    """Save Xgboost Model to PMMl file.
 
-    Parameters:
-        data_X, date_y: Train data.
-        par_file: File path of model's parameters.
-        save_model_as: File path of PMML.
+    Parameters
+    ----------
+    data_X : pandas.DataFrame
+        Variables of train data.
+    date_y : pandas.DataFrame
+        Lables of train data.
+    par_file : str
+        File path of model's parameters.
+    save_model_as : str
+        File path of PMML.
 
-    Returns:
+    Returns
+    -------
+    None
+        Generate PMML file locally as `save_model_as` given.
 
-    Examples:
-        xgboost_to_pmml(data_x, data_y, "par.json", "model.pmml")
+    Examples
+    --------
+    >>> xgboost_to_pmml(data_x, data_y, "par.json", "model.pmml")
     """
     # Create Xgboost Model
     with open(par_file, "r") as f:

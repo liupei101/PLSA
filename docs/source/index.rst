@@ -1,5 +1,5 @@
 .. PLSA documentation master file, created by
-   sphinx-quickstart on Wed Sep 26 11:57:04 2018.
+   sphinx-quickstart on Wed Sep 26 16:47:30 2018.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
@@ -10,10 +10,12 @@ Welcome to PLSA's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-.. automodule:: data_engineer.bark_engine
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   PLSA
+   PLSA.data
+   PLSA.qcal
+   PLSA.surv
+   PLSA.utils
+   PLSA.vision
 
 Indices and tables
 ==================

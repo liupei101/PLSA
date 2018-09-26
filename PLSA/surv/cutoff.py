@@ -60,21 +60,29 @@ def loss_bhr(data_list, duration_col, event_col, base_val=1, silence=True):
     return coxph_coef(df, duration_col, event_col, silence=silence)
 
 def stats_var(data, x_col, y_col, score_min=0, score_max=100):
-    """
-    Cutoff maximize distant between groups, minimize variance in group
+    """Cutoff maximize distant between groups, minimize variance in group
 
-    Parameters:
-        data: pd.DataFrame, data set.
-        x_col: Name of column to reference for dividing groups.
-        y_col: Name of column to measure differences.
-        score_min: Min value in x_col.
-        score_max: Max value in x_col.
+    Parameters
+    ----------
+    data : pd.DataFrame
+        Data set.
+    x_col : str
+        Name of column to reference for dividing groups.
+    y_col : str
+        Name of column to measure differences.
+    score_min : :obj:`int`, optional
+        Min value in x_col.
+    score_max : :obj:`int`, optional
+        Max value in x_col.
 
-    Returns:
-        Optimal cutoffs.
+    Returns
+    -------
+    float
+        Optimal cutoffs according to statistical methods.
 
-    Examples:
-        stats_var(data, 'score', 'y')
+    Examples
+    --------
+    >>> stats_var(data, 'score', 'y')
     """
     max_val = -1
     cut_off = (0, 0)
@@ -93,23 +101,33 @@ def stats_var(data, x_col, y_col, score_min=0, score_max=100):
     return cut_off
 
 def hazards_ratio(data, pred_col, duration_col, event_col, score_min=0, score_max=100, balance=True):
-    """
-    Cutoff maximize HR or BHR.
+    """Cutoff maximize HR or BHR.
 
-    Parameters:
-        data: DataFrame, full survival data.
-        pred_col: Name of column to reference for dividing groups.
-        duration_col: Name of column indicating time.
-        event_col: Name of column indicating event.
-        score_min: min value in pred_col.
-        score_max: max value in pred_col.
-        balance: True if using BHR as metrics, otherwise HR.
+    Parameters
+    ----------
+    data : DataFrame
+        full survival data.
+    pred_col : str
+        Name of column to reference for dividing groups.
+    duration_col : str
+        Name of column indicating time.
+    event_col : str
+        Name of column indicating event.
+    score_min : :obj:`int`, optional
+        min value in pred_col.
+    score_max : :obj:`int`, optional
+        max value in pred_col.
+    balance : bool
+        True if using BHR as metrics, otherwise HR.
 
-    Returns:
-        Optimal cutoffs.
+    Returns
+    -------
+    float
+        Optimal cutoffs according to ratio of hazards methods.
 
-    Examples:
-        hazards_ratio(data, 'score', 'T', 'E', balance=True)
+    Examples
+    --------
+    >>> hazards_ratio(data, 'score', 'T', 'E', balance=True)
     """
     # initialize
     max_val = -1
@@ -143,21 +161,29 @@ def hazards_ratio(data, pred_col, duration_col, event_col, score_min=0, score_ma
     return cut_off
 
 def youden_onecut(data, pred_col, duration_col, event_col, pt=None):
-    """
-    Cutoff maximize Youden Index.
+    """Cutoff maximize Youden Index.
 
-    Parameters:
-        data: DataFrame, full survival data.
-        pred_col: Name of column to reference for dividing groups.
-        duration_col: Name of column indicating time.
-        event_col: Name of column indicating event.
-        pt: Predicted time.
+    Parameters
+    ----------
+    data : pandas.DataFrame
+        full survival data.
+    pred_col : str
+        Name of column to reference for dividing groups.
+    duration_col : str
+        Name of column indicating time.
+    event_col : str
+        Name of column indicating event.
+    pt : int, default None
+        Predicted time.
 
-    Returns:
-        value indicating cutoff for pred_col of data.
+    Returns
+    -------
+    float
+        Value indicating cutoff for pred_col of data.
 
-    Examples:
-        youden_onecut(data, 'X', 'T', 'E')
+    Examples
+    --------
+    >>> youden_onecut(data, 'X', 'T', 'E')
     """
     X = data[pred_col].values
     T = data[duration_col].values
@@ -179,21 +205,29 @@ def youden_onecut(data, pred_col, duration_col, event_col, pt=None):
     return r.cutoff
 
 def youden_twocut(data, pred_col, duration_col, event_col, pt=None):
-    """
-    Two values of cutoff maximize Youden Index.
+    """Two values of cutoff maximize Youden Index.
 
-    Parameters:
-        data: DataFrame, full survival data.
-        pred_col: Name of column to reference for dividing groups.
-        duration_col: Name of column indicating time.
-        event_col: Name of column indicating event.
-        pt: Predicted time.
+    Parameters
+    ----------
+    data : pandas.DataFrame
+        Full survival data.
+    pred_col : str
+        Name of column to reference for dividing groups.
+    duration_col : str
+        Name of column indicating time.
+    event_col : str
+        Name of column indicating event.
+    pt : int
+        Predicted time.
 
-    Returns:
+    Returns
+    -------
+    tuple
         (cutoff-1, cutoff-2) value indicating cutoff for pred_col of data.
 
-    Examples:
-        youden_twocut(data, 'X', 'T', 'E')
+    Examples
+    --------
+    >>> youden_twocut(data, 'X', 'T', 'E')
     """
     # Cut-off1
     cutoff = youden_onecut(data, pred_col, duration_col, event_col, pt=pt)

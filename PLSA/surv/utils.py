@@ -3,21 +3,29 @@ import pandas as pd
 import pyper as pr
 
 def surv_roc(data, pred_col, duration_col, event_col, pt=None):
-    """
-    Get survival ROC at predicted time.
+    """Get survival ROC at predicted time.
 
-    Parameters:
-        data: DataFrame, full survival data.
-        pred_col: Name of column to reference for dividing groups.
-        duration_col: Name of column indicating time.
-        event_col: Name of column indicating event.
-        pt: Predicted time.
+    Parameters
+    ----------
+    data : pandas.DataFrame
+        Full survival data.
+    pred_col : str
+        Name of column to reference for dividing groups.
+    duration_col : str
+        Name of column indicating time.
+    event_col : str
+        Name of column indicating event.
+    pt : int
+        Predicted time.
 
-    Returns:
-        Object include "FP", "TP" and "AUC" in ROC.
+    Returns
+    -------
+    `dict`
+        Object of dict include "FP", "TP" and "AUC" in ROC.
 
-    Examples:
-        surv_roc(data, 'X', 'T', 'E', pt=5)
+    Examples
+    --------
+    >>> surv_roc(data, 'X', 'T', 'E', pt=5)
     """
     X = data[pred_col].values
     T = data[duration_col].values
@@ -37,19 +45,25 @@ def surv_roc(data, pred_col, duration_col, event_col, pt=None):
     return r.src
 
 def surv_data_at_risk(data, duration_col, points=None):
-    """
-    Get number of people at risk at some timing.
+    """Get number of people at risk at some timing.
 
-    Parameters:
-        data: DataFrame, survival data.
-        duration_col: Name of column indicating time.
-        points: Points of Time selected to watch.
+    Parameters
+    ----------
+    data : pandas.DataFrame
+        Full survival data.
+    duration_col : str
+        Name of column indicating time.
+    points : list(int)
+        Points of Time selected to watch.
 
-    Returns:
-        DataFrame, number of people at risk.
+    Returns
+    -------
+    `pandas.DataFrame` 
+        Number of people at risk.
 
-    Examples:
-        surv_data_at_risk(data, "T", points=[0, 10, 20, 30, 40, 50])
+    Examples
+    --------
+    >>> surv_data_at_risk(data, "T", points=[0, 10, 20, 30, 40, 50])
     """
     Td = data[duration_col].value_counts()
     TList = list(Td.index)
@@ -86,19 +100,25 @@ def surv_data_at_risk(data, duration_col, points=None):
     return pd.DataFrame({"Time": T, "Obs": Obs, "Deaths": Deaths})
 
 def survival_by_hr(T0, S0, pred):
-    """
-    Get survival function of patients according to giving hazard ratio.
+    """Get survival function of patients according to giving hazard ratio.
 
-    Parameters:
-        T0: np.array, time.
-        S0: np.array, based estimated survival function of patients.
-        pred: pandas.Series, hazard ratio of patients. 
+    Parameters
+    ----------
+    T0 : np.array
+        time.
+    S0 : np.array
+        based estimated survival function of patients.
+    pred : pandas.Series
+        hazard ratio of patients. 
 
-    Returns:
+    Returns
+    -------
+    `tuple`
         T0, ST indicating survival function of patients.
 
-    Examples:
-        survival_by_hr(T0, S0, data['hazard_ratio'])
+    Examples
+    --------
+    >>> survival_by_hr(T0, S0, data['hazard_ratio'])
     """
     hazard_ratio = pred.values.reshape((pred.shape[0], 1))
     # Estimate S0(t) using data(base_X, base_label)
@@ -107,25 +127,36 @@ def survival_by_hr(T0, S0, pred):
     return T0, ST
 
 def survival_status(data, duration_col, event_col, end_time, inplace=False):
-    """
-    Get status of event at a specified time. 
+    """Get status of event at a specified time. 
+
     0: status = 0, Time = end_time (T >= end_time) 
        status = 0, Time = T  (T < end_time)
     1: status = 1, Time = T  (T <= end_time)
        status = 0, Time = end_time (T > end_time)
 
-    Parameters:
-        data: DataFrame, full survival data.
-        duration_col: Name of column indicating time.
-        event_col: Name of column indicating event.
-        end_time: End time of study.
-        inplace: Do replace original data.
+    Parameters
+    ----------
+    data : pandas.DataFrame
+        Full survival data.
+    duration_col : str
+        Name of column indicating time.
+    event_col : str
+        Name of column indicating event.
+    end_time : int
+        End time of study.
+    inplace : bool, default False
+        Do replace original data.
 
-    Returns:
+    Returns
+    -------
+    None or tuple
+        data indicates status of survival.
+        
         None or tuple(time(pandas.Series), status(pandas.Series))
 
-    Examples:
-        survival_status(data, 'T', 'E', 10, inplace=False)
+    Examples
+    --------
+    >>> survival_status(data, 'T', 'E', 10, inplace=False)
     """
     if inplace:
         data.loc[(data[event_col] == 1) & (data[duration_col] > end_time), event_col] = 0

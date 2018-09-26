@@ -4,21 +4,29 @@ import math
 import pandas as pd
 
 def Hosmer_Lemeshow_Test(bins_true, bins_pred, bins_tot, n_bins=10, in_sample=False):
-    """
-    Hosmer-Lemeshow Test for testing calibration.
+    """Hosmer-Lemeshow Test for testing calibration.
 
-    Parameters:
-        bins_true: True Number of people in each group.
-        bins_pred: Pred Number of people in each group.
-        bins_tot: Totol Number of people in each group.
-        n_bins: Number of groups.
-        in_sample: Is Calibration-Test in sample.
+    Parameters
+    ----------
+    bins_true : numpy.array
+        True Number of people in each group.
+    bins_pred : numpy.array
+        Pred Number of people in each group.
+    bins_tot : numpy.array
+        Totol Number of people in each group.
+    n_bins : int
+        Number of groups.
+    in_sample : bool, default False
+        Is Calibration-Test in sample.
 
-    Returns:
-        chi2 value and P. 
+    Returns
+    -------
+    tuple
+        chi2 value and P value. 
 
-    Examples:
-        Hosmer_Lemeshow_Test(bins_true, bins_pred, bins_tot, n_bins=5)
+    Examples
+    --------
+    >>> Hosmer_Lemeshow_Test(bins_true, bins_pred, bins_tot, n_bins=5)
     """
     v_chi2 = sum((bins_true - bins_pred)**2 / bins_pred / (1.0 - bins_pred / bins_tot))
     degree_of_freedom = n_bins - 2 if in_sample else n_bins
@@ -26,21 +34,27 @@ def Hosmer_Lemeshow_Test(bins_true, bins_pred, bins_tot, n_bins=10, in_sample=Fa
     return v_chi2, p
 
 def Delong_Test(y_true, pred_a, pred_b):
-    """
-    Delong-Test for comparing two predictive model.
+    """Delong-Test for comparing two predictive model.
 
-    Parameters:
-        y_true: true label.
-        pred_a: model A predict.
-        pred_b: model B predict
+    Parameters
+    ----------
+    y_true : numpy.array or pandas.Series.
+        True label.
+    pred_a : numpy.array or pandas.Series.
+        Prediction of model A.
+    pred_b : numpy.array or pandas.Series.
+        Prediction of model B.
 
-    Returns:
-        chi2 value, P
+    Returns
+    -------
+    tuple
+        chi2 value and P-value.
 
-    Examples:
-        # pred_proba1 = xgb1.predict_proba(test_X)
-        # pred_proba2 = xgb2.predict_proba(test_X)
-        Delong_test(test_y, pred_proba1[:, 1], pred_proba2[:, 1])
+    Examples
+    --------
+    >>> # pred_proba1 = xgb1.predict_proba(test_X)
+    >>> # pred_proba2 = xgb2.predict_proba(test_X)
+    >>> Delong_test(test_y, pred_proba1[:, 1], pred_proba2[:, 1])
     """
     idx = 0
     a_x, v_ax = [], []

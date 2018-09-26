@@ -4,17 +4,23 @@ import pandas as pd
 from sklearn import metrics
 
 def accuracy(y_true, y_prob):
-    """
-    Cutoff maximize accuracy.
+    """Cutoff maximize accuracy.
 
-    Parameters:
-        y_true, y_prob: true and predicted value.
+    Parameters
+    ----------
+    y_true : `np.array` or `pandas.Series`
+        True value.
+    y_prob : `np.array` or `pandas.Series`
+        Predicted value.
 
-    Returns:
-        optimal cutoff and max metrics. 
+    Returns
+    -------
+    tuple(float, float)
+        Optimal cutoff and max metrics. 
 
-    Examples:
-        accuracy(y_true, y_prob)
+    Examples
+    --------
+    >>> accuracy(y_true, y_prob)
     """
     fpr, tpr, threshold = metrics.roc_curve(y_true, y_prob)
     max_acc = 0.0
@@ -30,17 +36,23 @@ def accuracy(y_true, y_prob):
     return res_Cutoff, max_acc
 
 def youden(target, predicted):
-    """
-    Cutoff maximize Youden Index.
+    """Cutoff maximize Youden Index.
 
-    Parameters:
-        target, predicted: true and predicted value.
+    Parameters
+    ----------
+    target : `np.array` or `pandas.Series`
+        True value.
+    predicted : `np.array` or `pandas.Series`
+        Predicted value.
 
-    Returns:
+    Returns
+    -------
+    tuple(float, float)
         optimal cutoff and max metrics.
 
-    Examples:
-        youden(y_true, y_prob)
+    Examples
+    --------
+    >>> youden(y_true, y_prob)
     """
     fpr, tpr, threshold = metrics.roc_curve(target, predicted)
     max_yuden = 0.0

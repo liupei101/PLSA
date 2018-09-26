@@ -7,21 +7,31 @@ from lifelines.statistics import logrank_test
 
 def div_three_groups(data, pred_col, duration_col, event_col, 
                      pt=None, methods='youden', **kws):
-    """
-    Divide data into three groups using methods and summarize result.
+    """Divide data into three groups using methods and summarize result.
 
-    Parameters:
-        data: DataFame, full survival data.
-        pred_col: Name of column to reference for dividing groups.
-        duration_col: Name of column indicating time.
-        event_col: Name of column indicating event.
-        pt: Predicted time.
-        methods: Methods for selecting cutoffs, default "youden".
+    Parameters
+    ----------
+    data : pandas.DataFame
+        Full survival data.
+    pred_col : str 
+        Name of column to reference for dividing groups.
+    duration_col : str
+        Name of column indicating time.
+    event_col : str
+        Name of column indicating event.
+    pt : int
+        Predicted time.
+    methods : str
+        Methods for selecting cutoffs, default "youden".
 
-    Returns:
+    Returns
+    -------
+    None
+        Print summary of result and plot KM-curve of each groups.
 
-    Examples:
-        div_three_groups(data, "X", "T", "E")
+    Examples
+    --------
+    >>> div_three_groups(data, "X", "T", "E")
     """
     if methods == "youden":
         ct1, ct2 = youden_twocut(data, pred_col, duration_col, event_col, pt=pt)
@@ -61,20 +71,29 @@ def surv_calibration(data, duration_col, event_col, pred_proba,
                      xlabel="Predicted Risk Probability", 
                      ylabel="Observed Risk Probability", 
                      title="Model Performance", save_fig_as=""):
-    """
-    Evaluate calibration of predicted survival probability at time pt.
+    """Evaluate calibration of predicted survival probability at time pt.
 
-    Parameters:
-        data: pd.DataFame, full survival data.
-        duration_col: Name of column indicating time.
-        event_col: Name of column indicating event.
-        pred_proba: np.array, Predicted survival probability at time pt.
-        pt: Predicted time.
+    Parameters
+    ----------
+    data: pandas.DataFame
+        Full survival data.
+    duration_col : str
+        Name of column indicating time.
+    event_col : str
+        Name of column indicating event.
+    pred_proba: np.array
+        Predicted survival probability at time pt.
+    pt : int
+        Predicted time.
 
-    Returns:
+    Returns
+    -------
+    None
+        Print summary of result and plot curve of calibration.
 
-    Examples:
-        surv_calibration(data, "T", "E", surv_function[10], pt=10)
+    Examples
+    --------
+    >>> surv_calibration(data, "T", "E", surv_function[10], pt=10)
     """
     if pt is None:
         pt = data[duration_col].max()
@@ -84,21 +103,31 @@ def surv_calibration(data, duration_col, event_col, pred_proba,
 
 def surv_time_auc(data_train, data_test, pred_col, duration_col, event_col, 
                   pt=[], labels=['Train', 'Validation'], **kws):
-    """
-    Plot curve of auc at some predicted time.
+    """Plot curve of auc at some predicted time.
 
-    Parameters:
-        data_train: pd.DataFame, full survival data for train.
-        data_test: pd.DataFame, full survival data for test.
-        pred_col: Name of column indicating target value.
-        duration_col: Name of column indicating time.
-        event_col: Name of column indicating event.
-        pt: Predicted time indicating list of watching. 
+    Parameters
+    ----------
+    data_train : pandas.DataFame
+        Full survival data for train.
+    data_test : pandas.DataFame
+        Full survival data for test.
+    pred_col : str
+        Name of column indicating target value.
+    duration_col : str
+        Name of column indicating time.
+    event_col : str
+        Name of column indicating event.
+    pt : list(int)
+        Predicted time indicating list of watching. 
 
-    Returns:
+    Returns
+    -------
+    None
+        Print summary of result and plot curve of auc with time.
 
-    Examples:
-        surv_time_auc(train_data, test_data, 'X', 'T', 'E', pt=[1, 3, 5, 10])
+    Examples
+    --------
+    >>> surv_time_auc(train_data, test_data, 'X', 'T', 'E', pt=[1, 3, 5, 10])
     """
     train_list, test_list = [], []
     for t in pt:

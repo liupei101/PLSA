@@ -5,21 +5,31 @@ from scipy.stats import norm
 def plot_cphCoef(df, coef_col='coef', se_col='se(coef)', c_col='p', name_col=None, ci=0.95,
                  xlabel="Name of variable", ylabel="Coefficient", 
                  title="Variable's coefficient of CPH model", save_fig_as=""):
-    """
-    Short description about your function.
+    """Visualize variables' coefficient in lifelines.CPH model
 
-    Parameters:
-        df: pandas.DataFrame, is cph.summary.
-        coef_col: Coefficient.
-        se_col: Standard error.
-        c_col: Color.
-        name_col: Name of x-axis's column. 
-        ci: Confidence interval, default 0.95.
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Object equals to cph.summary.
+    coef_col : str
+        Name of column indicating coefficient.
+    se_col : str
+        Name of column indicating standard error.
+    c_col: str
+        Name of column indicating color.
+    name_col: str
+        Name of x-axis's column. 
+    ci : float
+        Confidence interval, default 0.95.
 
-    Returns:
+    Returns
+    -------
+    None
+        Plot figure of coefficient.
 
-    Examples:
-        plot_cphCoef(cph.summary, 'coef', 'se(coef)', 'p')
+    Examples
+    --------
+    >>> plot_cphCoef(cph.summary, 'coef', 'se(coef)', 'p')
     """
     N = len(df)
     if name_col is None:
