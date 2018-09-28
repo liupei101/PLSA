@@ -25,6 +25,7 @@ setup(name='PLSA',
         'pyper',
         'seaborn',
         'sklearn2pmml',
+        'xgboost',
     ],
     include_package_data=True,
 )
