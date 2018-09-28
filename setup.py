@@ -23,6 +23,8 @@ setup(name='PLSA',
         'scikit-learn>=0.19.0',
         'lifelines>=0.9.2',
         'pyper',
+        'seaborn',
+        'sklearn2pmml',
     ],
     include_package_data=True,
 )
