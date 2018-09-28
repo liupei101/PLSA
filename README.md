@@ -32,7 +32,7 @@ Tools in the package is listed below respectively:
 
 # Read Docs
 
-[ReadTheDocs](http://pysimplegui.readthedocs.io/)
+[ReadTheDocs](http://plsa.readthedocs.io/)
 
 # TODO list
 
