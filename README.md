@@ -30,6 +30,10 @@ Tools in the package is listed below respectively:
     - survrisk: plot survial function of different risk-groups.
     - lib: include general function in plotting figure.
 
+# Read Docs
+
+[ReadTheDocs](http://pysimplegui.readthedocs.io/)
+
 # TODO list
 
 None
