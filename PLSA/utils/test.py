@@ -120,3 +120,32 @@ def Delong_Test(y_true, pred_a, pred_b):
     u = np.dot(L, theta.T) / np.sqrt(np.dot(np.dot(L, (Sv / n1) + (Sz / n2)), L.T))
     pval = stats.norm.sf(np.abs(u))
     return u, 2.0 * pval
+
+def VIF_Test(data, cols=None):
+    """Variance Inflation Factors for each variable.
+
+    Parameters
+    ----------
+    data : pandas.DataFrame
+        Targeted data.
+    cols : list(str), default `None`
+        Given columns to calculate VIF.
+
+    Returns
+    -------
+    pandas.Series
+        Return VIF for each variable included in cols.
+
+    Examples
+    --------
+    >>> VIF_Test(data[x_cols])
+    """
+    from statsmodels.stats.outliers_influence import variance_inflation_factor
+    from statsmodels.tools.tools import add_constant
+    if cols is None:
+        cols = list(data.columns)
+    X = add_constant(data[cols])
+    res = pd.Series([variance_inflation_factor(X.values, i) for i in range(X.shape[1])], 
+                    index=X.columns)
+    print(res)
+    return res

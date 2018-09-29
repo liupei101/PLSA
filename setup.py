@@ -26,6 +26,7 @@ setup(name='PLSA',
         'seaborn',
         'sklearn2pmml',
         'xgboost',
+        'statsmodels',
     ],
     include_package_data=True,
 )
