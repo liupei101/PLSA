@@ -41,9 +41,9 @@ def div_three_groups(data, pred_col, duration_col, event_col,
 
     Examples
     --------
-    ### Youden index to give cutoffs
+    >>> # Youden index to give cutoffs
     >>> div_three_groups(data, "X", "T", "E")
-    ### Give cutoffs explicitly
+    >>> # Give cutoffs explicitly
     >>> div_three_groups(data, "X", "T", "E", cutoffs=(20, 50))
     """
     if not (cutoffs is None):
