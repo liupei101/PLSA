@@ -39,7 +39,11 @@ def coxph_coef(data, duration_col, event_col, silence=True):
     cph.fit(data, duration_col=duration_col, event_col=event_col, show_progress=(not silence))
     if not silence:
         cph.print_summary()
-    return np.exp(cph.hazards_['div']['coef'])
+    # if div is significant, return it's coefficent
+    if cph.summary['p'].any() < 0.05:
+        return np.exp(cph.hazards_['div']['coef'])
+    # otherwise return negative value
+    return -1.0
 
 def loss_hr(data_list, duration_col, event_col, base_val=0, silence=True):
     N_group = len(data_list)
@@ -50,7 +54,7 @@ def loss_hr(data_list, duration_col, event_col, base_val=0, silence=True):
     df = data[['div', event_col, duration_col]]
     return coxph_coef(df, duration_col, event_col, silence=silence)
 
-def loss_bhr(data_list, duration_col, event_col, base_val=1, silence=True):
+def loss_bhr(data_list, duration_col, event_col, base_val=2, silence=True):
     N_group = len(data_list)
     L = []
     for i in range(N_group):
