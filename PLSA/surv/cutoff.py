@@ -40,7 +40,7 @@ def coxph_coef(data, duration_col, event_col, silence=True):
     if not silence:
         cph.print_summary()
     # if div is significant, return it's coefficent
-    if cph.summary['p'].any() < 0.05:
+    if (cph.summary['p'] < 0.05).any():
         return np.exp(cph.hazards_['div']['coef'])
     # otherwise return negative value
     return -1.0
