@@ -13,7 +13,7 @@ from PLSA.vision.calibration import plot_DCalibration
 from lifelines.statistics import logrank_test
 
 def div_three_groups(data, pred_col, duration_col, event_col, 
-                     pt=None, methods='youden', **kws):
+                     cutoffs=None, methods='youden', pt=None, **kws):
     """Divide data into three groups using methods and summarize result.
 
     Parameters
@@ -26,10 +26,13 @@ def div_three_groups(data, pred_col, duration_col, event_col,
         Name of column indicating time.
     event_col : str
         Name of column indicating event.
-    pt : int
-        Predicted time.
+    cutoffs : default `None` or `tuple`
+        Given cutoffs for risk groups.
+        If `cutoffs` is not None, then methods will not be called.
     methods : str
         Methods for selecting cutoffs, default "youden".
+    pt : int
+        Predicted time.
 
     Returns
     -------
@@ -38,9 +41,14 @@ def div_three_groups(data, pred_col, duration_col, event_col,
 
     Examples
     --------
+    ### Youden index to give cutoffs
     >>> div_three_groups(data, "X", "T", "E")
+    ### Give cutoffs explicitly
+    >>> div_three_groups(data, "X", "T", "E", cutoffs=(20, 50))
     """
-    if methods == "youden":
+    if not (cutoffs is None):
+        ct1, ct2 = cutoffs
+    elif methods == "youden":
         ct1, ct2 = youden_twocut(data, pred_col, duration_col, event_col, pt=pt)
     else:
         #TODO
