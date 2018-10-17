@@ -10,7 +10,7 @@ from scipy.stats import norm
 
 def plot_cphCoef(df, coef_col='coef', se_col='se(coef)', c_col='p', name_col=None, ci=0.95,
                  xlabel="Name of variable", ylabel="Coefficient", 
-                 title="Variable's coefficient of CPH model", save_fig_as=""):
+                 title="Variable's coefficient of CPH model", figsize=(8, 6), save_fig_as=""):
     """Visualize variables' coefficient in lifelines.CPH model
 
     Parameters
@@ -46,10 +46,10 @@ def plot_cphCoef(df, coef_col='coef', se_col='se(coef)', c_col='p', name_col=Non
     # Calculate p for CI
     df['CI__'] = abs(norm.ppf((1-ci)/2)) * df[se_col]
     # Plot figure
-    fig, ax = plt.subplots(figsize=(10, 6))
+    fig, ax = plt.subplots(figsize=figsize)
     df.plot.scatter(x='idx__', y=coef_col, c='1 - P-value', 
                     marker='s', s=120, cmap=plt.cm.get_cmap('YlOrRd'), ax=ax)
-    ax.axhline(y=0, linestyle='--', color='black', linewidth=1)
+    ax.axhline(y=0, linestyle='--', color='black', linewidth=0.5)
     df.plot(x='idx__', y=coef_col, kind='bar', yerr='CI__', color="None", legend=False, ax=ax)
     ax.set_xticklabels(list(df[name_col]), rotation=0)
     plt.xlabel(xlabel)
