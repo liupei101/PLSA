@@ -9,8 +9,8 @@ import matplotlib.pyplot as plt
 from scipy.stats import norm
 
 def plot_cphCoef(df, coef_col='coef', se_col='se(coef)', c_col='p', name_col=None, ci=0.95,
-                 xlabel="Name of variable", ylabel="Coefficient", 
-                 title="Variable's coefficient of CPH model", figsize=(8, 6), save_fig_as=""):
+                 xlabel="Name of variable", ylabel="Coefficient", title="Variable's coefficient of CPH model", 
+                 figsize=(8, 6), save_fig_as=""):
     """Visualize variables' coefficient in lifelines.CPH model
 
     Parameters
