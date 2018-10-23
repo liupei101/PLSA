@@ -6,33 +6,35 @@ A Python Library of Statistical Analyze for using in my private workflow.
 
 # Introduction
 
-This project is a Python Library of Statistical Analyze(PLSA). For working easily, I packed all files to a package for reusing. Have to mention that this package will mainly use for statistical analyze in medical data.
+This project is a Python Library of Statistical Analyze(PLSA). 
 
-This package will be updated anytime.
+The library collects files generated in my routinue, and motivation of it is mainly reusing. Have to mention that this package would be suitable for people working in field of medical statistical analysis.
 
-Tools in the package is listed below respectively:
+This library will be updated and released as a standard Python Pypi Packages.
+
+Functions in the package is summarized below respectively:
 
 - data
-    - processing: process data.
+    - processing: process data used in survival analyze.
 - qcal
-    - func: call general function quickly.
+    - func: integrate functions of other mudules, mainly for calling freely.
 - surv
     - cutoff: get optimal cutoffs according different criterion in survival analyze.
     - utils: include general function in survival analyze.
 - utils
-    - cutoff: get optimal cutoffs according different criterion in common use.
+    - cutoff: get optimal cutoffs according different criterion in general case.
     - metrics: evaluate models by some metrics.
-    - test: include hypothetical test.
-    - write: save and output sklearn model.
+    - test: include methods of hypothetical test.
+    - write: save and output formatted PMML file converted from sklearn model.
 - vision
-    - calibration: plot calibration curve.
-    - roc: plot ROC curve.
-    - survrisk: plot survial function of different risk-groups.
+    - calibration: visualize calibration curve.
+    - roc: visualize ROC curve.
+    - survrisk: visualize survial function of different risk-groups.
     - lib: include general function in plotting figure.
 
 # Read Docs
 
-[ReadTheDocs](http://plsa.readthedocs.io/)
+[PLSA](http://plsa.readthedocs.io/)
 
 # TODO list
 
@@ -40,5 +42,5 @@ None
 
 # News
 
-- version 0.2 is released.
-- Docs of PLSA passed.
+- Version 0.2 is released.
+- Support for ploting forest of coefficient in CPH model
