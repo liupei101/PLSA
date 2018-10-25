@@ -66,7 +66,7 @@ div_three_groups(data, 'pred_risk', 'T', 'E', cutoffs=(CT1, CT2), labels=['Low',
 # >
 ```
 
-<div align=center>![picture for risk groups](./tools/README-DivideGroups.png)
+![picture for risk groups](./tools/README-DivideGroups.png)
 
 ### 2.Curve of Time-Dependent ROC and Calibration is also available
 
@@ -85,7 +85,7 @@ vision.plt_twoSurvROC(train_roc, test_roc, filename="AUC120.png")
 # AUC on test  set : 0.670286957204
 ```
 
-<div align=center>![picture for t-roc](./tools/README-TimeROC.png)
+![picture for t-roc](./tools/README-TimeROC.png)
 
 ### 3.Forest of coefficents from `lifelines`'s CPH model
 
@@ -102,4 +102,4 @@ plot_cphCoef(cph.summary, error_bar='hr', figsize=(20, 5))
 ```
 
 Color shade of square dots correlated to P-value of variables
-<div align=center>![picture for coef](./tools/README-CoefRF.png)
+![picture for coef](./tools/README-CoefRF.png)
