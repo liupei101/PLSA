@@ -43,7 +43,7 @@ Reference for PLSA : [Docs for PLSA](http://plsa.readthedocs.io/)
 
 # Examples
 
-1. Divive data into three groups according to cutoff (ct1, ct2)
+### 1.Divive data into three groups according to cutoff (ct1, ct2)
 
 ```python
 from PLSA.qcal.func import div_three_groups
@@ -66,9 +66,9 @@ div_three_groups(data, 'pred_risk', 'T', 'E', cutoffs=(CT1, CT2), labels=['Low',
 # >
 ```
 
-![picture for risk groups](./tools/README-DivideGroups.png)
+<div align=center>![picture for risk groups](./tools/README-DivideGroups.png)
 
-2. Curve of Time-Dependent ROC and Calibration is also available
+### 2.Curve of Time-Dependent ROC and Calibration is also available
 
 ```python
 from PLSA import surv
@@ -85,9 +85,9 @@ vision.plt_twoSurvROC(train_roc, test_roc, filename="AUC120.png")
 # AUC on test  set : 0.670286957204
 ```
 
-![picture for t-roc](./tools/README-TimeROC.png)
+<div align=center>![picture for t-roc](./tools/README-TimeROC.png)
 
-3. Forest of coefficents from `lifelines`'s CPH model
+### 3.Forest of coefficents from `lifelines`'s CPH model
 
 ```python
 from lifelines import CoxPHFitter
@@ -100,5 +100,6 @@ cph.fit(data, duration_col='T', event_col='E')
 # Plot hazard ratio of each variable in setting of error_bar='hr'
 plot_cphCoef(cph.summary, error_bar='hr', figsize=(20, 5))
 ```
+
 Color shade of square dots correlated to P-value of variables
-![picture for coef](./tools/README-CoefRF.png)
+<div align=center>![picture for coef](./tools/README-CoefRF.png)
