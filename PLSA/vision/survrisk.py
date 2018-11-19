@@ -49,7 +49,7 @@ def plot_riskGroups(data_groups, event_col, duration_col, labels=[], plot_join=F
     for i in range(N_groups):
         kmfh = KaplanMeierFitter()
         sub_group = data_groups[i]
-        kmfh.fit(sub_group[duration_col], event_observed=sub_group[event_col], label=labels[i] + ' Risk Group')
+        kmfh.fit(sub_group[duration_col], event_observed=sub_group[event_col], label=labels[i])
         kmfh.survival_function_.plot(ax=ax)
         kmfit_groups.append(kmfh)
     # Plot two group (i, i + 1)
@@ -57,7 +57,7 @@ def plot_riskGroups(data_groups, event_col, duration_col, labels=[], plot_join=F
         for i in range(N_groups - 1):
             kmfh = KaplanMeierFitter()
             sub_group = pd.concat([data_groups[i], data_groups[i+1]], axis=0)
-            kmfh.fit(sub_group[duration_col], event_observed=sub_group[event_col], label=labels[i]+'&'+labels[i+1] + ' Risk Group')
+            kmfh.fit(sub_group[duration_col], event_observed=sub_group[event_col], label=labels[i]+'&'+labels[i+1])
             kmfh.survival_function_.plot(ax=ax)
             kmfit_groups.append(kmfh)
     plt.ylim(0, 1.01)
