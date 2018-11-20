@@ -5,12 +5,15 @@ The function of this Module is served for quick calling functions, and functions
 of other modules will be called by it.
 
 """
+import pandas as pd
+from lifelines import CoxPHFitter
+from lifelines.statistics import logrank_test
+from lifelines.utils import concordance_index
 from PLSA.surv.cutoff import youden_twocut
 from PLSA.surv.utils import survival_status, surv_roc
 from PLSA.data.processing import cut_groups
 from PLSA.vision.survrisk import plot_riskGroups, plot_timeAUC
 from PLSA.vision.calibration import plot_DCalibration
-from lifelines.statistics import logrank_test
 
 def div_three_groups(data, pred_col, duration_col, event_col, 
                      cutoffs=None, methods='youden', pt=None, **kws):
@@ -153,3 +156,80 @@ def surv_time_auc(data_train, data_test, pred_col, duration_col, event_col,
     for i in range(len(pt)):
         print "%.2f\t%.2f \t%.2f" % (float(pt[i]), train_list[i], test_list[i])
     plot_timeAUC(pt, train_list, test_list, labels=labels, **kws)
+
+def surv_coxph(data_train, x_cols, duration_col, event_col, 
+               data_test=None, pt=None, show_extra=True):
+    """Integrate functions that include modeling using Cox Regression and evaluating 
+
+    Parameters
+    ----------
+    data_train : pandas.DataFame
+        Full survival data for train.
+    x_cols : list of str
+        Name of column indicating variables.
+    duration_col : str
+        Name of column indicating time.
+    event_col : str
+        Name of column indicating event.
+    data_test : pandas.DataFame
+        Full survival data for test, default None.
+    pt : float
+        Predicted time for AUC.
+
+    Returns
+    -------
+    object
+        Object of cox model in `lifelines.CoxPHFitter`.
+
+    Examples
+    --------
+    >>> surv_coxph(train_data, ['x1', 'x2'], 'T', 'E', test_data, pt=5*12)
+    """
+    y_cols = [event_col, duration_col]
+    cph = CoxPHFitter()
+    cph.fit(data_train[x_cols + y_cols], 
+            duration_col=duration_col, event_col=event_col, 
+            show_progress=True)
+    # CI of train
+    pred_X_train = cph.predict_partial_hazard(data_train[x_cols])
+    pred_X_train.rename(columns={0: 'X'}, inplace=True)
+    ci_train = concordance_index(data_train[duration_col], -pred_X_train, data_train[event_col])
+    # AUC of train at pt
+    df = pd.concat([data_train[y_cols], pred_X_train], axis=1)
+    roc_train = surv_roc(df, 'X', duration_col, event_col, pt=pt)
+    if data_test is not None:
+        # CI of test
+        pred_X_test = cph.predict_partial_hazard(data_test[x_cols])
+        pred_X_test.rename(columns={0: 'X'}, inplace=True)
+        ci_test = concordance_index(data_test[duration_col], -pred_X_test, data_test[event_col])
+        # AUC of test at pt
+        df = pd.concat([data_test[y_cols], pred_X_test], axis=1)
+        roc_test = surv_roc(df, 'X', duration_col, event_col, pt=pt)
+    # Print Summary of CPH
+    cph.print_summary()
+    print "__________Metrics CI__________"
+    print "CI of train: %.4f" % ci_train
+    if data_test is not None:
+        print "CI of test : %.4f" % ci_test
+    print "__________Metrics AUC__________"
+    print "AUC of train: %.4f" % roc_train['AUC']
+    if data_test is not None:
+        print "AUC of test : %.4f" % roc_test['AUC']
+    
+    if not show_extra:
+        return cph
+    # Print Coefficients
+    print "__________Summary of Coefficients in CPH__________"
+    cols = ['coef', 'p', 'lower 0.95', 'upper 0.95']
+    print cols[0], ":"
+    for i in cph.summary.index:
+        print "%.4f" % (cph.summary.loc[i, cols[0]])
+    print "__________"
+    print cols[1], ":"
+    for i in cph.summary.index:
+        print "%.4f" % (cph.summary.loc[i, cols[1]])
+    print "__________"
+    print "95% CI :"
+    for i in cph.summary.index:
+        print "[%.4f, %.4f]" % (cph.summary.loc[i, cols[2]], cph.summary.loc[i, cols[3]])
+    return cph
