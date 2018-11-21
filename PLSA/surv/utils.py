@@ -103,7 +103,8 @@ def surv_data_at_risk(data, duration_col, points=None):
             T.append(t)
             Obs.append(res[j][1])
             Deaths.append(res[j-1][2])
-    return pd.DataFrame({"Time": T, "Obs": Obs, "Deaths": Deaths})
+    return pd.DataFrame({"Time": T, "Obs": Obs, "Deaths": Deaths}, 
+                       columns=['Time', 'Obs', 'Deaths'])
 
 def survival_by_hr(T0, S0, pred):
     """Get survival function of patients according to giving hazard ratio.
