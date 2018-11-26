@@ -50,7 +50,7 @@ def surv_roc(data, pred_col, duration_col, event_col, pt=None):
     # r.src['AUC'] r.src['FP'], r.src['TP']
     return r.src
 
-def surv_data_at_risk(data, duration_col, points=None):
+def surv_data_at_risk(data, duration_col, event_col, points=None):
     """Get number of people at risk at some timing.
 
     Parameters
@@ -69,7 +69,7 @@ def surv_data_at_risk(data, duration_col, points=None):
 
     Examples
     --------
-    >>> surv_data_at_risk(data, "T", points=[0, 10, 20, 30, 40, 50])
+    >>> surv_data_at_risk(data, 'T', 'E', points=[0, 10, 20, 30, 40, 50])
     """
     Td = data[duration_col].value_counts()
     TList = list(Td.index)
@@ -78,8 +78,8 @@ def surv_data_at_risk(data, duration_col, points=None):
     # Initial
     res = [(0, N, 0)]
     for idx in TList:
-        data_at_time = data[data['T'] == idx]
-        deaths += sum(data_at_time['E'])
+        data_at_time = data[data[duration_col] == idx]
+        deaths += sum(data_at_time[event_col])
         res.append((int(idx), N, deaths))
         S += len(data_at_time)
         N -= len(data_at_time)
