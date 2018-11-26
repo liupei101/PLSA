@@ -20,6 +20,8 @@ setup(name='PLSA',
     ],
     packages = find_packages(),
     install_requires=[
+        'scipy>=1.0',
+        'matplotlib>=2.0.0',
         'lifelines>=0.9.2',
         'pandas>=0.18',
         'scikit-learn>=0.19.0',
