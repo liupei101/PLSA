@@ -8,6 +8,41 @@ import numpy as np
 import pandas as pd
 import pyper as pr
 
+def surv_ci(data, pred_col, duration_col, event_col):
+    """Concordance Index
+
+    Parameters
+    ----------
+    data : pandas.DataFrame
+        Full survival data.
+    pred_col : str
+        Name of column indicating log hazard ratio.
+    duration_col : str
+        Name of column indicating time.
+    event_col : str
+        Name of column indicating event.
+
+    Returns
+    -------
+    `dict`
+        Object of dict include details about CI.
+
+    Examples
+    --------
+    >>> surv_ci(data, 'Pred', 'T', 'E')
+    """
+    X = data[pred_col].values
+    T = data[duration_col].values
+    E = data[event_col].values
+    r = pr.R(use_pandas=True)
+    r("library('survival')")
+    r("library('Hmisc')")
+    r.assign("t", T)
+    r.assign("e", E)
+    r.assign("x", X)
+    r("src <- rcorr.cens(-x, Surv(t, e))")
+    return r.src
+
 def surv_roc(data, pred_col, duration_col, event_col, pt=None):
     """Get survival ROC at predicted time.
 
