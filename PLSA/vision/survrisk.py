@@ -11,7 +11,8 @@ from lifelines import KaplanMeierFitter
 from lifelines.plotting import add_at_risk_counts
 
 def plot_riskGroups(data_groups, event_col, duration_col, labels=[], plot_join=False, 
-                    xlabel="Survival time (Month)", ylabel="Survival Rate", title="Survival function of Risk groups", save_fig_as=""):
+                    xlabel="Survival time (Month)", ylabel="Survival Rate", legend="Risk Groups",
+                    title="Survival function of Risk groups", save_fig_as=""):
     """Plot survival curve for different risk groups.
 
     Parameters
@@ -64,7 +65,7 @@ def plot_riskGroups(data_groups, event_col, duration_col, labels=[], plot_join=F
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     plt.title(title)
-    plt.legend(loc="best", title="Risk Groups")
+    plt.legend(loc="best", title=legend)
     add_at_risk_counts(*kmfit_groups, ax=ax)
     plt.show()
     if save_fig_as != "":
