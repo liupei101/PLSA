@@ -81,6 +81,6 @@ def plot_cphCoef(dfx, coef_col='coef', se_col='se(coef)', c_col='p', name_col=No
     plt.title(title)
     plt.show()
     if save_fig_as != "":
-        fig.savefig(save_fig_as, format='png', dpi=600)
+        fig.savefig(save_fig_as, format='png', dpi=600, bbox_inches='tight')
     # Drop DataFrame
     del df

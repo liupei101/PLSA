@@ -46,7 +46,7 @@ def plot_twoROC(train_roc, test_roc, labels=['Train', 'Validation'],
     plt.legend(loc="best", title=title)
     plt.show()
     if save_fig_as != "":
-        fig.savefig(save_fig_as, format='png', dpi=600)
+        fig.savefig(save_fig_as, format='png', dpi=600, bbox_inches='tight')
 
 
 def plot_ROC(data_roc, xlabel="1 - Specificity", ylabel="Sensitivity", 
@@ -77,7 +77,7 @@ def plot_ROC(data_roc, xlabel="1 - Specificity", ylabel="Sensitivity",
     plt.legend(loc="best", title=title)
     plt.show()
     if save_fig_as != "":
-        fig.savefig(save_fig_as, format='png', dpi=600)
+        fig.savefig(save_fig_as, format='png', dpi=600, bbox_inches='tight')
 
 def plot_DROC(y_true, y_pred, x_true=None, x_pred=None, **kws):
     """Plot ROC curve for giving data.

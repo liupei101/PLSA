@@ -59,4 +59,4 @@ def plot_DCalibration(y_true, pred_proba, n_bins=10, summary=True,
     plt.legend(loc="best", title=title)
     plt.show()
     if save_fig_as != "":
-        fig.savefig(save_fig_as, format='png', dpi=600)
+        fig.savefig(save_fig_as, format='png', dpi=600, bbox_inches='tight')

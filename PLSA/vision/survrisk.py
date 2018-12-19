@@ -69,7 +69,7 @@ def plot_riskGroups(data_groups, event_col, duration_col, labels=[], plot_join=F
     add_at_risk_counts(*kmfit_groups, ax=ax)
     plt.show()
     if save_fig_as != "":
-        fig.savefig(save_fig_as, format='png', dpi=600)
+        fig.savefig(save_fig_as, format='png', dpi=600, bbox_inches='tight')
 
 def plot_timeAUC(x, y_train, y_test, labels=['Train', 'Validation'],
                  xlabel="Time", ylabel="AUC", 
@@ -109,7 +109,7 @@ def plot_timeAUC(x, y_train, y_test, labels=['Train', 'Validation'],
     plt.legend(loc="best", title="Time-AUC")
     plt.show()
     if save_fig_as != "":
-        fig.savefig(save_fig_as, format='png', dpi=600)
+        fig.savefig(save_fig_as, format='png', dpi=600, bbox_inches='tight')
 
 def plot_rsRisk(data, x_col, y1_col, y2_col, labels=["Line-1", "Line2"],
                 xlabel="Risk Score", ylabel="Rate of Risk", 
@@ -150,4 +150,4 @@ def plot_rsRisk(data, x_col, y1_col, y2_col, labels=["Line-1", "Line2"],
     plt.legend(loc="best", title="Time")
     plt.show()
     if save_fig_as != "":
-        fig.savefig(save_fig_as, format='png', dpi=600)
+        fig.savefig(save_fig_as, format='png', dpi=600, bbox_inches='tight')
