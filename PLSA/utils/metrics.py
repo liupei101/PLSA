@@ -140,7 +140,7 @@ def discrimination(y_true, y_pred_proba, threshold=None, name="Model X"):
         "F1": F1
     }
 
-def discrimination_ver(y_true, y_pred_proba, threshold=None, name="Model X"):
+def discrimination_ver(y_true, y_pred_proba, threshold=None, option="accuracy", name="Model X"):
     """Discrimination of classification model in version 2.
 
     Parameters
@@ -151,6 +151,8 @@ def discrimination_ver(y_true, y_pred_proba, threshold=None, name="Model X"):
         Predicted label.
     threshold : float
         Cutoff value.
+    option: str
+        "accuracy" or "youden".
     name : str
         Title for printing.
 
@@ -176,16 +178,28 @@ def discrimination_ver(y_true, y_pred_proba, threshold=None, name="Model X"):
         threshold, _ = cutoff.youden(y_true, y_pred_proba)
     y_pred = (y_pred_proba >= threshold).astype(np.int32)
     tn, fp, fn, tp = metrics.confusion_matrix(y_true, y_pred).ravel()
+    if option == "accuracy":
+        threshold_v = 1.0 * (tn + tp) / (tn + fp + fn + tp)
+    elif option == "youden":
+        threshold_v = 1.0 * tp / (tp + fn) + 1.0 * tn / (fp + tn) - 1.0
+    else:
+        threshold_v = -1
     print "-------------------------------"
     print "Metrics on %s:" % name
-    print "%d\n%d\n%d\n%d" % (tp, fn, fp, tn)
+    print "Confusion Matrix"
+    print "tp: %d    fp: %d\nfn: %d    tn: %d" % (tp, fp, fn, tn)
     Sen = 1.0 * tp / (tp + fn)
     Spe = 1.0 * tn / (fp + tn)
     ppv = 1.0 * tp / (tp + fp)
     npv = 1.0 * tn / (tn + fn)
     print "%.2f\n%.2f\n%.2f\n%.2f" % (100.0*Sen, 100.0*Spe, 100.0*ppv, 100.0*npv)
     return {
-        "points": threshold,
+        "point": threshold,
+        "point-v": threshold_v,
+        "tp": tp,
+        "fn": fn,
+        "fp": fp,
+        "tn": tn,
         "Sen": Sen,
         "Spe": Spe,
         "PPV": ppv,
