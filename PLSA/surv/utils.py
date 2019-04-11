@@ -142,92 +142,45 @@ def surv_data_at_risk(data, duration_col, event_col, points=None):
     return pd.DataFrame({"Time": T, "Obs": Obs, "Deaths": Deaths}, 
                        columns=['Time', 'Obs', 'Deaths'])
 
-def survival_baseline(data_X, data_E, data_T, hazard_ratio, algo="bsl"):
-    """Estimate base survival function S0(t) based on data(X, label).
+def baseline_hazard(label_e, label_t, pred_hr):
+    ind_df = pd.DataFrame({"E": label_e, "T": label_t, "P": pred_hr})
+    summed_over_durations = ind_df.groupby("T")[["P", "E"]].sum()
+    summed_over_durations["P"] = summed_over_durations["P"].loc[::-1].cumsum()
+    # where the index of base_haz is sorted time from small to large
+    # and the column `base_haz` is baseline hazard rate
+    base_haz = pd.DataFrame(
+        summed_over_durations["E"] / summed_over_durations["P"], columns=["base_haz"]
+    )
+    return base_haz
+
+def baseline_cumulative_hazard(label_e, label_t, pred_hr):
+    return baseline_hazard(label_e, label_t, pred_hr).cumsum()
+
+def baseline_survival_function(label_e, label_t, pred_hr):
+    """Estimating baseline survival function using `breslow` algo.
+
     Parameters
     ----------
-    data_X : pandas.DataFrame
-        Patients' covariates.
-    data_E : pandas.Series
-        Patients' observed event.
-    data_T : pandas.Series
-        Patients' observed time.
-    hazard_ratio : numpy.array
-        Predicted patients' hazard ratio.
-    algo : string
-        algorithm for estimating survival function.
-        The options includes "wwe", "kp" and "bsl".
+    label_e : np.array
+        event.
+    label_t : np.array
+        time.
+    pred_hr :  np.array
+        predicted hazard ratio ( e^[y_hat]).
+
     Returns
     -------
-    tuple
-        tuple is (T0, ST), T0 of it means time points of base survival function, 
-        ST of it means survival rate of base survival function.
+    `pandas.DataFrame`
+        where index indicates sorted time points.
+        It only has one column indicating estimated baseline survival function.
+
     Examples
     --------
-    >>> survival_baseline(data[['x1', 'x2', 'x2']], data['e'], data['t'], hazard_ratio, algo='wwe')
-    Notes
-    -----
-    Algorithm for estimating basel survival function:
-    (1). wwe: WWE(with ties)
-    (2). kp: Kalbfleisch & Prentice Estimator(without ties)
-    (3). bsl: breslow(with ties, but exists negative value)
+    >>> baseline_survival_function(data['e'].values, data['t'].values, data['pred_hr'].values)
     """
-    # Get data for estimating S0(t)
-    X = data_X.values
-    label = {'t': data_T.values,
-             'e': data_E.values}
-    X, E, T, failures, atrisk, ties = parse_surv(X, label)
-
-    s0 = [1]
-    t0 = [0]
-    if algo == 'wwe':
-        for t in T[::-1]:
-            if t in t0:
-                continue
-            t0.append(t)
-            if t in atrisk:
-                # R(t_i) - D_i
-                trisk = [j for j in atrisk[t] if j not in failures[t]]
-                dt = len(failures[t]) * 1.0
-                s = np.sum(hazard_ratio[trisk])
-                cj = 1 - dt / (dt + s)
-                s0.append(np.exp(cj - 1))
-            else:
-                s0.append(1)
-    elif algo == 'kp':
-        for t in T[::-1]:
-            if t in t0:
-                continue
-            t0.append(t)
-            if t in atrisk:
-                # R(t_i)
-                trisk = atrisk[t]
-                s = np.sum(hazard_ratio[trisk])
-                si = hazard_ratio[failures[t][0]]
-                cj = (1 - si / s) ** (1 / si)
-                s0.append(np.exp(cj - 1))
-            else:
-                s0.append(1)
-    elif algo == 'bsl':
-        for t in T[::-1]:
-            if t in t0:
-                continue
-            t0.append(t)
-            if t in atrisk:
-                # R(t_i)
-                trisk = atrisk[t]
-                dt = len(failures[t]) * 1.0
-                s = np.sum(hazard_ratio[trisk])
-                cj = 1 - dt / s
-                s0.append(np.exp(cj - 1))
-            else:
-                s0.append(1)
-    else:
-        raise NotImplementedError('tie breaking method not recognized')
-    # base survival function
-    S0 = np.cumprod(s0, axis=0)
-    T0 = np.array(t0)
-    return T0, S0
+    base_cum_haz = baseline_cumulative_hazard(label_e, label_t, pred_hr)
+    survival_df = np.exp(-base_cum_haz)
+    return survival_df
 
 def survival_by_hr(T0, S0, pred):
     """Get survival function of patients according to giving hazard ratio.
