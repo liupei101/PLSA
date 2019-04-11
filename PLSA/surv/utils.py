@@ -142,7 +142,7 @@ def surv_data_at_risk(data, duration_col, event_col, points=None):
     return pd.DataFrame({"Time": T, "Obs": Obs, "Deaths": Deaths}, 
                        columns=['Time', 'Obs', 'Deaths'])
 
-def survival_baseline(data_X, data_E, data_T, hazard_ratio, algo="wwe"):
+def survival_baseline(data_X, data_E, data_T, hazard_ratio, algo="bsl"):
     """Estimate base survival function S0(t) based on data(X, label).
     Parameters
     ----------
@@ -191,7 +191,7 @@ def survival_baseline(data_X, data_E, data_T, hazard_ratio, algo="wwe"):
                 dt = len(failures[t]) * 1.0
                 s = np.sum(hazard_ratio[trisk])
                 cj = 1 - dt / (dt + s)
-                s0.append(cj)
+                s0.append(np.exp(cj - 1))
             else:
                 s0.append(1)
     elif algo == 'kp':
@@ -205,7 +205,7 @@ def survival_baseline(data_X, data_E, data_T, hazard_ratio, algo="wwe"):
                 s = np.sum(hazard_ratio[trisk])
                 si = hazard_ratio[failures[t][0]]
                 cj = (1 - si / s) ** (1 / si)
-                s0.append(cj)
+                s0.append(np.exp(cj - 1))
             else:
                 s0.append(1)
     elif algo == 'bsl':
@@ -219,7 +219,7 @@ def survival_baseline(data_X, data_E, data_T, hazard_ratio, algo="wwe"):
                 dt = len(failures[t]) * 1.0
                 s = np.sum(hazard_ratio[trisk])
                 cj = 1 - dt / s
-                s0.append(cj)
+                s0.append(np.exp(cj - 1))
             else:
                 s0.append(1)
     else:
